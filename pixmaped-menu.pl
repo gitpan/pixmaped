@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-menu.pl,v 1.16 1999/03/07 13:02:31 root Exp $
+# $Id: pixmaped-menu.pl,v 1.17 1999/03/09 22:08:31 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -218,7 +218,7 @@ my $MenuHelp = $MenuBar->Menubutton(
                         -command     => \&help::about,
                     ],
                 ]
-                )->pack( -side => 'left' ) ;
+                )->pack( -side => 'right' ) ;
 
 
 1 ;

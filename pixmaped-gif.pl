@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-gif.pl,v 1.12 1999/03/07 11:14:19 root Exp $
+# $Id: pixmaped-gif.pl,v 1.14 1999/03/09 22:08:31 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -16,9 +16,6 @@ sub load {
     my $filename = shift ;
     my $loaded   = 1 ;
 
-    &cursor( 1, 'watch' ) ;
-    &grid::status( "Loading '$filename'..." ) ;
-
     eval {
         &file::new_image ;
         &gif::gd2xpm( $filename ) ;
@@ -26,13 +23,10 @@ sub load {
     if( $@ ) {
         $loaded = 0 ;
         my $err = substr( $@, 0, rindex( $@, ' at' ) ) ;
-        message( 'Warning', 'Load',"Failed to load '$filename':\n$err" ) ;
+        message( 'Warning', 'Load',"Failed to load `$filename':\n$err" ) ;
     }
 
     &xpm::read_image( $filename ) if $loaded ; 
-
-    &cursor( -1 ) ;
-    &grid::status( '' ) ;
 
     $loaded ;
 }
@@ -44,22 +38,16 @@ sub save {
     my $filename = shift ;
     my $saved    = 1 ;
 
-    &cursor( 1, 'watch' ) ;
-    &grid::status( "Saving '$filename'..." ) ;
-
     eval {
         &gif::xpm2gd( $filename ) ;
     } ;
     if( $@ ) {
         $saved  = 0 ;
         my $err = substr( $@, 0, rindex( $@, ' at' ) ) ;
-        message( 'Warning', 'Save',"Failed to save '$filename':\n$err" ) ;
+        message( 'Warning', 'Save',"Failed to save `$filename':\n$err" ) ;
     }
 
     &xpm::read_image( $filename ) if $saved ; 
-
-    &cursor( -1 ) ;
-    &grid::status( '' ) ;
 
     $saved ;
 }
@@ -73,7 +61,7 @@ sub gd2xpm {
     my $img ;
 
     # Read the image from file.
-    open( IMG, $filename ) or die "Failed to load '$filename':$!" ;
+    open( IMG, $filename ) or die "Failed to load '$filename': $!" ;
     if( $filename =~ /\.gif$/o ) {
         $img = newFromGif GD::Image( *IMG ) or die "Failed to read '$filename'" ;
     }
@@ -167,7 +155,7 @@ sub xpm2gd {
     } 
 
     # Write the image from file.
-    open( IMG, ">$filename" ) or die "Failed to load '$filename':$!" ;
+    open( IMG, ">$filename" ) or die "Failed to load '$filename': $!" ;
     binmode IMG ; # For Win users.
     if( $filename =~ /\.gif$/o ) {
         print IMG $img->gif ;

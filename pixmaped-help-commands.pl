@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-help-commands.pl,v 1.24 1999/03/07 13:12:28 root Exp root $
+# $Id: pixmaped-help-commands.pl,v 1.28 1999/03/09 21:14:45 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -51,12 +51,12 @@ sub help {
     my $bullet ;
 
     while( <DATA> ) {
-        $inpod = 1, next if /^=pod/ ;
-        $inpod = 0, next if /^=cut/ ;
+        $inpod = 1, next if /^=pod/o ;
+        $inpod = 0, next if /^=cut/o ;
         next unless $inpod ;
         next if /^#/o ;
 
-        &body( "\n" ), next if /^$/ ;
+        &body( "\n" ), next if /^$/o ;
 
         if( /^=head1 (.*)/o ) {
             &head1( "$1\n\n" ) ;
@@ -308,7 +308,8 @@ files; and with C<Image::Magick.pm> Pixmaped can open all file formats supported
 by that module, including C<.bmp>, C<.dcx>, C<.dib>, C<.ico>,
 C<.pbm>, C<.pcd>, C<.pcx>, C<.pict>, C<.png>, C<.ppm>, C<.rle>,
 C<.sgi>, C<.tga>, group 3 fax format, and if you also have ghostscript
-C<.eps>, C<.pdf> and C<.ps>.
+C<.eps>, C<.pdf> and C<.ps>. If you have C<Image::Magick.pm> you can also
+open gzip compressed files, e.g. C<image.gif.gz>.
 I<Note that not all formats that can be read can be written and vice versa.>
 
 =item
@@ -398,7 +399,8 @@ files; and with C<Image::Magick.pm> Pixmaped can open all file formats supported
 by that module, including C<.bmp>, C<.dcx>, C<.dib>, C<.ico>
 C<.pbm>, C<.pcd>, C<.pcx>, C<.pict>, C<.png>, C<.ppm>, C<.rle>,
 C<.sgi>, C<.tga>, group 3 fax format, and if you also have ghostscript
-C<.eps>, C<.pdf> and C<.ps>.
+C<.eps>, C<.pdf> and C<.ps>. If you have C<Image::Magick.pm> you can also
+open gzip compressed files, e.g. C<image.gif.gz>.
 I<Note that not all formats that can be read can be written and vice versa.>
 
 =item
@@ -416,7 +418,8 @@ files; and with C<Image::Magick.pm> Pixmaped can save all the file formats
 supported by that module including C<.bmp>, C<.dcx>, C<.dib>, 
 C<.pbm>, C<.pcd>, C<.pcx>, C<.pict>, C<.png>, C<.ppm>, C<.sgi>, C<.tga>,
 group 3 fax format, and if you also have ghostscript
-C<.eps>, C<.pdf> and C<.ps>.
+C<.eps>, C<.pdf> and C<.ps>. If you have C<Image::Magick.pm> you can also
+save gzip compressed files, e.g. C<image.gif.gz>.
 I<Note that not all formats that can be read can be written and vice versa.>
 
 =item

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-globals.pl,v 1.15 1999/02/28 10:26:17 root Exp $
+# $Id: pixmaped-globals.pl,v 1.16 1999/03/07 19:08:43 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -22,5 +22,6 @@ $Global{ACTIVE_TOOL}        = 'pencil' ;
 $Global{COLOUR}             = 'white' ;
 $Global{CURSOR_LOCK}        = 0 ;
 $Global{BUFFER}             = 0 ;
+
 
 1 ;

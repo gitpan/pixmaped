@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-file-commands.pl,v 1.37 1999/03/07 11:14:19 root Exp $
+# $Id: pixmaped-file-commands.pl,v 1.41 1999/03/09 22:08:31 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -91,6 +91,9 @@ sub open {
             $Global{WROTE_OPTS} = 0 ;
         }
 
+		&cursor( 1, 'watch' ) ;
+		&grid::status( "Loading '$filename'..." ) ;
+
         if( $filename =~ /.xpm$/o ) {
             %Image = () ;
 
@@ -108,7 +111,7 @@ sub open {
 			$loaded = &miff::load( $filename ) ;
 		}
 		else {
-			message( 'Warning', 'Open', 'Cannot open this file format.' ) 
+			message( 'Warning', 'Open', 'Cannot open this file format' ) 
         }
 
         $Global{WROTE_IMAGE} = 1 ;
@@ -120,6 +123,9 @@ sub open {
             &file::remember_name( $filename ) ;
             @Undo = () ;
         }
+
+		&cursor( -1 ) ;
+		&grid::status( '' ) ;
     }
 }
 
@@ -132,6 +138,10 @@ sub save {
     }
     else {
         $Global{FILENAME} = &abs_path( $Global{FILENAME} ) ;
+
+		&cursor( 1, 'watch' ) ;
+		&grid::status( "Saving '$Global{FILENAME}'..." ) ;
+
         if( $Global{FILENAME} =~ /\.xpm$/o ) {
             $Global{WROTE_IMAGE} = 1 if &xpm::save( $Global{FILENAME} ) ; 
         }
@@ -139,19 +149,51 @@ sub save {
             $Global{WROTE_IMAGE} = 1 if &gif::save( $Global{FILENAME} ) ; 
         }
         elsif( $Global{FILENAME} =~/\.ps$/o ) {
-			my $gridsize = $Opt{GRID_SQUARE_LENGTH} ;
-			$Opt{GRID_SQUARE_LENGTH} = 1 ;
-			&grid::redraw ;
-            $Grid{CANVAS}->postscript( -file => $Global{FILENAME} ) ;
-			$Opt{GRID_SQUARE_LENGTH} = $gridsize ;
-			&grid::redraw ;
+            &file::save_as_postscript ;
         }
         else {
             $Global{WROTE_IMAGE} = 1 if &miff::save( $Global{FILENAME} ) ; 
         }
         &file::remember_name( $Global{FILENAME} ) ;
         @Undo = () unless $Opt{UNDO_AFTER_SAVE} ;
+
+		&cursor( -1 ) ;
+		&grid::status( '' ) ;
    }
+}
+
+
+sub save_as_postscript {
+    package main ;
+
+	my $ans = 'Actual' ;
+
+	if( $Opt{GRID_SQUARE_LENGTH} > 1 ) { 
+		&cursor( 1, 'clock' ) ;
+		my $msg = $Win->MesgBox(
+					-title     => "Pixmaped save as postscript",
+					-text      => "Save actual size or magnified as shown?",
+					-icon      => 'QUESTION',
+					-buttons   => [ 'Actual', 'Magnified' ],
+					-defbutton => 'Actual',
+					) ;
+		$ans = $msg->Show ;
+		&cursor( -1 ) ;
+	}
+
+	my $gridsize = $Opt{GRID_SQUARE_LENGTH} ;
+
+	if( $ans eq 'Actual' ) {
+		$Opt{GRID_SQUARE_LENGTH} = 1 ;
+		&grid::redraw ;
+	}
+	
+	$Grid{CANVAS}->postscript( -file => $Global{FILENAME} ) ;
+	
+	if( $ans eq 'Actual' ) {
+		$Opt{GRID_SQUARE_LENGTH} = $gridsize ;
+		&grid::redraw ;
+    }
 }
 
 
@@ -180,10 +222,8 @@ sub save_as {
 
     &cursor( 1, 'clock' ) ;
     $Opt{DIR}    = &abs_path( $Opt{DIR} ) ;
-
     my $dialog   = $Win->FileSelect( -directory => $Opt{DIR} ) ;
     my $filename = $dialog->Show ;
-   
     &cursor( -1 ) ;
 
     if( $filename and -e $filename ) {
@@ -233,7 +273,7 @@ sub quit {
     &file::prompt_save unless $Global{WROTE_IMAGE} ;
     &write_opts ; # unless $Global{WROTE_OPTS} ;
     
-    exit ;
+    $Win->destroy ;
 }
 
 

@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-imagemagick-fake.pl,v 1.1 1999/03/06 19:51:40 root Exp $
+# $Id: pixmaped-imagemagick-fake.pl,v 1.2 1999/03/08 19:09:04 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
 
 use strict ;
 
-package imagemagick ;
+package miff ;
 
 
 sub load {

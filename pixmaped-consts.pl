@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-consts.pl,v 1.29 1999/03/06 19:51:40 root Exp $
+# $Id: pixmaped-consts.pl,v 1.30 1999/03/09 21:14:22 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -14,8 +14,10 @@ if( $^O =~ /win32/oi ) {
     $Const{OPTS_FILE} = 'PIXMAPED.INI' ;
 }
 else {
-    $Const{OPTS_FILE} = ( $ENV{HOME} or $ENV{LOGDIR} or (getpwuid( $> ))[7])
-                        . '/.pixmaped-opts' ;
+    my $home = ( $ENV{HOME} or $ENV{LOGDIR} or (getpwuid( $> ))[7]) ;
+    $Const{OPTS_FILE} = $home . '/.pixmaped-opts' ;
+    my $xdefaults     = $home . '/.Xdefaults' ;
+#    $Win->optionReadfile( $xdefaults ) ; # Does not work with Tk4.
 }
 
 $Const{BUTTON_WIDTH}           =  8 ;

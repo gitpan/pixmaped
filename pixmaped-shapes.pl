@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-shapes.pl,v 1.7 1999/02/27 14:12:56 root Exp $
+# $Id: pixmaped-shapes.pl,v 1.8 1999/03/07 19:08:43 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -148,9 +148,7 @@ sub filled_rectangle {
     
     push @Undo, [ undef, undef, undef ] ;
 
-    &shape::rectangle( $x0, $y0, $x1, $y1, 1 ) ; # Draw the outline.
-
-    for( my $y = $y0 + 1 ; $y <= $y1 ; $y++ ) {
+    for( my $y = $y0 ; $y <= $y1 ; $y++ ) {
         &shape::line( $x0, $y, $x1, $y, 1 ) ; 
     }
     

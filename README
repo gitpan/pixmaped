@@ -1,4 +1,4 @@
-README for pixmaped-1.10.tar.gz
+Pixmaped
 
 1. SYNOPSIS
 2. REQUIREMENTS
@@ -24,6 +24,19 @@ supports.
 
 2. REQUIREMENTS
 
+Note that the following two modules are required and are no longer
+included in the pixmaped .tar.gz. (Old versions will work with pixmaped,
+but you are recommended to pick up the newest versions when you pick
+up pixmaped.)
+
+Tk::ColourChooser.pm
+Tk::MesgBox.pm
+
+Optional modules (from CPAN):
+
+GD.pm
+Image::Magick.pm
+
 Linux and X-Windows:
 Perl 5.004
 Tk 400.202
@@ -44,22 +57,21 @@ is that all the pixmaped* files must be together in the same directory.
 mkdir /usr/lib/pixmaped
 
 # Copy the tar.gz to the lib directory.
-cp pixmaped-1.10.tar.gz /usr/lib
+cp pixmaped-VERSION.tar.gz /usr/lib
 
 # Change to the lib directory.
 cd /usr/lib
 
 # Unpack the archive using method A or B:
 # Method A for those using GNU tar
-tar xvfz pixmaped-1.10.tar.gz
+tar xvfz pixmaped-VERSION.tar.gz
 # Method B for those not using GNU tar
-gunzip pixmaped-1.10.tar.gz
-tar xvf pixmaped-1.10.tar
+gunzip pixmaped-VERSION.tar.gz
+tar xvf pixmaped-VERSION.tar
 
 # Change to the pixmaped directory.
 cd pixmaped
 
-# This is optional since tar will set this up correctly.
 # Move the library files into the Tk directory or any lib directory in Perl's
 # %INC path that has a Tk subdirectory.
 # (The -u option ensures we don't overwrite newer with older.)

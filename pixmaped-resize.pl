@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-resize.pl,v 1.14 1999/02/27 09:41:59 root Exp $
+# $Id: pixmaped-resize.pl,v 1.15 1999/03/07 19:08:43 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -300,7 +300,7 @@ sub resize_width_reduce_left {
     for( my $x = $xborder ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
             $Grid{SQUARES}[$x - $xborder][$y]{COLOUR} = 
-            $Grid{SQUARES}[$x][$y]{COLOUR} ;
+				$Grid{SQUARES}[$x][$y]{COLOUR} ;
             $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
             if $x > $xborder ;
         }
@@ -329,7 +329,7 @@ sub resize_width_add_left {
     for( my $x = $Opt{GRID_WIDTH} - 1 ; $x >= 0 ; $x-- ) {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
             $Grid{SQUARES}[$x + $xborder][$y]{COLOUR} = 
-            $Grid{SQUARES}[$x][$y]{COLOUR} ;
+				$Grid{SQUARES}[$x][$y]{COLOUR} ;
             $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
             if $x < $xborder ;
         }
@@ -362,7 +362,7 @@ sub resize_height_reduce_top {
     for( my $y = $yborder ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
         for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
             $Grid{SQUARES}[$x][$y - $yborder]{COLOUR} = 
-            $Grid{SQUARES}[$x][$y]{COLOUR} ;
+				$Grid{SQUARES}[$x][$y]{COLOUR} ;
             $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
             if $y > $yborder ;
         }
@@ -403,7 +403,7 @@ sub resize_height_add_top {
     for( my $y = $Opt{GRID_HEIGHT} - 1 ; $y >= 0 ; $y-- ) {
         for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
             $Grid{SQUARES}[$x][$y + $yborder]{COLOUR} = 
-            $Grid{SQUARES}[$x][$y]{COLOUR} ;
+				$Grid{SQUARES}[$x][$y]{COLOUR} ;
             $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
             if $y < $yborder ;
         }

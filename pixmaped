@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped,v 1.52 1999/03/07 11:14:19 root Exp $
+# $Id: pixmaped,v 1.55 1999/03/09 22:08:31 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -27,7 +27,7 @@ use vars qw( $VERSION
              %Image  %Grid  %Button  $MenuFile  @Undo  %Modules
          ) ; 
 
-$VERSION = '1.10' ; # Application version.
+$VERSION = '1.14' ; # Application version.
 
 my $DieOnWarn      = 0 ;
 my $WarnInDialogue = 0 ;
@@ -215,7 +215,6 @@ sub load_library {
 
 
 sub load_optional_library {
-
     my( $libname, $filename ) = @_ ;
 
     my $fakefilename = $filename ;

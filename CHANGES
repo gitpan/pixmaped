@@ -1,4 +1,4 @@
-CHANGES for Pixmaped
+Pixmaped
 
 1999/02/15  Fixed a bug in pixmaped-xpm where colours which had names which
             included whitespace were not recognised and therefore converted to
@@ -47,3 +47,16 @@ CHANGES for Pixmaped
               read/write all the formats that Image::Magick.pm can read/write.
             * Made loading `appear' faster.
             * Grid outline can be switched on/off by Option/Show Outline menu option.
+
+1999/03/07  Very minor efficiency improvements.
+
+1999/03/08  * Very minor tidying up.
+            * Modified save of postscript: you now get a dialogue offering
+              the choice of saving actual size or in the (magnified) size
+              displayed. 
+
+1999/03/09  * Moved Help menu to right. 
+            * Added code to read .Xdefaults but it doesn't work - maybe this 
+              is a Tk4 problem?
+            * No longer distribute Tk::ColourChooser.pm and Tk::MesgBox.pm
+              with Pixmaped.

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-imagemagick.pl,v 1.3 1999/03/07 11:14:19 root Exp $
+# $Id: pixmaped-imagemagick.pl,v 1.5 1999/03/09 22:08:31 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -16,9 +16,6 @@ sub load {
     my $filename = shift ;
     my $loaded   = 1 ;
 
-    &cursor( 1, 'watch' ) ;
-    &grid::status( "Loading '$filename'..." ) ;
-
     eval {
         &file::new_image ;
         &miff::miff2xpm( $filename ) ;
@@ -26,13 +23,10 @@ sub load {
     if( $@ ) {
         $loaded = 0 ;
         my $err = substr( $@, 0, rindex( $@, ' at' ) ) ;
-        message( 'Warning', 'Load',"Failed to load '$filename':\n$err" ) ;
+        message( 'Warning', 'Load',"Failed to load `$filename':\n$err" ) ;
     }
 
     &xpm::read_image( $filename ) if $loaded ; 
-
-    &cursor( -1 ) ;
-    &grid::status( '' ) ;
 
     $loaded ;
 }
@@ -44,22 +38,16 @@ sub save {
     my $filename = shift ;
     my $saved    = 1 ;
 
-    &cursor( 1, 'watch' ) ;
-    &grid::status( "Saving '$filename'..." ) ;
-
     eval {
         &miff::xpm2miff( $filename ) ;
     } ;
     if( $@ ) {
         $saved  = 0 ;
         my $err = substr( $@, 0, rindex( $@, ' at' ) ) ;
-        message( 'Warning', 'Save',"Failed to save '$filename':\n$err" ) ;
+        message( 'Warning', 'Save',"Failed to save `$filename':\n$err" ) ;
     }
 
     &xpm::read_image( $filename ) if $saved ; 
-
-    &cursor( -1 ) ;
-    &grid::status( '' ) ;
 
     $saved ;
 }

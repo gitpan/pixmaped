@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-grid-commands.pl,v 1.46 1999/03/07 13:02:31 root Exp $
+# $Id: pixmaped-grid-commands.pl,v 1.47 1999/03/07 19:08:43 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -37,6 +37,8 @@ sub _draw {
                            ],
         ) ;
 
+    my $outline = $Opt{SHOW_OUTLINE} ? $Opt{GRID_OUTLINE_COLOUR} : undef ;
+
     for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         my $actualx = $x * $Opt{GRID_SQUARE_LENGTH} ;
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
@@ -52,8 +54,7 @@ sub _draw {
                 $actualy + $Opt{GRID_SQUARE_LENGTH},
                 -fill    => ( $new or $colour eq 'None' ) ? 
                             $Opt{GRID_BACKGROUND_COLOUR} : $colour, 
-                -outline => $Opt{SHOW_OUTLINE} ? 
-                            $Opt{GRID_OUTLINE_COLOUR} : undef,
+                -outline => $outline, 
                 ) ;
             $Grid{SQUARES}[$x][$y]{SQUARE} = $square ; 
             $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $new ;
@@ -327,13 +328,13 @@ sub set_colour {
     if $background eq 'None' ;
 
     $outline ||= $Opt{GRID_OUTLINE_COLOUR} ;
+    $outline = $Opt{SHOW_OUTLINE} ? $outline : undef ;
 
     eval {
         $Grid{CANVAS}->itemconfigure(
             $Grid{SQUARES}[$x][$y]{SQUARE},
             -fill    => $background,
-			-outline => $Opt{SHOW_OUTLINE} ? 
-						$Opt{GRID_OUTLINE_COLOUR} : undef,
+			-outline => $outline, 
             ) ;
     } ;
     if( $@ ) {
@@ -341,8 +342,7 @@ sub set_colour {
             $Grid{CANVAS}->itemconfigure(
                 $Grid{SQUARES}[$x][$y]{SQUARE},
                 -fill    => $Opt{GRID_BACKGROUND_COLOUR},
-				-outline => $Opt{SHOW_OUTLINE} ? 
-							$Opt{GRID_OUTLINE_COLOUR} : undef,
+				-outline => $outline, 
                 ) ;
             $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' ;
             &grid::status( "Replaced unknown '$background' with transparent." ) ;
