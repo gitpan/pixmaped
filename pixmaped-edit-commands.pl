@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-edit-commands.pl,v 1.11 1999/03/02 21:20:15 root Exp $
+# $Id: pixmaped-edit-commands.pl,v 1.12 1999/03/16 20:40:29 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -27,7 +27,7 @@ sub undo {
             &grid::set_colour( $x, $y, $colour, undef, 1 ) ;
         }
         else { # Undo a whole SHAPE.
-            &cursor( 1, 'box_spiral' ) ;
+            &cursor( 'box_spiral' ) ;
             &grid::status( "Undoing $y..." ) ;
             while( 1 ) {
                 last unless scalar @Undo ;
@@ -49,7 +49,7 @@ sub copy {
 
     $Global{ACTIVE_BUTTON} = 'COPY' ;
     $Global{ACTIVE_TOOL}   = 'cross' ;
-    &cursor( 0, 'cross' ) ;
+    &cursor( 'cross' ) ;
     &grid::status( "Marking for copying..." ) ;
 }
 
@@ -73,7 +73,7 @@ sub cut {
 
     $Global{ACTIVE_BUTTON} = 'CUT' ;
     $Global{ACTIVE_TOOL}   = 'cross' ;
-    &cursor( 0, 'cross' ) ;
+    &cursor( 'cross' ) ;
     &grid::status( "Marking for cutting..." ) ;
 }
 

@@ -29,8 +29,8 @@ included in the pixmaped .tar.gz. (Old versions will work with pixmaped,
 but you are recommended to pick up the newest versions when you pick
 up pixmaped.)
 
-Tk::ColourChooser.pm
-Tk::MesgBox.pm
+ColourChooser.pm
+MesgBox.pm
 
 Optional modules (from CPAN):
 

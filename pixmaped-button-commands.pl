@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-button-commands.pl,v 1.27 1999/02/28 18:30:38 root Exp $
+# $Id: pixmaped-button-commands.pl,v 1.29 1999/03/16 20:40:29 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -65,7 +65,7 @@ sub enter {
         $text =~ s/COLOUR/$colour/o ;
     }
 
-    &cursor( 0, 'left_ptr' ) ;
+    &cursor( 'left_ptr' ) ;
     &grid::status( $text ) ;
 }
 
@@ -106,7 +106,7 @@ sub set_button {
             last CASE ;
         }
         if( /^ROTATE/o ) {
-            &cursor( 1, 'exchange' ) ;
+            &cursor( 'exchange' ) ;
             &grid::status( "Rotating $Opt{ROTATION} degrees..." ) ;
             push @Undo, [ undef, undef, undef ] ;
             &button::rotate_90 ;
@@ -118,7 +118,7 @@ sub set_button {
             last CASE ;
         }
         if( /^FLIP_VERTICAL/o ) {
-            &cursor( 1, 'sb_h_double_arrow' ) ;
+            &cursor( 'sb_h_double_arrow' ) ;
             &grid::status( "Flipping vertically..." ) ;
             push @Undo, [ undef, undef, undef ] ;
             &button::flip_vertical ;
@@ -128,7 +128,7 @@ sub set_button {
             last CASE ;
         }
         if( /^FLIP_HORIZONTAL/o ) {
-            &cursor( 1, 'sb_v_double_arrow' ) ;
+            &cursor( 'sb_v_double_arrow' ) ;
             &grid::status( "Flipping horizontally..." ) ;
             push @Undo, [ undef, undef, undef ] ;
             &button::flip_horizontal ;
@@ -203,6 +203,7 @@ sub rotate_90 {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
             my $new_x = $pivot_x + ( $y - $pivot_y ) ;
             my $new_y = $pivot_y - ( $x - $pivot_x ) ;
+            next if $new_x < 0 or $new_y < 0 ;
             $grid[$new_x][$new_y] = $Grid{SQUARES}[$x][$y]{COLOUR} ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
@@ -222,7 +223,7 @@ sub choose_colour {
     shift if ref $_[0] ; # Get rid of object reference.
     my $button = shift ;
 
-    &cursor( 1, 'clock' ) ;
+    &cursor( 'clock' ) ;
     &grid::status( "Choosing colour..." ) ;
     
     my $col_dialog = $Win->ColourChooser( 

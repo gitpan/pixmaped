@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped,v 1.55 1999/03/09 22:08:31 root Exp root $
+# $Id: pixmaped,v 1.59 1999/03/16 20:42:33 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -27,11 +27,12 @@ use vars qw( $VERSION
              %Image  %Grid  %Button  $MenuFile  @Undo  %Modules
          ) ; 
 
-$VERSION = '1.15' ; # Application version.
+$VERSION = '1.17' ; # Application version.
 
 my $DieOnWarn      = 0 ;
 my $WarnInDialogue = 0 ;
 
+my $Cursor         = 'left_ptr' ;
 
 &initialise ;
 
@@ -42,7 +43,7 @@ sub initialise {
 
     $Win = MainWindow->new() ;
     $Win->title( "Loading  Pixmaped..." ) ; 
-    &cursor( 1, 'watch' ) ;
+    &cursor( 'watch' ) ;
     $Win->protocol( "WM_DELETE_WINDOW", \&file::quit ) ;
 
     &load_library( "pixmaped-globals.pl" ) ;
@@ -83,7 +84,7 @@ sub initialise {
 BEGIN {
     $SIG{__WARN__} = sub {
         if( $WarnInDialogue and defined $Win ) {
-            &cursor( 1, 'clock' ) ;
+            &cursor( 'clock' ) ;
 
             my $msg = $Win->MesgBox(
                             -title => "Pixmaped Error",
@@ -102,18 +103,18 @@ BEGIN {
 
 
 sub cursor {
-    # lock  1 = lock and change; 
-    # lock  0 = change unless locked; 
-    # lock -1 = unlock and change if no locks left.
 
-    my $lock   = shift ; 
-    my $cursor = shift || $Global{ACTIVE_TOOL} ;
+    my $cursor = shift ;
 
-    $Global{CURSOR_LOCK} += $lock ;
-
-    $Win->configure( -cursor => $cursor ) 
-    if ( $lock != 0 and $Global{CURSOR_LOCK} >= 0 ) or
-       ( $lock == 0 and $Global{CURSOR_LOCK} <  0 ) ;
+    # Watch has highest priority, then clock then all others equally.
+    # -1 signifies return to previous.
+    if( ( $cursor eq '-1' ) or
+        ( $cursor eq 'watch' ) or
+        ( ( $cursor eq 'clock' ) and ( $Cursor ne 'watch' ) ) or
+        ( ( $Cursor ne 'clock' ) and ( $Cursor ne 'watch' ) ) ) {
+        $Cursor = $cursor eq '-1' ? 'left_ptr' : $cursor ;
+		$Win->configure( -cursor => $Cursor ) 
+    }
 }
 
 

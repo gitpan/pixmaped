@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-grid-commands.pl,v 1.47 1999/03/07 19:08:43 root Exp $
+# $Id: pixmaped-grid-commands.pl,v 1.49 1999/03/16 20:40:29 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -23,7 +23,7 @@ sub _draw {
 
     my $new = shift ;
 
-    &cursor( 1, 'watch' ) ;
+    &cursor( 'watch' ) ;
     &grid::status( 'Redrawing...' ) ;
 
     $Grid{CANVAS}->delete( 'all' ) ;
@@ -141,7 +141,7 @@ sub click1 {
         if( /^TEXT/o ) {
             # Prompt for text.
             print STDERR "Should prompt for the text.\n" ;
-            &cursor( 1, 'watch' ) ;
+            &cursor( 'watch' ) ;
             &grid::status( "Writing text..." ) ;
             push @Undo, [ undef, undef, undef ] ;
             &image::text( $x, $y, 'Test' ) ;
@@ -287,7 +287,7 @@ sub enter {
 
     my( $x, $y ) = @_ ; 
 
-    &cursor( 0, $Global{ACTIVE_TOOL} ) ;
+    &cursor( $Global{ACTIVE_TOOL} ) ;
     &grid::coords( $x, $y ) ;
 }
 

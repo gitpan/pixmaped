@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-resize.pl,v 1.15 1999/03/07 19:08:43 root Exp $
+# $Id: pixmaped-resize.pl,v 1.17 1999/03/16 20:40:29 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -36,7 +36,7 @@ my( $WidthAction, $HeightAction ) = ( 0, 0 ) ;
 sub resize {
     package main ;
 
-    &cursor( 1, 'clock' ) ;
+    &cursor( 'clock' ) ;
     &grid::status( 'Resizing image...' ) ;
 
     # Start with existing values.
@@ -127,8 +127,6 @@ sub resize {
         -width     => $Const{BUTTON_WIDTH},
         -command   => [ \&resize::close, 0 ],
         )->pack( -side => 'left' ) ;
-
-    &cursor( -1 ) ;
 }
 
 
@@ -275,6 +273,7 @@ sub close {
         }
     }
 
+    &cursor( -1 ) ;
     &grid::status( '' ) ;
     $ResizeWin->destroy ;
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-help-commands.pl,v 1.28 1999/03/09 21:14:45 root Exp $
+# $Id: pixmaped-help-commands.pl,v 1.29 1999/03/16 20:40:29 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -16,7 +16,7 @@ my $TextBox ;
 
 sub help {
 
-    &main::cursor( 1, 'clock' ) ;
+    &main::cursor( 'clock' ) ;
     &grid::status( 'Showing help...' ) ;
 
     # Set up the help window and some bindings to close it.
@@ -114,8 +114,6 @@ sub help {
     }
 
    $text->configure( -state => 'disabled' ) ;
-
-   &main::cursor( -1 ) ;
 }
 
 
@@ -185,6 +183,7 @@ sub set_text_tags {
 
 sub close {
 
+    &main::cursor( -1 ) ;
     &grid::status( '' ) ;
     $HelpWin->destroy ;
 }
@@ -193,7 +192,7 @@ sub close {
 sub about {
     package main ;
 
-    &cursor( 1, 'clock' ) ;
+    &cursor( 'clock' ) ;
     &grid::status( 'Showing about box...' ) ;
 
     my $text = <<__EOT__ ;

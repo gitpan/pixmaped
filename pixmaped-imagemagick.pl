@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-imagemagick.pl,v 1.5 1999/03/09 22:08:31 root Exp root $
+# $Id: pixmaped-imagemagick.pl,v 1.6 1999/03/10 21:24:44 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-consts.pl,v 1.30 1999/03/09 21:14:22 root Exp $
+# $Id: pixmaped-consts.pl,v 1.31 1999/03/10 21:24:44 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.

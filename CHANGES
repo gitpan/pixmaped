@@ -64,3 +64,8 @@ Pixmaped
 1999/03/10  * Corrected cursor lock so that cursor changes work properly-ish.
             * Minor cosmetic changes.
             * Prefer Image::Magick over GD if user has both.
+
+1999/03/13  * Another go at fixing cursor lock... still not right though.
+            * Fixed bug in rotate.
+
+1999/03/16  Finally fixed cursor lock... unless you can prove otherwise.

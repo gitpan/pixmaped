@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-options.pl,v 1.18 1999/02/24 21:49:18 root Exp $
+# $Id: pixmaped-options.pl,v 1.19 1999/03/16 20:40:29 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -22,7 +22,7 @@ my( $GridWidth,
 sub options {
     package main ;
 
-    &cursor( 1, 'clock' ) ;
+    &cursor( 'clock' ) ;
     &grid::status( 'Setting preferences...' ) ;
 
     # Start with existing values.
@@ -86,8 +86,6 @@ sub options {
         -width     => $Const{BUTTON_WIDTH},
         -command   => \&options::defaults,
         )->pack( -side => 'left' ) ;
-
-    &cursor( -1 ) ;
 }
 
 
@@ -160,6 +158,8 @@ sub close {
 
         &write_opts ;
     }
+
+    &cursor( -1 ) ;
     &grid::status( '' ) ;
     $OptionsWin->destroy ;
 }

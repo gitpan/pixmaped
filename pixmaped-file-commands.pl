@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-file-commands.pl,v 1.41 1999/03/09 22:08:31 root Exp root $
+# $Id: pixmaped-file-commands.pl,v 1.43 1999/03/16 20:40:29 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -75,7 +75,7 @@ sub open {
     }
 
     if( not $filename ) {
-        &cursor( 1, 'clock' ) ;
+        &cursor( 'clock' ) ;
         $Opt{DIR}  = &abs_path( $Opt{DIR} ) ;
         my $dialog = $Win->FileSelect( -directory => $Opt{DIR} ) ;
         $filename = $dialog->Show ;
@@ -91,7 +91,7 @@ sub open {
             $Global{WROTE_OPTS} = 0 ;
         }
 
-		&cursor( 1, 'watch' ) ;
+		&cursor( 'watch' ) ;
 		&grid::status( "Loading `$filename'..." ) ;
 
         if( $filename =~ /.xpm$/o ) {
@@ -139,7 +139,7 @@ sub save {
     else {
         $Global{FILENAME} = &abs_path( $Global{FILENAME} ) ;
 
-		&cursor( 1, 'watch' ) ;
+		&cursor( 'watch' ) ;
 		&grid::status( "Saving `$Global{FILENAME}'..." ) ;
 
         if( $Global{FILENAME} =~ /\.xpm$/o ) {
@@ -174,7 +174,7 @@ sub save_as_postscript {
 	my $ans = 'Actual' ;
 
 	if( $Opt{GRID_SQUARE_LENGTH} > 1 ) { 
-		&cursor( 1, 'clock' ) ;
+		&cursor( 'clock' ) ;
 		my $msg = $Win->MesgBox(
 					-title     => "Pixmaped save as postscript",
 					-text      => "Save actual size or magnified as shown?",
@@ -225,14 +225,14 @@ sub remember_name {
 sub save_as {
     package main ;
 
-    &cursor( 1, 'clock' ) ;
+    &cursor( 'clock' ) ;
     $Opt{DIR}    = &abs_path( $Opt{DIR} ) ;
     my $dialog   = $Win->FileSelect( -directory => $Opt{DIR} ) ;
     my $filename = $dialog->Show ;
     &cursor( -1 ) ;
 
     if( $filename and -e $filename ) {
-        &cursor( 1, 'clock' ) ;
+        &cursor( 'clock' ) ;
 
         my $msg = $Win->MesgBox(
                         -title     => "Pixmaped Overwrite File?",

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-menu.pl,v 1.17 1999/03/09 22:08:31 root Exp root $
+# $Id: pixmaped-menu.pl,v 1.17 1999/03/09 22:08:31 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
