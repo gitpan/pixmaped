@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-shapes.pl,v 1.8 1999/03/07 19:08:43 root Exp $
+# $Id: pixmaped-shapes.pl,v 1.11 1999/03/21 08:36:09 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -8,6 +8,8 @@
 use strict ;
 
 package shape ;
+
+my $RecursionDepth ;
 
 
 sub line {
@@ -115,13 +117,6 @@ sub ellipse_point {
 }
 
 
-sub filled_oval {
-    package main ;
-
-    warn "Filled oval not implemented yet.\n" ;
-}
-
-
 sub rectangle {
     package main ;
 
@@ -153,6 +148,62 @@ sub filled_rectangle {
     }
     
     push @Undo, [ undef, 'filled rectangle', undef ] ;
+}
+
+
+sub fill {
+    package main ;
+
+    my( $x, $y, $newcolour, $oldcolour ) = @_ ;
+
+    return if $newcolour eq $oldcolour ;
+
+    push @Undo, [ undef, undef, undef ] ;
+
+	$RecursionDepth = $Opt{GRID_WIDTH} * $Opt{GRID_HEIGHT} ; 
+	&shape::fill_recursively( $x, $y, $newcolour, $oldcolour ) ;
+
+	push @Undo, [ undef, 'fill', undef ] ;
+}
+
+
+sub fill_recursively {
+    package main ;
+
+    my( $x, $y, $newcolour, $oldcolour ) = @_ ;
+
+    return if $x < 0 or $x >= $Opt{GRID_WIDTH} or
+			  $y < 0 or $y >= $Opt{GRID_HEIGHT} ;
+
+	return if --$RecursionDepth < 0 ;
+
+    if( $Grid{SQUARES}[$x][$y]{COLOUR} eq $oldcolour ) {
+		&grid::set_colour( $x, $y, $newcolour ) ;
+
+		&shape::fill_recursively( $x - 1, $y,     $newcolour, $oldcolour ) ; 
+		&shape::fill_recursively( $x + 1, $y,     $newcolour, $oldcolour ) ; 
+		&shape::fill_recursively( $x,     $y - 1, $newcolour, $oldcolour ) ; 
+		&shape::fill_recursively( $x,     $y + 1, $newcolour, $oldcolour ) ; 
+    }
+}
+
+
+sub swap {
+    package main ;
+
+    my( $newcolour, $oldcolour ) = @_ ;
+
+	push @Undo, [ undef, undef, undef ] ;
+	
+    	
+    for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
+        for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
+			&grid::set_colour( $x, $y, $newcolour ) 
+			if $Grid{SQUARES}[$x][$y]{COLOUR} eq $oldcolour ;
+        }
+	}
+
+	push @Undo, [ undef, 'swap colours', undef ] ;
 }
 
 

@@ -22,6 +22,9 @@ Pixmaped has full undo, and is mostly feature-complete. If you have
 Image::Magick.pm Pixmaped will read/write all the formats that ImageMagick
 supports.
 
+See CHANGES for fixes and features.
+
+
 2. REQUIREMENTS
 
 Note that the following two modules are required and are no longer
@@ -46,7 +49,7 @@ Win32:
 Perl 5.005
 Tk 800.000
 
-~200K disk space.
+~250K disk space.
 
 
 3. INSTALLATION

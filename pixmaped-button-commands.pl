@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-button-commands.pl,v 1.29 1999/03/16 20:40:29 root Exp $
+# $Id: pixmaped-button-commands.pl,v 1.31 1999/03/20 18:09:56 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -30,7 +30,8 @@ sub raise_others {
         if( /^BRUSH/o or /^PENCIL/o ) {
             next if $palette ;
         }
-        if( /^FILL/o or /^LINE/o or /^TEXT/o or /^OVAL/o or /^RECTANGLE/o ) {
+        if( /^SWAP/o or /^FILL/o or 
+            /^LINE/o or /^TEXT/o or /^OVAL/o or /^RECTANGLE/o ) {
             next if $palette ;
         }
         $Button{WIDGET}{$_}->configure( -relief => 'raised' ) ;
@@ -60,7 +61,10 @@ sub enter {
 
     $text = '' unless $text ;
 
-    if( defined $button ) {
+    if( $text =~ /^Fill/o or $text =~ /^Swap/o ) {
+        $text =~ s/COLOUR/$Global{COLOUR} or $Opt{GRAB_COLOUR}/eo ;
+    }
+    elsif( defined $button ) {
         my $colour = $button->cget( -bg ) ;
         $text =~ s/COLOUR/$colour/o ;
     }
@@ -97,11 +101,14 @@ sub set_button {
             }
             last CASE ;
         }
-        if( /^FILL/o or /^LINE/o or /^TEXT/o or /^OVAL/o or /^RECTANGLE/o ) {
+        if( /^SWAP/o or /^FILL/o or 
+            /^LINE/o or /^TEXT/o or /^OVAL/o or /^RECTANGLE/o ) {
             if( &button::set_relief( $_ ) ) {
                 $Global{ACTIVE_BUTTON} = $_ ;
                 $Global{ACTIVE_TOOL} = 'cross' ;
-                $Global{ACTIVE_TOOL} = 'xterm' if /^TEXT/o ; 
+                $Global{ACTIVE_TOOL} = 'xterm'         if /^TEXT/o ; 
+                $Global{ACTIVE_TOOL} = 'diamond_cross' if /^FILL/o ; 
+                $Global{ACTIVE_TOOL} = 'rtl_logo'      if /^SWAP/o ; 
             }
             last CASE ;
         }

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-help-commands.pl,v 1.29 1999/03/16 20:40:29 root Exp $
+# $Id: pixmaped-help-commands.pl,v 1.33 1999/03/21 08:36:09 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -206,7 +206,7 @@ __EOT__
 
 
     my $msg = $Win->MesgBox(
-        -title => "About Pixmaped",
+        -title => "Pixmaped - About",
         -text  => $text,
         ) ;
     $msg->Show ;
@@ -281,6 +281,12 @@ drag out a rectangle with the left mouse button over the area to copy.
 B<Pasting an area> - After copying or cutting an area move the mouse to any
 point on the image and press C<Ctrl-v> or choose C<Edit/Paste> from the menu.
 
+=item
+
+B<Swapping colours> - After clicking the swap colours button left clicking
+any colour on the image will cause all pixels that have the colour of the
+clicked pixel to have their colour changed to the current colour.
+
 =back 
 
 =head2 Keystrokes
@@ -302,7 +308,7 @@ zoom factor for the new image.
 
 C<Ctrl-o>	This will open an existing image file. You will be presented with
 a file selection dialogue from which to choose the file. Pixmaped can
-open C<.xpm> files; with C<GD.pm> it can also open C<.xbm> and C<.gif>
+open C<.xpm>; with C<GD.pm> it can also open C<.xbm> and C<.gif>
 files; and with C<Image::Magick.pm> Pixmaped can open all file formats supported
 by that module, including C<.bmp>, C<.dcx>, C<.dib>, C<.ico>,
 C<.pbm>, C<.pcd>, C<.pcx>, C<.pict>, C<.png>, C<.ppm>, C<.rle>,
@@ -321,7 +327,8 @@ C<Ctrl-s>	Save the current image.
 
 =item
 
-C<Ctrl-v>	Paste the copy buffer into the image where the mouse is pointing.
+C<Ctrl-v>	Paste the copy buffer into the image where the mouse is
+pointing. 
 
 =item
 
@@ -393,7 +400,7 @@ for a filename with the B<Save As> dialogue.
 
 B<Open>	This will open an existing image file. You will be presented with
 a file selection dialogue from which to choose the file. Pixmaped can
-open C<.xpm> files; with C<GD.pm> it can also open C<.xbm> and C<.gif>
+open C<.xpm>; with C<GD.pm> it can also open C<.xbm> and C<.gif>
 files; and with C<Image::Magick.pm> Pixmaped can open all file formats supported
 by that module, including C<.bmp>, C<.dcx>, C<.dib>, C<.ico>
 C<.pbm>, C<.pcd>, C<.pcx>, C<.pict>, C<.png>, C<.ppm>, C<.rle>,
@@ -497,6 +504,11 @@ space inserted or removed from the side(s) the user specifies.
 
 B<Show Outline> - Toggles between showing/hiding the grid outline. 
 
+=item
+
+B<Paste Transparent> - Toggles between pasting transparent and colour, and
+just pasting colour when pasting.
+
 =back
 
 =head2 Help Menu
@@ -579,6 +591,11 @@ C<GRID_SQUARE_LENGTH> - The zoom factor, 2 = 2 x, etc.
 =item
 
 C<GRID_WIDTH> - The default grid width for new images.
+
+=item
+
+C<INSERT_TRANSPARENT> - Toggle controlling whether transparent pixels when
+pasted override colours they cover or not.
 
 =item
 

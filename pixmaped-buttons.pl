@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-buttons.pl,v 1.22 1999/03/10 21:24:44 root Exp $
+# $Id: pixmaped-buttons.pl,v 1.25 1999/03/21 08:36:09 root Exp $
 
 # (c) Mark Summerfield 1999. All s Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -35,15 +35,14 @@ $Button{WIDGET}{PENCIL}->bind( '<Enter>',
 $Button{WIDGET}{PENCIL}->bind( '<Leave>', \&button::enter ) ;
 
 
-=pod
-$Button{WIDGET}{FILL} = $Frame->Button(
-    -image   => $Const{FILL_IMAGE},
-    -command => [ \&button::set_button, 'FILL' ],
+$Button{WIDGET}{SWAP} = $Frame->Button(
+    -image   => $Const{SWAP_IMAGE},
+    -command => [ \&button::set_button, 'SWAP' ],
     )->pack() ;
-$Button{WIDGET}{FILL}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{FILL}, 'Fill the area clicked.' ] ) ;
-$Button{WIDGET}{FILL}->bind( '<Leave>', \&button::enter ) ;
-=cut
+$Button{WIDGET}{SWAP}->bind( '<Enter>', 
+    [ \&button::enter, $Button{WIDGET}{SWAP}, 
+        'Swap the colour clicked with COLOUR throughout the image.' ] ) ;
+$Button{WIDGET}{SWAP}->bind( '<Leave>', \&button::enter ) ;
 
 
 # Rotation begin.
@@ -109,17 +108,6 @@ $Button{WIDGET}{OVAL} = $Frame->Button(
 $Button{WIDGET}{OVAL}->bind( '<Enter>', 
     [ \&button::enter, $Button{WIDGET}{OVAL}, 'Draw an oval.' ] ) ;
 $Button{WIDGET}{OVAL}->bind( '<Leave>', \&button::enter ) ;
-
-
-=pod
-$Button{WIDGET}{OVAL_FILLED} = $Frame->Button(
-    -image   => $Const{OVAL_FILLED_IMAGE},
-    -command => [ \&button::set_button, 'OVAL_FILLED' ],
-    )->pack() ;
-$Button{WIDGET}{OVAL_FILLED}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{OVAL_FILLED}, 'Draw a filled oval.' ] ) ;
-$Button{WIDGET}{OVAL_FILLED}->bind( '<Leave>', \&button::enter ) ;
-=cut
 
 
 $Button{WIDGET}{LINE} = $Frame->Button(
@@ -209,12 +197,24 @@ sub brush_menu {
 # Brush end.
 
 
+$Button{WIDGET}{FILL} = $Frame->Button(
+    -image   => $Const{FILL_IMAGE},
+    -command => [ \&button::set_button, 'FILL' ],
+    )->pack() ;
+$Button{WIDGET}{FILL}->bind( '<Enter>', 
+    [ \&button::enter, $Button{WIDGET}{FILL}, 
+        'Fill the area clicked with COLOUR.' ] ) ;
+$Button{WIDGET}{FILL}->bind( '<Leave>', \&button::enter ) ;
+
+
 $Button{WIDGET}{TEXT} = $Frame->Button(
     -image   => $Const{TEXT_IMAGE},
     -command => [ \&button::set_button, 'TEXT' ],
+    -state   => 'disabled',
     )->pack() ;
 $Button{WIDGET}{TEXT}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{TEXT}, 'Write text (not implemented).' ] ) ;
+    [ \&button::enter, 
+      'Insert text - (Not implemented.)' ] ) ;
 $Button{WIDGET}{TEXT}->bind( '<Leave>', \&button::enter ) ;
 
 

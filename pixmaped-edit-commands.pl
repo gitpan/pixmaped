@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-edit-commands.pl,v 1.12 1999/03/16 20:40:29 root Exp $
+# $Id: pixmaped-edit-commands.pl,v 1.15 1999/03/21 08:36:09 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -103,10 +103,14 @@ sub paste {
         my $yoffset = $ny - $oy0 ;
         foreach my $br ( @Buffer ) { 
             my( $x, $y, $colour ) = @$br ;
-            &grid::set_colour( $x + $xoffset, $y + $yoffset, $colour ) ;
+            &grid::set_colour( $x + $xoffset, $y + $yoffset, $colour ) 
+            unless $colour eq 'None' and not $Opt{INSERT_TRANSPARENT} ;
         }
         push @Undo, [ undef, 'paste', undef ] ;
     }
+    else {
+        print STDERR "Nothing to paste.\n" ;
+	}
     $Button{WIDGET}{PENCIL}->invoke 
     if $Button{WIDGET}{PENCIL}->cget( -relief ) eq 'raised' ; 
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-grid-commands.pl,v 1.49 1999/03/16 20:40:29 root Exp $
+# $Id: pixmaped-grid-commands.pl,v 1.52 1999/03/21 10:55:06 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -45,7 +45,7 @@ sub _draw {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
             my $actualy = $y * $Opt{GRID_SQUARE_LENGTH} ;
             $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
-            unless defined $Grid{SQUARES}[$x][$y]{COLOUR} ;
+            unless not $new and defined $Grid{SQUARES}[$x][$y]{COLOUR} ;
             my $colour = $Grid{SQUARES}[$x][$y]{COLOUR} ;
             my $square = $Grid{CANVAS}->create(
                 'rectangle', 
@@ -108,7 +108,19 @@ sub click1 {
             last CASE ;
         }
         if( /^FILL/o ) {
-            print STDERR "Fill at point ($x,$y).\n" ;
+            &cursor( 'watch' ) ;
+            &grid::status( "Filling..." ) ;
+            &shape::fill( $x, $y, $Global{COLOUR}, $Grid{SQUARES}[$x][$y]{COLOUR} ) ;
+            &cursor( -1 ) ;
+            &grid::status( '' ) ;
+            last CASE ;
+        }
+        if( /^SWAP/o ) {
+            &cursor( 'watch' ) ;
+            &grid::status( "Swapping colours..." ) ;
+            &shape::swap( $Global{COLOUR}, $Grid{SQUARES}[$x][$y]{COLOUR} ) ;
+            &cursor( -1 ) ;
+            &grid::status( '' ) ;
             last CASE ;
         }
         if( /^LINE/o ) {
@@ -139,18 +151,6 @@ sub click1 {
             last CASE ;
         }
         if( /^TEXT/o ) {
-            # Prompt for text.
-            print STDERR "Should prompt for the text.\n" ;
-            &cursor( 'watch' ) ;
-            &grid::status( "Writing text..." ) ;
-            push @Undo, [ undef, undef, undef ] ;
-            &image::text( $x, $y, 'Test' ) ;
-            push @Undo, [ undef, 'text', undef ] ;
-            &cursor( -1 ) ;
-            &grid::status( '' ) ;
-            $Button{WIDGET}{PENCIL}->invoke unless 
-            $Global{ACTIVE_TOOL} eq 'pencil' ;
-            # (Need to make right click give font menu.)
             last CASE ;
         }
         DEFAULT {
@@ -227,9 +227,13 @@ sub release1 {
         }
         elsif( /^CUT/o ) {
             &edit::cut_rectangle( $sx, $sy, $x, $y ) ;
+            $Button{WIDGET}{PENCIL}->invoke unless 
+            $Global{ACTIVE_TOOL} eq 'pencil' ;
         }
         elsif( /^COPY/o ) {
             &edit::copy_rectangle( $sx, $sy, $x, $y ) ;
+            $Button{WIDGET}{PENCIL}->invoke unless 
+            $Global{ACTIVE_TOOL} eq 'pencil' ;
         }
         $StartX = undef ;
     }
@@ -305,7 +309,7 @@ sub leave {
         $Button{WIDGET}{PENCIL}->invoke ;
     }
 
-    &cursor( 0 ) ;
+    &cursor( -1 ) ;
 }
 
 

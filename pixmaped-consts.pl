@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-consts.pl,v 1.31 1999/03/10 21:24:44 root Exp $
+# $Id: pixmaped-consts.pl,v 1.34 1999/03/21 08:36:09 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -55,10 +55,10 @@ $Const{ROTATE_IMAGE}           = $Win->Pixmap( -file => "${p}rotate.xpm" ) ;
 $Const{TEXT_IMAGE}             = $Win->Pixmap( -file => "${p}text.xpm" ) ;
 $Const{LINE_IMAGE}             = $Win->Pixmap( -file => "${p}line.xpm" ) ;
 $Const{OVAL_IMAGE}             = $Win->Pixmap( -file => "${p}oval.xpm" ) ;
-$Const{OVAL_FILLED_IMAGE}      = $Win->Pixmap( -file => "${p}filled-oval.xpm" ) ;
 $Const{RECTANGLE_IMAGE}        = $Win->Pixmap( -file => "${p}rectangle.xpm" ) ;
 $Const{RECTANGLE_FILLED_IMAGE} = $Win->Pixmap( -file => "${p}filled-rectangle.xpm" ) ;
 $Const{FILL_IMAGE}             = $Win->Pixmap( -file => "${p}fill.xpm" ) ;
+$Const{SWAP_IMAGE}             = $Win->Pixmap( -file => "${p}swapcolour.xpm" ) ;
 
 foreach my $i ( 'A'..'L' ) {
     $Const{"RESIZE_${i}_IMAGE"} = $Win->Pixmap( -file => "${p}resize-${i}.xpm" ) ;

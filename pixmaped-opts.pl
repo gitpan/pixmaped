@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-opts.pl,v 1.18 1999/03/07 13:02:31 root Exp $
+# $Id: pixmaped-opts.pl,v 1.21 1999/03/21 08:36:09 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -9,6 +9,8 @@ use strict ;
 
 package main ;
 
+
+$Opt{INSERT_TRANSPARENT}     = 0 ;
 
 $Opt{GRID_WIDTH}             = $Const{GRID_WIDTH_DEF} ;
 $Opt{GRID_HEIGHT}            = $Const{GRID_HEIGHT_DEF} ;

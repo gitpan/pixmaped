@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-menu.pl,v 1.17 1999/03/09 22:08:31 root Exp $
+# $Id: pixmaped-menu.pl,v 1.21 1999/03/21 08:36:09 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -198,6 +198,13 @@ my $MenuOptions = $MenuBar->Menubutton(
                         Checkbutton => 'Show ~Outline',  
                         -variable   => \$Opt{SHOW_OUTLINE},
                         -command    => \&grid::redraw, 
+                    ],
+                    [
+                        Separator    => '',
+                    ],
+                    [ 
+                        Checkbutton => 'Paste ~Transparent',  
+                        -variable   => \$Opt{INSERT_TRANSPARENT},
                     ],
                 ]
                 )->pack( -side => 'left' ) ;

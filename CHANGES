@@ -72,3 +72,14 @@ Pixmaped
 
 1999/03/18  * Minor documentation changes to suit CPAN scripts area.
             * Appears to load a lot faster.
+
+1999/03/19  Now prefer GD over Image::Magick if user has both - GD is faster.
+
+1999/03/20  * After cut/copy we now correctly switch back to pencil tool.
+            * Fixed cursor lock (again).
+		    * Added toggle option for whether tranparent is pasted over colour 
+		      or not.
+		    * Made file suffixes case insensitive (for Win32 users).
+            * Added crude (recursive) but effective fill.
+            * Added colour swap, i.e. swap one colour with another
+              throughout the image.

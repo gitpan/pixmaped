@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-file-commands.pl,v 1.43 1999/03/16 20:40:29 root Exp $
+# $Id: pixmaped-file-commands.pl,v 1.47 1999/03/21 08:36:09 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -30,7 +30,7 @@ sub new {
 
     $Global{WROTE_IMAGE} = 1 ;
 
-    $Win->title( $Global{FILENAME} . '  Pixmaped' ) ;
+    $Win->title( 'Pixmaped - ' . $Global{FILENAME} ) ;
 }
 
 
@@ -94,22 +94,22 @@ sub open {
 		&cursor( 'watch' ) ;
 		&grid::status( "Loading `$filename'..." ) ;
 
-        if( $filename =~ /.xpm$/o ) {
+        if( $filename =~ /.xpm$/oi ) {
             %Image = () ;
 
             $loaded = &xpm::load( $filename ) ;
         }
-        elsif( $Modules{MIFF} ) { # Image::Magick is more reliable than GD.
-			%Image = () ;
-
-			$loaded = &miff::load( $filename ) ;
-		}
         elsif( $Modules{GD} and 
-               ( $filename =~ /.xbm$/o or $filename =~ /.gif$/o ) ) {
+               ( $filename =~ /.xbm$/oi or $filename =~ /.gif$/oi ) ) {
             %Image = () ;
 
             $loaded = &gif::load( $filename ) ;
         }
+        elsif( $Modules{MIFF} ) {
+			%Image = () ;
+
+			$loaded = &miff::load( $filename ) ;
+		}
 		else {
 			message( 'Warning', 'Open', 'Cannot open this file format' ) 
         }
@@ -119,8 +119,9 @@ sub open {
         if( $loaded ) {
             $filename = &abs_path( $filename ) ;
             $Global{FILENAME} = $filename ;
-            $Win->title( $filename . '  Pixmaped' ) ;
-            &file::remember_name( $filename ) ;
+            $Win->title( 'Pixmaped - ' . $filename ) ;
+            &file::remember_name( 
+                $filename, $MenuFile, 'FILE', $Const{LAST_FILE_MAX} ) ;
             @Undo = () ;
         }
 
@@ -142,23 +143,24 @@ sub save {
 		&cursor( 'watch' ) ;
 		&grid::status( "Saving `$Global{FILENAME}'..." ) ;
 
-        if( $Global{FILENAME} =~ /\.xpm$/o ) {
+        if( $Global{FILENAME} =~ /\.xpm$/oi ) {
             $Global{WROTE_IMAGE} = 1 if &xpm::save( $Global{FILENAME} ) ; 
         }
-        elsif( $Global{FILENAME} =~/\.ps$/o ) {
+        elsif( $Global{FILENAME} =~/\.ps$/oi ) {
             &file::save_as_postscript ;
         }
-        elsif( $Modules{MIFF} ) { # Prefer Image::Magick to GD.
-            $Global{WROTE_IMAGE} = 1 if &miff::save( $Global{FILENAME} ) ; 
-        }
-        elsif( $Modules{GD} and $Global{FILENAME} =~ /\.gif$/o ) {
+        elsif( $Modules{GD} and $Global{FILENAME} =~ /\.gif$/oi ) {
             $Global{WROTE_IMAGE} = 1 if &gif::save( $Global{FILENAME} ) ; 
+        }
+        elsif( $Modules{MIFF} ) {
+            $Global{WROTE_IMAGE} = 1 if &miff::save( $Global{FILENAME} ) ; 
         }
         else {
 			message( 'Warning', 'Save', 'Cannot save this file format' ) ;
 		}
         if( $Global{WROTE_IMAGE} ) {
-			&file::remember_name( $Global{FILENAME} ) ;
+			&file::remember_name( 
+			    $Global{FILENAME}, $MenuFile, 'FILE', $Const{LAST_FILE_MAX} ) ;
 			@Undo = () unless $Opt{UNDO_AFTER_SAVE} ;
 		}
 
@@ -205,25 +207,27 @@ sub save_as_postscript {
 sub remember_name {
     package main ;
 
-    my $filename = shift ;
+    my( $filename, $Widget, $type, $max ) = @_ ;
+
+    $type = 'LAST_' . $type ;
 
     my $remembered = 0 ;
-    for( my $i = 1 ; $i <= $Const{LAST_FILE_MAX} ; $i++ ) {
-        $remembered = 1, last if $Opt{"LAST_FILE_$i"} eq $filename ;
+    for( my $i = 1 ; $i <= $max ; $i++ ) {
+        $remembered = 1, last if $Opt{$type . "_$i"} eq $filename ;
     }
     if( not $remembered ) {
-        $MenuFile->entryconfigure(
-            "$Opt{LAST_FILE} " . $Opt{"LAST_FILE_$Opt{LAST_FILE}"},
-            -label => "$Opt{LAST_FILE} " . $filename ) ;
-        $Opt{"LAST_FILE_$Opt{LAST_FILE}"} = $filename ;
-        $Opt{LAST_FILE}++ ;
-        $Opt{LAST_FILE} = 1 if $Opt{LAST_FILE} > $Const{LAST_FILE_MAX} ;
+        $Widget->entryconfigure(
+            $Opt{$type} . " " . $Opt{$type . "_" . $Opt{$type}},
+            -label => $Opt{$type} . " " . $filename ) ;
+        $Opt{$type . "_" . $Opt{$type}} = $filename ;
+        $Opt{$type}++ ;
+        $Opt{$type} = 1 if $Opt{$type} > $max ;
     }
 }
 
 
 sub save_as {
-    package main ;
+   package main ;
 
     &cursor( 'clock' ) ;
     $Opt{DIR}    = &abs_path( $Opt{DIR} ) ;
@@ -250,7 +254,7 @@ sub save_as {
 
    if( $filename ) {
         $Global{FILENAME} = &abs_path( $filename ) ;
-        $Win->title( $Global{FILENAME} . '  Pixmaped' ) ;
+        $Win->title( 'Pixmaped - ' . $Global{FILENAME} ) ;
 		&file::save ;
     }
 }
@@ -260,7 +264,7 @@ sub prompt_save {
     package main ;
 
     my $msg = $Win->MesgBox(
-        -title     => 'Save Image?',
+        -title     => 'Pixmaped Save Image?',
         -text      => "Save `$Global{FILENAME}'?", 
         -icon      => 'QUESTION',
         -buttons   => [ 'Yes', 'No' ],

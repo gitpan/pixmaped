@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped,v 1.60 1999/03/18 21:39:37 root Exp root $
+# $Id: pixmaped,v 1.64 1999/03/21 11:48:31 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -22,17 +22,18 @@ use lib $RealBin ;
 
 
 use vars qw( $VERSION 
-             %Global %Const %Opt 
+             %Global  %Const   %Opt 
              $Win 
-             %Image  %Grid  %Button  $MenuFile  @Undo  %Modules
+             %Image   %Grid    %Button  $MenuFile  @Undo  %Modules 
          ) ; 
 
-$VERSION = '1.19' ; # Application version.
+$VERSION = '1.30' ; # Application version.
 
 my $DieOnWarn      = 0 ;
 my $WarnInDialogue = 0 ;
 
 my $Cursor         = 'left_ptr' ;
+my $Waiting        = 0 ;
 
 &initialise ;
 
@@ -45,7 +46,7 @@ sub initialise {
     $Win->title( "Loading  Pixmaped..." ) ; 
     &cursor( 'watch' ) ;
     $Win->protocol( "WM_DELETE_WINDOW", \&file::quit ) ;
-    $Win->update ; # This is the earliest we can update the main window.
+    $Win->update ; 
 
     &load_library( "pixmaped-globals.pl" ) ;
     &load_library( "pixmaped-consts.pl" ) ;
@@ -105,15 +106,21 @@ sub cursor {
 
     my $cursor = shift ;
 
-    # Watch has highest priority, then clock then all others equally.
+    # Watch has highest priority, then all others equally.
     # -1 signifies return to previous.
     if( ( $cursor eq '-1' ) or
         ( $cursor eq 'watch' ) or
-        ( ( $cursor eq 'clock' ) and ( $Cursor ne 'watch' ) ) or
-        ( ( $Cursor ne 'clock' ) and ( $Cursor ne 'watch' ) ) ) {
-        $Cursor = $cursor eq '-1' ? 'left_ptr' : $cursor ;
+        ( $Cursor ne 'watch' ) ) {
+        if( $cursor eq '-1' and $Cursor eq 'watch' ) {
+            --$Waiting ;
+            $cursor = $Waiting == 0 ? 'left_ptr' : 'watch' ;
+		}
+		elsif( $cursor eq 'watch' ) {
+            ++$Waiting ;
+		}
+        $Cursor = $cursor ;
 		$Win->configure( -cursor => $Cursor ) 
-    }
+     }
 }
 
 

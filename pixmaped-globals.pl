@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-globals.pl,v 1.17 1999/03/13 17:06:29 root Exp $
+# $Id: pixmaped-globals.pl,v 1.19 1999/03/21 08:36:09 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
