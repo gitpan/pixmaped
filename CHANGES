@@ -68,4 +68,7 @@ Pixmaped
 1999/03/13  * Another go at fixing cursor lock... still not right though.
             * Fixed bug in rotate.
 
-1999/03/16  Finally fixed cursor lock... unless you can prove otherwise.
+1999/03/16  Finally fixed cursor lock... unless you can show otherwise.
+
+1999/03/18  * Minor documentation changes to suit CPAN scripts area.
+            * Appears to load a lot faster.

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped,v 1.59 1999/03/16 20:42:33 root Exp root $
+# $Id: pixmaped,v 1.60 1999/03/18 21:39:37 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -27,7 +27,7 @@ use vars qw( $VERSION
              %Image  %Grid  %Button  $MenuFile  @Undo  %Modules
          ) ; 
 
-$VERSION = '1.17' ; # Application version.
+$VERSION = '1.19' ; # Application version.
 
 my $DieOnWarn      = 0 ;
 my $WarnInDialogue = 0 ;
@@ -45,19 +45,18 @@ sub initialise {
     $Win->title( "Loading  Pixmaped..." ) ; 
     &cursor( 'watch' ) ;
     $Win->protocol( "WM_DELETE_WINDOW", \&file::quit ) ;
+    $Win->update ; # This is the earliest we can update the main window.
 
     &load_library( "pixmaped-globals.pl" ) ;
     &load_library( "pixmaped-consts.pl" ) ;
     &load_library( "pixmaped-opts.pl" ) ; # Default.
     &read_opts ;                          # User.
     &set_consts ;                         # Need opts to set these.
-    # Ordered to make loading appear to be as fast as possible.
     &load_library( "pixmaped-menu.pl" ) ;
     &load_library( "pixmaped-buttons.pl" ) ;
     &load_library( "pixmaped-grid.pl" ) ;
     &load_library( "pixmaped-button-commands.pl" ) ;
     &load_library( "pixmaped-grid-commands.pl" ) ;
-    $Win->update ; # This is the earliest we can update the main window.
     &load_library( "pixmaped-keys.pl" ) ;
     &load_library( "pixmaped-file-commands.pl" ) ;
     &load_library( "pixmaped-edit-commands.pl" ) ;
@@ -240,3 +239,50 @@ sub load_optional_library {
 
 __END__
 
+
+=pod SCRIPT CATEGORIES
+
+Graphics
+
+=pod DESCRIPTION
+
+Perl/Tk image editor for icons and other small images. 
+
+=pod PREREQUISITES
+
+Pragmas:
+
+C<strict>
+C<lib>
+
+Modules:
+
+C<Tk>
+C<Tk::FileSelect>
+C<Tk::MesgBox>
+C<Tk::ColourChooser>
+C<File::Basename>
+C<Cwd>
+C<FindBin>
+
+=pod COREQUISITES
+
+At least one of these is recommended if you want to edit .gif images.
+Image::Magick provides maximum versatility.
+
+C<GD>
+C<Image::Magick>
+
+=pod OSNAMES
+
+Developed under:
+Linux/X-Windows
+
+Known to run under:
+Win32
+
+=pod LICENSE
+
+Same as Perl
+
+=cut
