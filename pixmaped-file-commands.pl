@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-file-commands.pl,v 1.54 1999/09/04 13:25:44 root Exp $
+# $Id: pixmaped-file-commands.pl,v 1.55 1999/12/13 19:26:06 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -8,7 +8,6 @@
 use strict ;
 
 package file ;
-
 
 sub new {
     package main ;
@@ -32,7 +31,6 @@ sub new {
 
     $Win->title( 'Pixmaped - ' . $Global{FILENAME} ) ;
 }
-
 
 sub new_image {
     package main ;
@@ -59,7 +57,6 @@ sub new_image {
 
     @Undo = () unless $Opt{UNDO_AFTER_SAVE} ;
 }
-
 
 sub open {
     package main ;
@@ -141,7 +138,6 @@ sub open {
     }
 }
 
-
 sub save {
     package main ;
 
@@ -181,7 +177,6 @@ sub save {
    }
 }
 
-
 sub save_as_postscript {
     package main ;
 
@@ -215,7 +210,6 @@ sub save_as_postscript {
     }
 }
 
-
 sub remember_name {
     package main ;
 
@@ -236,7 +230,6 @@ sub remember_name {
         $Opt{$type} = 1 if $Opt{$type} > $max ;
     }
 }
-
 
 sub save_as {
    package main ;
@@ -271,7 +264,6 @@ sub save_as {
     }
 }
 
-
 sub prompt_save {
     package main ;
 
@@ -287,7 +279,6 @@ sub prompt_save {
     &file::save if $ans eq 'Yes' ;
 }
 
-
 sub quit {
     package main ;
 
@@ -296,6 +287,5 @@ sub quit {
     
     $Win->destroy ;
 }
-
 
 1 ;

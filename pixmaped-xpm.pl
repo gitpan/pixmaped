@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-xpm.pl,v 1.37 1999/09/05 12:54:29 root Exp $
+# $Id: pixmaped-xpm.pl,v 1.38 1999/12/13 19:26:06 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -8,7 +8,6 @@
 use strict ;
 
 package xpm ;
-
 
 sub load {
     package main ;
@@ -108,12 +107,10 @@ sub load {
         message( 'Warning', 'Load',"Failed to load `$filename'$err" ) ;
     }
 
-
     &xpm::read_image( $filename ) if $loaded ; 
 
     $loaded ;
 }
-
 
 sub save {
     package main ;
@@ -211,12 +208,10 @@ sub save {
         message( 'Warning', 'Save',"Failed to save `$filename':\n$err" ) ;
     }
 
-
     &xpm::read_image( $filename ) if $saved ; 
 
     $saved ;
 }
-
 
 sub prepare_palette {
     package main ;
@@ -248,7 +243,6 @@ sub prepare_palette {
     }
 }
 
-
 sub read_image {
     package main ;
 
@@ -276,7 +270,6 @@ sub read_image {
     $Opt{GRID_WIDTH}  = $Image{WIDTH} ;
     $Opt{GRID_HEIGHT} = $Image{HEIGHT} ;
 }
-
 
 1 ;
 

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-opts.pl,v 1.22 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-opts.pl,v 1.23 1999/12/13 19:26:06 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -8,7 +8,6 @@
 use strict ;
 
 package main ;
-
 
 $Opt{INSERT_TRANSPARENT}     = 0 ;
 
@@ -50,7 +49,6 @@ $Opt{BRUSH_SIZE}             =  2 ; # 2 or 3 are valid.
 $Opt{ROTATION}               = 90 ; # 90, 180 and 270 are valid.
 $Opt{UNDO_AFTER_SAVE}        =  1 ;
 
-
 sub opts_check {
 
     $Opt{GRID_WIDTH} = $Const{GRID_WIDTH_DEF} 
@@ -75,6 +73,5 @@ sub opts_check {
     $Opt{ROTATION}   = 90 if $Opt{ROTATION} > 270 or $Opt{ROTATION} < 90 or
                              $Opt{ROTATION} % 90 != 0 ;
 }
-
 
 1 ;

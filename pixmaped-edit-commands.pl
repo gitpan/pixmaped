@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-edit-commands.pl,v 1.19 1999/09/04 13:25:44 root Exp $
+# $Id: pixmaped-edit-commands.pl,v 1.20 1999/12/13 19:26:06 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -8,7 +8,6 @@
 use strict ;
 
 package edit ;
-
 
 my( @Buffer, $ox0, $oy0, $ox1, $oy1 ) ;
 
@@ -43,7 +42,6 @@ sub undo {
     &grid::status( '' ) ;
 }
 
-
 sub copy {
     package main ;
 
@@ -52,7 +50,6 @@ sub copy {
     &cursor( 'cross' ) ;
     &grid::status( "Marking for copying..." ) ;
 }
-
 
 sub copy_rectangle {
     package main ;
@@ -67,7 +64,6 @@ sub copy_rectangle {
     &grid::status( '' ) ;
 }
 
-
 sub cut {
     package main ;
 
@@ -76,7 +72,6 @@ sub cut {
     &cursor( 'cross' ) ;
     &grid::status( "Marking for cutting..." ) ;
 }
-
 
 sub cut_rectangle {
     package main ;
@@ -95,12 +90,10 @@ sub cut_rectangle {
 sub paste {
     package main ;
 
-    my( $nx, $ny ) = split /[, ]/, $Grid{COORDS}->cget( -text ) ;
-
-    if( defined $nx and defined $ny and defined $ox0 and defined $oy0 ) {
+    if( defined $Global{X} and defined $Global{Y} and defined $ox0 and defined $oy0 ) {
         push @Undo, [ undef, undef, undef ] ;
-        my $xoffset = $nx - $ox0 ;
-        my $yoffset = $ny - $oy0 ;
+        my $xoffset = $Global{X} - $ox0 ;
+        my $yoffset = $Global{Y} - $oy0 ;
         foreach my $br ( @Buffer ) { 
             my( $x, $y, $colour ) = @$br ;
             &grid::set_colour( $x + $xoffset, $y + $yoffset, $colour ) 
@@ -115,7 +108,6 @@ sub paste {
     if $Button{WIDGET}{PENCIL}->cget( -relief ) eq 'raised' ; 
 }
 
-
 #sub paste_from_clipboard {
 #    package main ;
 #    
@@ -124,7 +116,6 @@ sub paste {
 #    if defined $buffer ; 
 #    &edit::paste ;
 #}
-
 
 sub copy_line {
     package main ;
@@ -157,7 +148,6 @@ sub copy_line {
     $Global{BUFFER} = 1 ;
 }
 
-
 sub copy_filled_rectangle {
     package main ;
 
@@ -173,6 +163,5 @@ sub copy_filled_rectangle {
 
     push @Undo, [ undef, 'cut', undef ] if $clear ;
 }
-
 
 1 ;

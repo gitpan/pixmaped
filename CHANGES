@@ -125,3 +125,5 @@ Pixmaped
             this is due to a problem with Tk) - it works fine with early Tk4
             and Tk8 versions and is expected to work with Tk800.016 onwards.
 
+1999/12/13  Fixed bug in cut/copy/paste which I had introduced earlier.
+

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-gif.pl,v 1.19 1999/09/04 13:41:28 root Exp $
+# $Id: pixmaped-gif.pl,v 1.20 1999/12/13 19:26:06 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -8,7 +8,6 @@
 use strict ;
 
 package gif ;
-
 
 sub load {
     package main ;
@@ -32,7 +31,6 @@ sub load {
     $loaded ;
 }
 
-
 sub save {
     package main ;
 
@@ -52,7 +50,6 @@ sub save {
 
     $saved ;
 }
-
 
 sub gd2xpm {
     package main ;
@@ -125,7 +122,6 @@ sub gd2xpm {
     }
 }
 
-
 sub xpm2gd {
     package main ;
 
@@ -167,6 +163,5 @@ sub xpm2gd {
     }
     close IMG ;
 }
-
 
 1 ;

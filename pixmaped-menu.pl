@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-menu.pl,v 1.22 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-menu.pl,v 1.23 1999/12/13 19:26:06 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -9,12 +9,10 @@ use strict ;
 
 package main ;
 
-
 my $MenuBar = $Win->Frame(
                 -relief      => 'raised',
                 -borderwidth => 2,
                 )->pack( -anchor => 'nw', -fill => 'x' ) ;
-
 
 $MenuFile = $MenuBar->Menubutton(
                 -text      => 'File',
@@ -68,7 +66,6 @@ for( my $i = 1 ; $i <= $Const{LAST_FILE_MAX} ; $i++ ) {
         ) ;
 }
 
-
 my $MenuEdit = $MenuBar->Menubutton(
                 -text      => 'Edit',
                 -underline => 0,
@@ -103,7 +100,6 @@ my $MenuEdit = $MenuBar->Menubutton(
 #                    ],                    
                  ]
                  )->pack( -side => 'left' ) ;
-
 
 my $zoom = $Opt{GRID_SQUARE_LENGTH} ;
 
@@ -188,7 +184,6 @@ my $MenuImage = $MenuBar->Menubutton(
                 ]
                 )->pack( -side => 'left' ) ;
 
-
 my $MenuOptions = $MenuBar->Menubutton(
                 -text      => 'Options',
                 -underline => 0,
@@ -209,7 +204,6 @@ my $MenuOptions = $MenuBar->Menubutton(
                 ]
                 )->pack( -side => 'left' ) ;
 
-
 my $MenuHelp = $MenuBar->Menubutton(
                 -text      => 'Help',
                 -underline => 0,
@@ -226,6 +220,5 @@ my $MenuHelp = $MenuBar->Menubutton(
                     ],
                 ]
                 )->pack( -side => 'right' ) ;
-
 
 1 ;

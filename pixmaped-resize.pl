@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-resize.pl,v 1.21 1999/09/04 13:25:44 root Exp $
+# $Id: pixmaped-resize.pl,v 1.22 1999/12/13 19:26:06 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -8,7 +8,6 @@
 use strict ;
 
 package resize ;
-
 
 my $ResizeWin ; 
 my %Button ;
@@ -31,7 +30,6 @@ my %Action = (
 
 my( $NewWidth, $NewHeight ) ;
 my( $WidthAction, $HeightAction ) = ( 0, 0 ) ;
-
 
 sub resize {
     package main ;
@@ -129,7 +127,6 @@ sub resize {
         )->pack( -side => 'left' ) ;
 }
 
-
 sub create_scale {
     my( $min, $max, $interval, $title, $row ) = @_ ;
 
@@ -145,7 +142,6 @@ sub create_scale {
     $scale ;
 }
 
-
 sub key_bindings {
 
     # Cancel keygrid bindings.
@@ -158,7 +154,6 @@ sub key_bindings {
     $ResizeWin->bind( '<Control-r>', [ \&close, 1 ] ) ;
     $ResizeWin->bind( '<Return>',    [ \&close, 1 ] ) ;
 }
-
 
 sub set_height_buttons {
     package main ;
@@ -184,7 +179,6 @@ sub set_height_buttons {
     &resize::height_action( $HeightAction ) ;
 }
 
-
 sub set_width_buttons {
     package main ;
 
@@ -209,7 +203,6 @@ sub set_width_buttons {
     &resize::width_action( $WidthAction ) ;
 }
 
-
 sub width_action {
     package main ;
 
@@ -226,7 +219,6 @@ sub width_action {
     if $action and $NewWidth != $Opt{GRID_WIDTH} ;
 }
 
-
 sub height_action {
     package main ;
 
@@ -242,7 +234,6 @@ sub height_action {
     $Button{$action}->configure( -relief => 'sunken' ) 
     if $action and $NewHeight != $Opt{GRID_HEIGHT} ;
 }
-
 
 sub close {
     package main ;
@@ -278,7 +269,6 @@ sub close {
     $ResizeWin->destroy ;
 }
 
-
 sub resize_width_reduce_right {
     package main ;
 
@@ -289,7 +279,6 @@ sub resize_width_reduce_right {
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
 }
-
 
 sub resize_width_reduce_left {
     package main ;
@@ -305,7 +294,6 @@ sub resize_width_reduce_left {
     }
 }
 
-
 sub resize_width_reduce_both {
     package main ;
 
@@ -316,7 +304,6 @@ sub resize_width_reduce_both {
     $NewWidth    = $newwidth ;
     &resize::resize_width_reduce_right ;
 }
-
 
 sub resize_width_add_left {
     package main ;
@@ -332,11 +319,9 @@ sub resize_width_add_left {
     }
 }
 
-
 sub resize_width_add_right {
     # No action necessary.
 }
-
 
 sub resize_width_add_both {
     package main ;
@@ -347,7 +332,6 @@ sub resize_width_add_both {
     &resize::resize_width_add_left ;
     $NewWidth    = $newwidth ;
 }
-
 
 sub resize_height_reduce_top {
     package main ;
@@ -363,7 +347,6 @@ sub resize_height_reduce_top {
     }
 }
 
-
 sub resize_height_reduce_bottom {
     package main ;
 
@@ -375,7 +358,6 @@ sub resize_height_reduce_bottom {
     }
 }
 
-
 sub resize_height_reduce_both {
     package main ;
 
@@ -386,7 +368,6 @@ sub resize_height_reduce_both {
     $NewHeight    = $newheight ;
     &resize::resize_height_reduce_bottom ;
 }
-
 
 sub resize_height_add_top {
     package main ;
@@ -402,11 +383,9 @@ sub resize_height_add_top {
     }
 }
 
-
 sub resize_height_add_bottom {
     # No action necessary.
 }
-
 
 sub resize_height_add_both {
     package main ;

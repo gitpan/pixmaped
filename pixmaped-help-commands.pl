@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-help-commands.pl,v 1.38 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-help-commands.pl,v 1.39 1999/12/13 19:26:06 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -9,10 +9,8 @@ use strict ;
 
 package help ;
 
-
 my $HelpWin ; 
 my $TextBox ;
-
 
 sub help {
 
@@ -57,14 +55,12 @@ sub help {
     $text->configure( -state => 'disabled' ) ;
 }
 
-
 sub close {
 
     &main::cursor() ;
     &grid::status( '' ) ;
     $HelpWin->destroy ;
 }
-
 
 sub about {
     package main ;
@@ -75,14 +71,13 @@ sub about {
     my $text = <<__EOT__ ;
 Pixmaped v $VERSION
 
-summer\@chest.ac.uk
+summer\@perlpress.com
 
 Copyright (c) Mark Summerfield 1999. 
 All Rights Reserved.
 
 May be used/distributed under the GPL.
 __EOT__
-
 
     my $msg = $Win->MesgBox(
         -title => "Pixmaped - About",
@@ -93,6 +88,5 @@ __EOT__
     &cursor() ;
     &grid::status( '' ) ;
 }
-
 
 1 ;

@@ -1,6 +1,6 @@
 =head1 Pixmaped Help
 
-# $Id: pixmaped-help.pod,v 1.5 1999/09/04 13:25:44 root Exp $
+# $Id: pixmaped-help.pod,v 1.6 1999/12/13 19:26:06 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -423,7 +423,7 @@ a little bit of memory, set it to `B<0>'.
 
 =head2 Copyright
 
-C<summer@chest.ac.uk>
+C<summer@perlpress.com>
 
 Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 

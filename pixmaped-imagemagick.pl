@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-imagemagick.pl,v 1.10 1999/09/04 13:41:28 root Exp $
+# $Id: pixmaped-imagemagick.pl,v 1.11 1999/12/13 19:26:06 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -8,7 +8,6 @@
 use strict ;
 
 package miff ;
-
 
 sub load {
     package main ;
@@ -32,7 +31,6 @@ sub load {
     $loaded ;
 }
 
-
 sub save {
     package main ;
 
@@ -52,7 +50,6 @@ sub save {
 
     $saved ;
 }
-
 
 sub miff2xpm {
     package main ;
@@ -118,7 +115,6 @@ sub miff2xpm {
     undef $img ; # Recycle memory.
 }
 
-
 sub xpm2miff {
     package main ;
 
@@ -144,6 +140,5 @@ sub xpm2miff {
 
     undef $img ; # Recycle memory.
 }
-
 
 1 ;

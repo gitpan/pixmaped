@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-button-commands.pl,v 1.38 1999/09/05 12:54:29 root Exp $
+# $Id: pixmaped-button-commands.pl,v 1.39 1999/12/13 19:26:06 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -8,7 +8,6 @@
 use strict ;
 
 package button ;
-
 
 sub raise_others {
     package main ;
@@ -38,7 +37,6 @@ sub raise_others {
     }
 }
 
-
 sub set_relief {
     package main ;
 
@@ -51,7 +49,6 @@ sub set_relief {
 
     $relief eq 'raised' ? 0 : 1 ;
 }
-
 
 sub enter {
     package main ;
@@ -72,7 +69,6 @@ sub enter {
     &cursor( 'left_ptr' ) ;
     &grid::status( $text ) ;
 }
-
 
 sub set_button {
     package main ;
@@ -153,7 +149,6 @@ sub set_button {
     }
 }
 
-
 sub flip_horizontal {
     package main ;
 
@@ -175,7 +170,6 @@ sub flip_horizontal {
     }
 }
 
-
 sub flip_vertical {
     package main ;
 
@@ -196,7 +190,6 @@ sub flip_vertical {
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
 }
-
 
 sub rotate_90 {
     package main ;
@@ -224,7 +217,6 @@ sub rotate_90 {
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
 }
-
 
 sub choose_colour {
     package main ;
@@ -257,7 +249,6 @@ sub choose_colour {
     &grid::status( '' ) ;
 }
 
-
 sub mkbutton {
     package main ;
 
@@ -271,6 +262,5 @@ sub mkbutton {
 		[ \&button::enter, $Button{WIDGET}{$button}, $text ] ) ;
 	$Button{WIDGET}{$button}->bind( '<Leave>', \&button::enter ) ;
 }
-
 
 1 ;

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-shapes.pl,v 1.16 1999/09/04 13:25:44 root Exp $
+# $Id: pixmaped-shapes.pl,v 1.17 1999/12/13 19:26:06 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -10,7 +10,6 @@ use strict ;
 package shape ;
 
 my $RecursionDepth ;
-
 
 sub line {
     package main ;
@@ -43,7 +42,6 @@ sub line {
 
     push @Undo, [ undef, 'line', undef ] unless $dont_undo ;
 }
-
 
 sub oval {
     package main ; 
@@ -104,7 +102,6 @@ sub oval {
     push @Undo, [ undef, 'oval', undef ] ;
 }
 
-
 sub ellipse_point {
     package main ;
 
@@ -115,7 +112,6 @@ sub ellipse_point {
     &grid::set_colour( $ox + $rx, $oy - $ry, $Global{COLOUR} ) ;
     &grid::set_colour( $ox - $rx, $oy + $ry, $Global{COLOUR} ) ;
 }
-
 
 sub rectangle {
     package main ;
@@ -133,7 +129,6 @@ sub rectangle {
     push @Undo, [ undef, 'rectangle', undef ] unless $dont_undo ;
 }
 
-
 sub filled_rectangle {
     package main ;
 
@@ -150,7 +145,6 @@ sub filled_rectangle {
     push @Undo, [ undef, 'filled rectangle', undef ] ;
 }
 
-
 sub fill {
     package main ;
 
@@ -166,7 +160,6 @@ sub fill {
 
 	push @Undo, [ undef, 'fill', undef ] ;
 }
-
 
 sub fill_recursively {
     package main ;
@@ -189,7 +182,6 @@ sub fill_recursively {
     }
 }
 
-
 sub swap {
     package main ;
 
@@ -208,6 +200,5 @@ sub swap {
 
 	push @Undo, [ undef, 'swap colours', undef ] ;
 }
-
 
 1 ;

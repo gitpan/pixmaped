@@ -6,7 +6,6 @@ Pixmaped
 4. COPYRIGHT
 5. NOTES
 
-
 1. SYNOPSIS
 
 Simple icon editor.
@@ -26,13 +25,12 @@ supports.
 
 See CHANGES for fixes and features.
 
-
 2. REQUIREMENTS
 
 Both these modules are required and are available from where you obtained
 pixmaped: 
-MesgBox.pm
-ColourChooser.pm
+MesgBox.pm (please use v 1.10 or later)
+ColourChooser.pm (please use v 1.40 or later)
 
 Optional modules (from CPAN) it is highly recommended that you have one of
 these, preferably Image::Magick:
@@ -49,7 +47,6 @@ Perl 5.005
 Tk 800.000
 
 ~250K disk space.
-
 
 3. INSTALLATION
 
@@ -108,15 +105,13 @@ pixmaped.icon: pixmaped
 # path to save typing the whole path. Note that 'deprecated' error messages
 # which appear are harmless and can be ignored - these only occur under Tk 4.
 
-
 4. COPYRIGHT
 
 Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 Pixmaped may be used/distributed under the GPL.
 
-Contact: <summer@chest.ac.uk> - please include 'pixmaped' in the
+Contact: <summer@perlpress.com> - please include 'pixmaped' in the
 subject line. 
-
 
 5. NOTES
 

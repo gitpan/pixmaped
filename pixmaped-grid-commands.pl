@@ -1,21 +1,18 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-grid-commands.pl,v 1.59 1999/09/05 12:54:29 root Exp $
+# $Id: pixmaped-grid-commands.pl,v 1.60 1999/12/13 19:26:06 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
 
 use strict ;
 
-
 package grid ;
-
 
 my $Drag1 = 0 ;
 my( $StartX, $StartY ) = ( undef, undef ) ;
 
 my @Square ;
-
 
 sub create { &_draw( 1 ) }
 sub redraw { &_draw( 0 ) }
@@ -77,6 +74,18 @@ sub _draw {
     &grid::status( $time ) ;
 }
 
+sub motion {
+    package main ;
+
+    my( $canvas, $cx, $cy ) = @_ ;
+    
+    $Global{X} = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
+    $Global{Y} = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
+
+    &cursor( $Global{ACTIVE_TOOL} ) ;
+
+    &grid::coords( $Global{X}, $Global{Y} ) ;
+}
 
 sub click1 {
     package main ;
@@ -179,13 +188,10 @@ sub click1 {
     $Drag1 = 1 ;
 }
 
-
 sub motion1 {
     package main ;
 
     my( $canvas, $cx, $cy ) = @_ ;
-    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
-    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
 
     local $_ = $Global{ACTIVE_BUTTON} ;
 
@@ -197,7 +203,6 @@ sub motion1 {
         $Grid{CANVAS}->coords( 'SHAPE', $StartX, $StartY, $cx, $cy ) ;
     }
 }
-
 
 sub release1 {
     package main ;
@@ -254,30 +259,17 @@ sub release1 {
     $StartY = undef ;
 }
 
-
 sub click2 {
     package main ;
 
-    my( $canvas, $cx, $cy ) = @_ ;
-    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
-    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
-
-    &cursor( $Global{ACTIVE_TOOL} ) ;
-    &grid::coords( $x, $y ) ;
-
     $Drag1 = 0 ;
 }
-
 
 sub click3 {
     # This is used to 'grab' the colour that the user has right clicked.
     package main ;
 
-    my( $canvas, $cx, $cy ) = @_ ;
-    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
-    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
-
-    my $colour        = $ImageGrid[$x][$y] ;
+    my $colour        = $ImageGrid[$Global{X}][$Global{Y}] ;
     $Global{COLOUR}   = $colour ;
     $Opt{GRAB_COLOUR} = $colour ;
     if( lc $colour eq 'none' ) {
@@ -299,24 +291,11 @@ sub click3 {
 }
 
 
-sub enter {
-    package main ;
-
-    my( $canvas, $cx, $cy ) = @_ ;
-    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
-    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
-
-    &cursor( $Global{ACTIVE_TOOL} ) ;
-    &grid::coords( $x, $y ) ;
-}
-
-
 sub leave {
     package main ;
 
-    my( $canvas, $cx, $cy ) = @_ ;
-    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
-    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
+    my $x = $Global{X} ;
+    my $y = $Global{X} ;
 
     if( $x < 0 or $x >= $Opt{GRID_WIDTH} or 
         $y < 0 or $y >= $Opt{GRID_HEIGHT} ) { 
@@ -326,7 +305,6 @@ sub leave {
 
     &cursor() ;
 }
-
 
 sub set_colour {
     package main ;
@@ -373,7 +351,6 @@ sub set_colour {
     $Global{WROTE_IMAGE} = 0 ;
 } 
 
-
 sub coords {
     package main ;
 
@@ -394,7 +371,6 @@ sub coords {
     &grid::flags ;
 }
 
-
 sub status {
     package main ;
 
@@ -406,7 +382,6 @@ sub status {
     &grid::flags ;
 }
 
-
 sub flags {
     package main ;
 
@@ -416,6 +391,5 @@ sub flags {
     $Grid{FLAGS}->configure( -text => $modified . $buffer ) ;
     $Grid{FLAGS}->update ;
 }
-
 
 1 ;

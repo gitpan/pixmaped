@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-buttons.pl,v 1.27 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-buttons.pl,v 1.28 1999/12/13 19:26:06 root Exp root $
 
 # (c) Mark Summerfield 1999. All s Reserved.
 # May be used/distributed under the GPL.
@@ -9,9 +9,7 @@ use strict ;
 
 package main ;
 
-
 my $RightMenu ;
-
 
 # The button frame.
 my $ButtonFrame = $Win->Frame()->pack( 
@@ -24,7 +22,6 @@ my $Frame = $ButtonFrame->Frame()->pack(
                 -fill => 'y',
                 -side => 'left',
                 ) ;
-
 
 &button::mkbutton( $Frame, 'PENCIL', 'Draw single pixels.' ) ;
 &button::mkbutton( $Frame, 'SWAP', 
@@ -71,7 +68,6 @@ sub rotation_menu {
 }
 # Rotation end.
 
-
 &button::mkbutton( $Frame, 'FLIP_HORIZONTAL', 'Flip the image horizontally.' ) ;
 &button::mkbutton( $Frame, 'OVAL', 'Draw an oval.' ) ;
 &button::mkbutton( $Frame, 'LINE', 'Draw a line.' ) ;
@@ -89,13 +85,11 @@ foreach( 0..3 ) {
     $Button{WIDGET}{$name}->bind( '<3>', [ \&button::choose_colour, $name ] ) ;
 }
 
-
 # Right hand button column.
 $Frame = $ButtonFrame->Frame()->pack( 
                     -fill => 'y',
                     -side => 'left',
                     ) ;
-
 
 # Brush begin.
 &button::mkbutton( $Frame, 'BRUSH', '' ) ;
@@ -138,14 +132,12 @@ sub brush_menu {
 }
 # Brush end.
 
-
 &button::mkbutton( $Frame, 'FILL', 'Fill the area clicked with COLOUR.' ) ;
 &button::mkbutton( $Frame, 'TEXT', 'Insert text - (Not implemented.)' ) ;
 $Button{WIDGET}{TEXT}->configure( -state   => 'disabled', ) ;
 &button::mkbutton( $Frame, 'FLIP_VERTICAL', 'Flip the image vertically.' ) ;
 &button::mkbutton( $Frame, 'RECTANGLE', 'Draw a rectangle.' ) ;
 &button::mkbutton( $Frame, 'RECTANGLE_FILLED', 'Draw a filled rectangle.' ) ;
-
 
 &button::mkbutton( $Frame, 'GRAB_COLOUR', 
 	'Draw with grabbed colour COLOUR. Right click to change colour.' ) ;
@@ -158,7 +150,6 @@ $Button{WIDGET}{GRAB_COLOUR}->configure(
 $Button{WIDGET}{GRAB_COLOUR}->bind( '<3>', 
     [ \&button::choose_colour, 'GRAB_COLOUR' ] ) ;
 
-
 foreach( 4..7 ) {
     my $name = "PALETTE_$_" ;
 
@@ -170,6 +161,5 @@ foreach( 4..7 ) {
         ) ;
     $Button{WIDGET}{$name}->bind( '<3>', [ \&button::choose_colour, $name ] ) ;
 }
-
 
 1 ;

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-pxd.pl,v 1.2 1999/09/04 13:25:44 root Exp $
+# $Id: pixmaped-pxd.pl,v 1.3 1999/12/13 19:26:06 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -8,7 +8,6 @@
 use strict ;
 
 package pxd ;
-
 
 sub load {
     package main ;
@@ -44,7 +43,6 @@ sub load {
 
     ( $loaded, $xo, $yo ) ;
 }
-
 
 sub save {
     package main ;
@@ -82,7 +80,6 @@ sub save {
 
     $saved ;
 }
-
 
 1 ;
 

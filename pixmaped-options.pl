@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-options.pl,v 1.22 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-options.pl,v 1.23 1999/12/13 19:26:06 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -9,7 +9,6 @@ use strict ;
 
 package options ;
 
-
 my $OptionsWin ; 
 
 # Local variables to store values. Want them global to the module.
@@ -17,7 +16,6 @@ my( $GridWidth,
     $GridHeight, 
     $GridSquareLength, 
     ) ;
-
 
 sub options {
     package main ;
@@ -56,7 +54,6 @@ sub options {
         2, "Zoom x", 4 ) ;
     $scale->configure( -variable => \$GridSquareLength ) ;
 
-
     my $Frame = $OptionsWin->Frame()->grid( 
                     -row        => 9, 
                     -column     => 0,
@@ -88,7 +85,6 @@ sub options {
         )->pack( -side => 'left' ) ;
 }
 
-
 sub create_scale {
     my( $min, $max, $interval, $title, $row ) = @_ ;
 
@@ -103,7 +99,6 @@ sub create_scale {
 
     $scale ;
 }
-
 
 sub key_bindings {
 
@@ -121,7 +116,6 @@ sub key_bindings {
     $OptionsWin->bind( '<Alt-d>',     \&defaults ) ;
     $OptionsWin->bind( '<Control-d>', \&defaults ) ;
 }
-
 
 sub close {
     package main ;
@@ -164,7 +158,6 @@ sub close {
     $OptionsWin->destroy ;
 }
 
-
 sub defaults {
     package main ;
 
@@ -172,6 +165,5 @@ sub defaults {
     $GridHeight       = $Const{GRID_HEIGHT_DEF} ;
     $GridSquareLength = $Const{GRID_SQUARE_LENGTH_DEF} ;
 }
-
 
 1 ;

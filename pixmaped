@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped,v 1.83 1999/09/06 19:11:23 root Exp $
+# $Id: pixmaped,v 1.84 1999/12/13 19:26:06 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -20,7 +20,6 @@ use Cwd ;
 use FindBin qw( $RealBin ) ;
 use lib $RealBin ;
 
-
 use vars qw( $VERSION $DEBUG
              %Global  %Const  %Opt 
              $Win 
@@ -28,7 +27,7 @@ use vars qw( $VERSION $DEBUG
              %Button  $MenuFile  @Undo  %Modules 
          ) ; 
 
-$VERSION = '1.51' ; # Application version.
+$VERSION = '1.52' ; # Application version.
 
 $DEBUG   = 0 ;
 
@@ -41,7 +40,6 @@ my $Waiting        = 0 ;
 &initialise ;
 
 MainLoop ;
-
 
 sub initialise {
 
@@ -89,7 +87,6 @@ sub initialise {
     &cursor() ;
 }
 
-
 BEGIN {
     $SIG{__WARN__} = sub {
         if( $WarnInDialogue and defined $Win ) {
@@ -109,7 +106,6 @@ BEGIN {
         }
     } ;
 }
-
 
 sub cursor {
 
@@ -132,7 +128,6 @@ sub cursor {
      }
 }
 
-
 sub message {
     my( $type, $title, $text ) = @_ ;
 
@@ -148,7 +143,6 @@ sub message {
         print STDOUT "$title $type: $text.\n" ; 
     }
 }
-
 
 sub read_opts {
 
@@ -172,7 +166,6 @@ sub read_opts {
     }
 }
 
-
 sub write_opts {
 
     $Opt{SHOW_PROGRESS} = 0 if $DEBUG == 2 ;
@@ -190,11 +183,9 @@ sub write_opts {
     }
 }
 
-
 sub set_consts {
     # No dependencies.
 }
-
 
 sub load_library {
     my $file = shift ;
@@ -210,7 +201,6 @@ sub load_library {
         die "Failed to load $file.\n" if $DieOnWarn ;
     }
 }
-
 
 sub load_optional_library {
     my( $libname, $filename ) = @_ ;
@@ -234,9 +224,7 @@ sub load_optional_library {
     $loaded ;
 }
 
-
 __END__
-
 
 =pod SCRIPT CATEGORIES
 

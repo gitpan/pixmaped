@@ -11,7 +11,6 @@ use Cwd ;
 
 package main ;
 
-
 sub abs_path {
     my $path = shift ;
 
@@ -31,13 +30,11 @@ sub abs_path {
     $path ;
 }
 
-
 # Copied from The Perl Cookbook
 sub commify {
     my $num = reverse $_[0] ;
     $num =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g ;
     scalar reverse $num ;
 }
-
 
 1 ;
