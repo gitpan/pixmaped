@@ -1,11 +1,9 @@
-# $Id: pixmaped-help.pod,v 1.1 1999/04/21 20:23:46 root Exp root $
+=head1 Pixmaped Help
+
+# $Id: pixmaped-help.pod,v 1.2 1999/04/26 20:00:05 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
-
-=pod
-
-=head1 Pixmaped Help
 
 Press <C<Escape>> or <C<q>> to close this help window; scroll using
 the scrollbar, arrow keys, <C<PageUp>> or <C<PageDown>>.

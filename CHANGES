@@ -91,3 +91,12 @@ Pixmaped
               that button is automatically clicked for you.
             * Fixed help file so that you can read it more than once. (Also
               now use generic &render_pod routine from my tk-text library.)
+
+1999/04/26  * Added Lupe Christophe's Makefile.PL, with minor changes. 
+            * Made the default installation directory /opt/pixmaped (was
+              /usr/lib/pixmaped).
+            * Modified tk-text.pl and pixmaped-help.pod slightly.
+            * Now use misc.pl for abs_path.
+
+1999/08/05  Removed the Makefile.PL - couldn't make it do exactly what I 
+            wanted.

@@ -13,7 +13,7 @@ require Tk::Toplevel ;
 
 use vars qw( $VERSION @ISA ) ;
 
-$VERSION = '1.05' ;
+$VERSION = '1.06' ;
 
 @ISA = qw( Tk::Toplevel ) ;
 
@@ -377,10 +377,11 @@ MesgBox does almost no error checking.
 
 1999/02/23  Should now be Windows compatible.
 
+1999/08/05  Just changed the files to make them more CPAN friendly.
 
 =head1 AUTHOR
 
-Mark Summerfield. I can be contacted as <mark.summerfield@chest.ac.uk> -
+Mark Summerfield. I can be contacted as <summer@chest.ac.uk> -
 please include the word 'mesgbox' in the subject line.
 
 The code draws very heavily from Stephen O. Lidie's Dialog.pm module.

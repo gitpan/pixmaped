@@ -35,7 +35,7 @@ Image::Magick.pm
 
 Linux and X-Windows:
 Perl 5.004
-Tk 400.202
+Tk 4 or 8 
 
 Win32:
 Perl 5.005
@@ -50,13 +50,13 @@ Note that Pixmaped can be installed pretty well anywhere - the only restriction
 is that all the pixmaped* files must be together in the same directory.
 
 # Create the directory.
-mkdir /usr/lib/pixmaped
+mkdir /opt/pixmaped
 
-# Copy the tar.gz to the lib directory.
-cp pixmaped-VERSION.tar.gz /usr/lib
+# Copy the tar.gz to the opt directory.
+cp pixmaped-VERSION.tar.gz /opt
 
-# Change to the lib directory.
-cd /usr/lib
+# Change to the directory.
+cd /opt
 
 # Unpack the archive using method A or B:
 # Method A for those using GNU tar
@@ -67,6 +67,9 @@ tar xvf pixmaped-VERSION.tar
 
 # Change to the pixmaped directory.
 cd pixmaped
+
+# Rename main file.
+mv pixmaped.in pixmaped
 
 # This is optional. Make sure pixmaped is executable.
 chmod +x pixmaped
@@ -82,17 +85,17 @@ update-menus
 
 # This is optional. To have the icon appear under X for icewm do this:
 cd /usr/X11R6/lib/X11/icewm/icons/
-ln -s /usr/lib/pixmaped/pixmaped-icon-16x16.xpm pixmaped_16x16.xpm
-ln -s /usr/lib/pixmaped/pixmaped-icon-16x16.xpm pixmaped_32x32.xpm
+ln -s /opt/pixmaped/pixmaped-icon-16x16.xpm pixmaped_16x16.xpm
+ln -s /opt/pixmaped/pixmaped-icon-16x16.xpm pixmaped_32x32.xpm
 # and add the following line to /etc/X11/icewm/winoptions
 pixmaped.icon: pixmaped
 
 # To run Pixmaped from the command line:
-/usr/lib/pixmaped/pixmaped &
+/opt/pixmaped/pixmaped &
 
 # You could always either alias this or use a soft link to a directory on the
 # path to save typing the whole path. Note that 'deprecated' error messages
-# which appear are harmless and can be ignored.
+# which appear are harmless and can be ignored - these only occur under Tk 4.
 
 
 4. COPYRIGHT
@@ -100,7 +103,7 @@ pixmaped.icon: pixmaped
 Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 Pixmaped may be used/distributed under the same terms as Perl.
 
-Contact: <mark.summerfield@chest.ac.uk> - please include 'pixmaped' in the
+Contact: <summer@chest.ac.uk> - please include 'pixmaped' in the
 subject line. 
 
 
@@ -110,5 +113,5 @@ Pixmaped was developed because I found gimp too powerful and sophisticated for
 my needs - I just wanted something quick and easy for knocking out small
 images, e.g. icons and small gifs with transparency for web work.
 
-The program was developed under Debian GNU/Linux 2.0.
+The program was developed under Debian GNU/Linux 2.0 and 2.1.
 

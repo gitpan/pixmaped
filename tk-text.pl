@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: tk-text.pl,v 1.1 1999/03/24 21:11:48 root Exp root $
+# $Id: tk-text.pl,v 1.3 1999/05/08 13:14:15 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -15,8 +15,8 @@ my $TextBox ;
 
 sub render_pod {
     # render_pod takes two arguments, firstly the textbox to write to and
-    # secondly any number of PARAGRAPHS, i.e. when reading text you must set
-    # local $/ = '' ;
+    # secondly any number of PARAGRAPHS, i.e. when reading text you MUST set
+    #   local $/ = '' ;
 
     $TextBox = shift ;
 
@@ -31,6 +31,7 @@ sub render_pod {
     foreach( @_ ) {
         $inpod = 1, next if /^=pod/o ;
         $inpod = 0, next if /^=cut/o ;
+        $inpod = 1       if /^=head/o ;
         next unless $inpod ;
         next if /^#/o ;
 

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-file-commands.pl,v 1.49 1999/03/23 22:12:23 root Exp $
+# $Id: pixmaped-file-commands.pl,v 1.51 1999/05/22 08:47:37 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -127,6 +127,7 @@ sub open {
 
 		&cursor() ;
 		&grid::status( '' ) ;
+		&grid::status( "Loaded $Global{FILENAME}" ) if $loaded ;
     }
 }
 
@@ -166,6 +167,7 @@ sub save {
 
 		&cursor() ;
 		&grid::status( '' ) ;
+		&grid::status( "Wrote $Global{FILENAME}" ) if $Global{WROTE_IMAGE} ;
    }
 }
 

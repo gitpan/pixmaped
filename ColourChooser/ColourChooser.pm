@@ -13,7 +13,7 @@ require Tk::Toplevel ;
 
 use vars qw( $VERSION @ISA ) ;
 
-$VERSION = '1.12' ;
+$VERSION = '1.13' ;
 
 @ISA = qw( Tk::Toplevel ) ;
 
@@ -491,10 +491,12 @@ ColourChooser can be slow to load because rgb.txt is large.
 1999/04/21  Updating the colour when you move the scrollbar with the mouse 
             is buggy -- can't figure out why so have reverted.
 
+1999/08/05  Just changed the files to make them more CPAN friendly.
+
 
 =head1 AUTHOR
 
-Mark Summerfield. I can be contacted as <mark.summerfield@chest.ac.uk> -
+Mark Summerfield. I can be contacted as <summer@chest.ac.uk> -
 please include the word 'colourchooser' in the subject line.
 
 The code draws from Stephen O. Lidie's work.
