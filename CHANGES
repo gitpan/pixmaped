@@ -117,3 +117,11 @@ Pixmaped
             (This is done for the sake of speed.) The whole application is
             faster (but still memory hungry, and still slow for anything
             bigger than icon-sized files).
+
+1999/09/06  Removed ColourChooser.pm and MesgBox.pm at Lupe Christoph's 
+            (CPAN) request. You must pick these modules up separately now
+            (although old versions will work fine if you've already got them).
+            NB ColourChooser is incompatible with Tk800.015 (I believe that
+            this is due to a problem with Tk) - it works fine with early Tk4
+            and Tk8 versions and is expected to work with Tk800.016 onwards.
+

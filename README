@@ -9,6 +9,8 @@ Pixmaped
 
 1. SYNOPSIS
 
+Simple icon editor.
+
 Pixmaped is a program for producing simple xpm files (pixmaps) and gif images,
 for example icons. Although the gimp is available for sophisticated work,
 for small (icon-sized) images Pixmaped should be a lot simpler to use.
@@ -26,6 +28,11 @@ See CHANGES for fixes and features.
 
 
 2. REQUIREMENTS
+
+Both these modules are required and are available from where you obtained
+pixmaped: 
+MesgBox.pm
+ColourChooser.pm
 
 Optional modules (from CPAN) it is highly recommended that you have one of
 these, preferably Image::Magick:

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-grid-commands.pl,v 1.59 1999/09/05 12:54:29 root Exp root $
+# $Id: pixmaped-grid-commands.pl,v 1.59 1999/09/05 12:54:29 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.

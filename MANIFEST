@@ -56,11 +56,3 @@ pixmaped-text.xpm
 pixmaped-transparent.xpm
 pixmaped-xpm.pl
 tk-text.pl
-ColourChooser/ColourChooser.pm
-ColourChooser/MANIFEST
-ColourChooser/Makefile.PL
-ColourChooser/README
-MesgBox/MANIFEST
-MesgBox/Makefile.PL
-MesgBox/MesgBox.pm
-MesgBox/README

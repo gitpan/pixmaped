@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped,v 1.82 1999/09/04 13:28:52 root Exp $
+# $Id: pixmaped,v 1.83 1999/09/06 19:11:23 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -28,7 +28,7 @@ use vars qw( $VERSION $DEBUG
              %Button  $MenuFile  @Undo  %Modules 
          ) ; 
 
-$VERSION = '1.50' ; # Application version.
+$VERSION = '1.51' ; # Application version.
 
 $DEBUG   = 0 ;
 
