@@ -41,23 +41,23 @@ sub _draw {
 
     for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         my $actualx = $x * $Opt{GRID_SQUARE_LENGTH} ;
+        my $actualX = $actualx + $Opt{GRID_SQUARE_LENGTH} ;
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
             my $actualy = $y * $Opt{GRID_SQUARE_LENGTH} ;
             $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
             unless defined $Grid{SQUARES}[$x][$y]{COLOUR} ;
-            my $colour = $new ? 'None' : $Grid{SQUARES}[$x][$y]{COLOUR} ;
+            my $colour = $Grid{SQUARES}[$x][$y]{COLOUR} ;
             my $square = $Grid{CANVAS}->create(
                 'rectangle', 
                 $actualx,
                 $actualy,
-                $actualx + $Opt{GRID_SQUARE_LENGTH},
+                $actualX,
                 $actualy + $Opt{GRID_SQUARE_LENGTH},
-                -fill    => ( $new or $colour eq 'None' ) ? 
+                -fill    => ( $colour eq 'None' ) ? 
                             $Opt{GRID_BACKGROUND_COLOUR} : $colour, 
                 -outline => $outline, 
                 ) ;
             $Grid{SQUARES}[$x][$y]{SQUARE} = $square ; 
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $new ;
             $Grid{CANVAS}->bind( $square, '<Enter>', [ \&grid::enter, $x, $y ] ) ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 

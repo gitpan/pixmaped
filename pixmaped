@@ -27,7 +27,7 @@ use vars qw( $VERSION
              %Image  %Grid  %Button  $MenuFile  @Undo  %Modules
          ) ; 
 
-$VERSION = '1.14' ; # Application version.
+$VERSION = '1.15' ; # Application version.
 
 my $DieOnWarn      = 0 ;
 my $WarnInDialogue = 0 ;
@@ -112,8 +112,8 @@ sub cursor {
     $Global{CURSOR_LOCK} += $lock ;
 
     $Win->configure( -cursor => $cursor ) 
-    if ( $lock == 1 and $Global{CURSOR_LOCK} > 0 ) or 
-       ( $lock <= 0 and $Global{CURSOR_LOCK} == 0 ) ;
+    if ( $lock != 0 and $Global{CURSOR_LOCK} >= 0 ) or
+       ( $lock == 0 and $Global{CURSOR_LOCK} <  0 ) ;
 }
 
 

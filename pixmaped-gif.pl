@@ -22,8 +22,9 @@ sub load {
     } ;
     if( $@ ) {
         $loaded = 0 ;
-        my $err = substr( $@, 0, rindex( $@, ' at' ) ) ;
-        message( 'Warning', 'Load',"Failed to load `$filename':\n$err" ) ;
+        my $err = ":\n" . substr( $@, 0, rindex( $@, ' at' ) ) ;
+        $err = '' if $err =~ /Failed to load/o ;
+        message( 'Warning', 'Load',"Failed to load `$filename'$err" ) ;
     }
 
     &xpm::read_image( $filename ) if $loaded ; 
@@ -61,12 +62,12 @@ sub gd2xpm {
     my $img ;
 
     # Read the image from file.
-    open( IMG, $filename ) or die "Failed to load '$filename': $!" ;
+    open( IMG, $filename ) or die "Failed to load `$filename': $!" ;
     if( $filename =~ /\.gif$/o ) {
-        $img = newFromGif GD::Image( *IMG ) or die "Failed to read '$filename'" ;
+        $img = newFromGif GD::Image( *IMG ) or die "Failed to read `$filename'" ;
     }
     elsif( $filename =~ /\.xbm$/o ) {
-        $img = newFromXbm GD::Image( *IMG ) or die "Failed to read '$filename'" ;
+        $img = newFromXbm GD::Image( *IMG ) or die "Failed to read `$filename'" ;
     }
     else {
         die "Unrecognised file type" ;
@@ -155,7 +156,7 @@ sub xpm2gd {
     } 
 
     # Write the image from file.
-    open( IMG, ">$filename" ) or die "Failed to load '$filename': $!" ;
+    open( IMG, ">$filename" ) or die "Failed to load `$filename': $!" ;
     binmode IMG ; # For Win users.
     if( $filename =~ /\.gif$/o ) {
         print IMG $img->gif ;

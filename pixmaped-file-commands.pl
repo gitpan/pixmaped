@@ -92,24 +92,24 @@ sub open {
         }
 
 		&cursor( 1, 'watch' ) ;
-		&grid::status( "Loading '$filename'..." ) ;
+		&grid::status( "Loading `$filename'..." ) ;
 
         if( $filename =~ /.xpm$/o ) {
             %Image = () ;
 
             $loaded = &xpm::load( $filename ) ;
         }
+        elsif( $Modules{MIFF} ) { # Image::Magick is more reliable than GD.
+			%Image = () ;
+
+			$loaded = &miff::load( $filename ) ;
+		}
         elsif( $Modules{GD} and 
                ( $filename =~ /.xbm$/o or $filename =~ /.gif$/o ) ) {
             %Image = () ;
 
             $loaded = &gif::load( $filename ) ;
         }
-        elsif( $Modules{MIFF} ) {
-			%Image = () ;
-
-			$loaded = &miff::load( $filename ) ;
-		}
 		else {
 			message( 'Warning', 'Open', 'Cannot open this file format' ) 
         }
@@ -140,22 +140,27 @@ sub save {
         $Global{FILENAME} = &abs_path( $Global{FILENAME} ) ;
 
 		&cursor( 1, 'watch' ) ;
-		&grid::status( "Saving '$Global{FILENAME}'..." ) ;
+		&grid::status( "Saving `$Global{FILENAME}'..." ) ;
 
         if( $Global{FILENAME} =~ /\.xpm$/o ) {
             $Global{WROTE_IMAGE} = 1 if &xpm::save( $Global{FILENAME} ) ; 
         }
-        elsif( $Modules{GD} and $Global{FILENAME} =~ /\.gif$/o ) {
-            $Global{WROTE_IMAGE} = 1 if &gif::save( $Global{FILENAME} ) ; 
-        }
         elsif( $Global{FILENAME} =~/\.ps$/o ) {
             &file::save_as_postscript ;
         }
-        else {
+        elsif( $Modules{MIFF} ) { # Prefer Image::Magick to GD.
             $Global{WROTE_IMAGE} = 1 if &miff::save( $Global{FILENAME} ) ; 
         }
-        &file::remember_name( $Global{FILENAME} ) ;
-        @Undo = () unless $Opt{UNDO_AFTER_SAVE} ;
+        elsif( $Modules{GD} and $Global{FILENAME} =~ /\.gif$/o ) {
+            $Global{WROTE_IMAGE} = 1 if &gif::save( $Global{FILENAME} ) ; 
+        }
+        else {
+			message( 'Warning', 'Save', 'Cannot save this file format' ) ;
+		}
+        if( $Global{WROTE_IMAGE} ) {
+			&file::remember_name( $Global{FILENAME} ) ;
+			@Undo = () unless $Opt{UNDO_AFTER_SAVE} ;
+		}
 
 		&cursor( -1 ) ;
 		&grid::status( '' ) ;
@@ -231,7 +236,7 @@ sub save_as {
 
         my $msg = $Win->MesgBox(
                         -title     => "Pixmaped Overwrite File?",
-                        -text      => "'$filename' exists - overwrite?",
+                        -text      => "`$filename' exists - overwrite?",
                         -icon      => 'QUESTION',
                         -buttons   => [ 'Yes', 'No' ],
                         -defbutton => 'No',
@@ -256,7 +261,7 @@ sub prompt_save {
 
     my $msg = $Win->MesgBox(
         -title     => 'Save Image?',
-        -text      => "Save '$Global{FILENAME}'?", 
+        -text      => "Save `$Global{FILENAME}'?", 
         -icon      => 'QUESTION',
         -buttons   => [ 'Yes', 'No' ],
         -defbutton => 'Yes',

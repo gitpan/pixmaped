@@ -60,3 +60,7 @@ Pixmaped
               is a Tk4 problem?
             * No longer distribute Tk::ColourChooser.pm and Tk::MesgBox.pm
               with Pixmaped.
+
+1999/03/10  * Corrected cursor lock so that cursor changes work properly-ish.
+            * Minor cosmetic changes.
+            * Prefer Image::Magick over GD if user has both.

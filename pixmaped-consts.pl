@@ -17,7 +17,7 @@ else {
     my $home = ( $ENV{HOME} or $ENV{LOGDIR} or (getpwuid( $> ))[7]) ;
     $Const{OPTS_FILE} = $home . '/.pixmaped-opts' ;
     my $xdefaults     = $home . '/.Xdefaults' ;
-#    $Win->optionReadfile( $xdefaults ) ; # Does not work with Tk4.
+#    $Win->optionReadfile( $xdefaults ) ; # Does not work: don't know why.
 }
 
 $Const{BUTTON_WIDTH}           =  8 ;
@@ -44,24 +44,24 @@ $Const{DIR}                    = '.' ;
 $Const{LAST_FILE_MAX}          =  9 ;
 
 
-my $s = "$RealBin/pixmaped-" ;
-$Const{PALETTE_IMAGE}          = $Win->Pixmap( -file => "${s}palette.xpm" ) ;
-$Const{TRANSPARENT_IMAGE}      = $Win->Pixmap( -file => "${s}transparent.xpm" ) ;
-$Const{PENCIL_IMAGE}           = $Win->Pixmap( -file => "${s}pencil.xpm" ) ;
-$Const{FLIP_HORIZONTAL_IMAGE}  = $Win->Pixmap( -file => "${s}flip-horizontal.xpm" ) ;
-$Const{FLIP_VERTICAL_IMAGE}    = $Win->Pixmap( -file => "${s}flip-vertical.xpm" ) ;
-$Const{BRUSH_IMAGE}            = $Win->Pixmap( -file => "${s}brush.xpm" ) ;
-$Const{ROTATE_IMAGE}           = $Win->Pixmap( -file => "${s}rotate.xpm" ) ;
-$Const{TEXT_IMAGE}             = $Win->Pixmap( -file => "${s}text.xpm" ) ;
-$Const{LINE_IMAGE}             = $Win->Pixmap( -file => "${s}line.xpm" ) ;
-$Const{OVAL_IMAGE}             = $Win->Pixmap( -file => "${s}oval.xpm" ) ;
-$Const{OVAL_FILLED_IMAGE}      = $Win->Pixmap( -file => "${s}filled-oval.xpm" ) ;
-$Const{RECTANGLE_IMAGE}        = $Win->Pixmap( -file => "${s}rectangle.xpm" ) ;
-$Const{RECTANGLE_FILLED_IMAGE} = $Win->Pixmap( -file => "${s}filled-rectangle.xpm" ) ;
-$Const{FILL_IMAGE}             = $Win->Pixmap( -file => "${s}fill.xpm" ) ;
+my $p = "$RealBin/pixmaped-" ;
+$Const{PALETTE_IMAGE}          = $Win->Pixmap( -file => "${p}palette.xpm" ) ;
+$Const{TRANSPARENT_IMAGE}      = $Win->Pixmap( -file => "${p}transparent.xpm" ) ;
+$Const{PENCIL_IMAGE}           = $Win->Pixmap( -file => "${p}pencil.xpm" ) ;
+$Const{FLIP_HORIZONTAL_IMAGE}  = $Win->Pixmap( -file => "${p}flip-horizontal.xpm" ) ;
+$Const{FLIP_VERTICAL_IMAGE}    = $Win->Pixmap( -file => "${p}flip-vertical.xpm" ) ;
+$Const{BRUSH_IMAGE}            = $Win->Pixmap( -file => "${p}brush.xpm" ) ;
+$Const{ROTATE_IMAGE}           = $Win->Pixmap( -file => "${p}rotate.xpm" ) ;
+$Const{TEXT_IMAGE}             = $Win->Pixmap( -file => "${p}text.xpm" ) ;
+$Const{LINE_IMAGE}             = $Win->Pixmap( -file => "${p}line.xpm" ) ;
+$Const{OVAL_IMAGE}             = $Win->Pixmap( -file => "${p}oval.xpm" ) ;
+$Const{OVAL_FILLED_IMAGE}      = $Win->Pixmap( -file => "${p}filled-oval.xpm" ) ;
+$Const{RECTANGLE_IMAGE}        = $Win->Pixmap( -file => "${p}rectangle.xpm" ) ;
+$Const{RECTANGLE_FILLED_IMAGE} = $Win->Pixmap( -file => "${p}filled-rectangle.xpm" ) ;
+$Const{FILL_IMAGE}             = $Win->Pixmap( -file => "${p}fill.xpm" ) ;
 
 foreach my $i ( 'A'..'L' ) {
-    $Const{"RESIZE_${i}_IMAGE"} = $Win->Pixmap( -file => "${s}resize-${i}.xpm" ) ;
+    $Const{"RESIZE_${i}_IMAGE"} = $Win->Pixmap( -file => "${p}resize-${i}.xpm" ) ;
 }
 
 

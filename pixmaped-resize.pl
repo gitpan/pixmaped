@@ -301,8 +301,7 @@ sub resize_width_reduce_left {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
             $Grid{SQUARES}[$x - $xborder][$y]{COLOUR} = 
 				$Grid{SQUARES}[$x][$y]{COLOUR} ;
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
-            if $x > $xborder ;
+            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $x > $xborder ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
@@ -330,8 +329,7 @@ sub resize_width_add_left {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
             $Grid{SQUARES}[$x + $xborder][$y]{COLOUR} = 
 				$Grid{SQUARES}[$x][$y]{COLOUR} ;
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
-            if $x < $xborder ;
+            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $x < $xborder ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
@@ -363,8 +361,7 @@ sub resize_height_reduce_top {
         for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
             $Grid{SQUARES}[$x][$y - $yborder]{COLOUR} = 
 				$Grid{SQUARES}[$x][$y]{COLOUR} ;
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
-            if $y > $yborder ;
+            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $y > $yborder ;
         }
         &grid::coords( $y ) if $Opt{SHOW_PROGRESS} ; 
     }
@@ -404,8 +401,7 @@ sub resize_height_add_top {
         for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
             $Grid{SQUARES}[$x][$y + $yborder]{COLOUR} = 
 				$Grid{SQUARES}[$x][$y]{COLOUR} ;
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
-            if $y < $yborder ;
+            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $y < $yborder ;
         }
         &grid::coords( $y ) if $Opt{SHOW_PROGRESS} ; 
     }

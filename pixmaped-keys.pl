@@ -21,16 +21,5 @@ $Win->bind( '<Control-v>', \&edit::paste ) ;
 $Win->bind( '<Control-x>', \&edit::cut ) ;
 $Win->bind( '<Control-z>', \&edit::undo ) ;
 
-=pod
-$Win->bind( '<Up>',        \&action::move_up ) ;
-$Win->bind( '<k>',         \&action::move_up ) ;     # vi
-$Win->bind( '<Down>',      \&action::move_down ) ;
-$Win->bind( '<j>',         \&action::move_down ) ;   # vi
-$Win->bind( '<Left>',      \&action::move_left ) ;
-$Win->bind( '<h>',         \&action::move_left ) ;   # vi
-$Win->bind( '<Right>',     \&action::move_right ) ;
-$Win->bind( '<l>',         \&action::move_right ) ;  # vi
-=cut
-
 
 1 ;

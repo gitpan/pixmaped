@@ -103,8 +103,9 @@ sub load {
     } ;
     if( $@ ) {
         $loaded = 0 ;
-        my $err = substr( $@, 0, rindex( $@, ' at' ) ) ;
-        message( 'Warning', 'Load',"Failed to load `$filename':\n$err" ) ;
+        my $err = ":\n" . substr( $@, 0, rindex( $@, ' at' ) ) ;
+        $err = '' if $err =~ /Failed to load/o ;
+        message( 'Warning', 'Load',"Failed to load `$filename'$err" ) ;
     }
 
 
@@ -278,3 +279,4 @@ sub read_image {
 
 
 1 ;
+

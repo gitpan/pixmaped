@@ -83,8 +83,8 @@ $Button{WIDGET}{ROTATE}->bind( '<3>', [ \&rotation_menu, $RightMenu ] ) ;
 
 sub rotation_menu {
 
-    my $win   = shift ;
-    my $menu  = shift ;
+    my( $win, $menu ) = @_ ;
+
     my $event = $win->XEvent ;
 
     $menu->post( $event->X, $event->Y ) ; 
@@ -198,8 +198,8 @@ $Button{WIDGET}{BRUSH}->bind( '<3>', [ \&brush_menu, $RightMenu ] ) ;
 
 sub brush_menu {
 
-    my $win   = shift ;
-    my $menu  = shift ;
+    my( $win, $menu ) = @_ ;
+
     my $event = $win->XEvent ;
 
     $menu->post( $event->X, $event->Y ) ; 
