@@ -1,0 +1,225 @@
+#!/usr/bin/perl -w
+
+# $Id: pixmaped,v 1.46 1999/02/28 17:28:42 root Exp $
+
+# Copyright (c) Mark Summerfield 1999. All Rights Reserved.
+# May be used/distributed under the same terms as Perl.
+
+# TODO See TODO.html 
+
+use strict ;
+
+use Tk ;
+use Tk::FileSelect ;
+use Tk::MesgBox ;
+use Tk::ColourChooser ;
+use File::Basename ;
+use Cwd ;
+
+use FindBin qw( $RealBin ) ;
+use lib $RealBin ;
+
+BEGIN { # We can't assume the user has GD.pm.
+    $main::GD = 1 ;
+
+    eval {
+        require GD ;
+    } ;
+    $main::GD = 0 if $@ ; 
+}
+
+
+use vars qw( $VERSION 
+             %Global %Const %Opt 
+             $Win 
+             %Image  %Grid  %Button  $MenuFile  @Undo  
+         ) ; 
+
+$VERSION = '1.00' ; # Application version.
+
+my $DieOnWarn      = 0 ;
+my $WarnInDialogue = 0 ;
+
+
+&initialise ;
+
+MainLoop ;
+
+
+sub initialise {
+
+    $Win = MainWindow->new() ;
+    $Win->title( "Pixmaped" ) ; 
+    $Win->protocol( "WM_DELETE_WINDOW", \&file::quit ) ;
+
+    &load_library( "pixmaped-globals.pl" ) ;
+    &load_library( "pixmaped-consts.pl" ) ;
+    &load_library( "pixmaped-opts.pl" ) ; # Default.
+    &read_opts ;                          # User.
+    &set_consts ;                         # Need opts to set these.
+    &load_library( "pixmaped-menu.pl" ) ;
+    &load_library( "pixmaped-file-commands.pl" ) ;
+    &load_library( "pixmaped-edit-commands.pl" ) ;
+    &load_library( "pixmaped-image-commands.pl" ) ;
+    &load_library( "pixmaped-help-commands.pl" ) ;
+    &load_library( "pixmaped-resize.pl" ) ;
+    &load_library( "pixmaped-buttons.pl" ) ;
+    &load_library( "pixmaped-button-commands.pl" ) ;
+    &load_library( "pixmaped-grid.pl" ) ;
+    &load_library( "pixmaped-grid-commands.pl" ) ;
+    &load_library( "pixmaped-shapes.pl" ) ;
+    &load_library( "pixmaped-keys.pl" ) ;
+    &load_library( "pixmaped-options.pl" ) ;
+    &load_library( "pixmaped-xpm.pl" ) ;
+    &load_library( "pixmaped-xbm.pl" ) ;
+    if( $main::GD ) {
+        &load_library( "pixmaped-gif.pl" ) ;
+    }
+    else {
+        &load_library( "pixmaped-gif-fake.pl" ) ;
+    }
+
+    $Win->CmdLine() ;
+    $Button{WIDGET}{GRAB_COLOUR}->invoke ;
+    $Button{WIDGET}{PENCIL}->invoke ;
+    &file::new( 1 ) ;
+    $Win->packPropagate( 0 ) ;
+}
+
+
+BEGIN {
+    $SIG{__WARN__} = sub {
+        if( $WarnInDialogue and defined $Win ) {
+            &cursor( 1, 'clock' ) ;
+
+            my $msg = $Win->MesgBox(
+                            -title => "Pixmaped Error",
+                            -text  => $_[0],
+                            -icon  => 'ERROR',
+                            ) ;
+            $msg->Show ;
+
+            &cursor( -1 ) ;
+        }
+        else {
+            print STDOUT join( "\n", @_ ), "\n" ;
+        }
+    } ;
+}
+
+
+sub cursor {
+    # lock  1 = lock and change; 
+    # lock  0 = change unless locked; 
+    # lock -1 = unlock and change if no locks left.
+
+    my $lock   = shift ; 
+    my $cursor = shift || $Global{ACTIVE_TOOL} ;
+
+    $Global{CURSOR_LOCK} += $lock ;
+
+    $Win->configure( -cursor => $cursor ) 
+    if ( $lock == 1 and $Global{CURSOR_LOCK} > 0 ) or 
+       ( $lock <= 0 and $Global{CURSOR_LOCK} == 0 ) ;
+}
+
+
+sub message {
+    my( $type, $title, $text ) = @_ ;
+
+    if( defined $Win ) {
+        my $msg = $Win->MesgBox(
+                        -title => "Pixmaped $title $type",
+                        -text  => "$text.",
+                        -icon  => uc $type,
+                        ) ;
+        $msg->Show ;
+    }
+    else {
+        print STDOUT "$title $type: $text.\n" ; 
+    }
+}
+
+
+sub read_opts {
+
+    return unless -e $Const{OPTS_FILE} ;
+
+    if( open( IN, $Const{OPTS_FILE} ) ) {
+        local $_ ;
+        while( <IN> ) {
+            next if /^#/o or /^\s*$/o ;
+            chomp ;
+            my( $key, $val ) = /^([^\s:]+)\s*:\s*(.*)/o ;
+            $val = $1 if $val =~ /([^#]+)#/o ;
+            $val =~ s/\s+$//o ;
+            $Opt{uc $key} = $val ;
+        }
+        close IN ;
+        &opts_check ;
+    }
+    else {
+        warn "Failed to read $Const{OPTS_FILE}: $!.\n" ;
+    }
+}
+
+
+sub write_opts {
+
+    if( open( OUT, ">$Const{OPTS_FILE}" ) ) {
+        local $_ ;
+        foreach ( sort keys %Opt ) {
+            print OUT "$_: $Opt{$_}\n" ;
+        }
+        close OUT ;
+        $Global{WROTE_OPTS} = 1 ;
+    }
+    else {
+        warn "Failed to write $Const{OPTS_FILE}: $!.\n" ;
+    }
+}
+
+
+sub set_consts {
+    # No dependencies.
+}
+
+
+sub abs_path {
+    my $path = shift ;
+
+    my $filename = basename( $path ) ;
+
+    $path        = dirname( $path ) ;
+    chdir $path ;
+    $path = cwd ;
+
+    $path =~ s!/./!/!go ;
+
+    if( $filename ) {
+        $path .= '/' unless substr( $path, -1, 1 ) eq '/' ;
+        $path .= $filename ;
+    }
+
+    $path ;
+}
+
+
+sub load_library {
+    my $file = shift ;
+    
+    unless( my $return = do "${file}" ) {
+        my $warned = 0 ;
+        warn "Failed to parse $file: $@.\n", 
+            $warned = 1 if $@ ;
+        warn "Failed to do $file: $!\n",     
+            $warned = 1 if not $warned and not defined $return ;
+        warn "Failed to run $file.\n",       
+            $warned = 1 if not $warned and $return ;
+        die "Failed to load $file.\n" if $DieOnWarn ;
+    }
+}
+
+
+__END__
+

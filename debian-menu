@@ -1,0 +1,2 @@
+?package(local.pixmaped):needs="X11" section="Apps/Graphics" \
+	title="Pixmaped" command="/usr/lib/pixmaped/pixmaped"

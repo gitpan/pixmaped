@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<TITLE>Pixmaped TODO</TITLE>
+</HEAD>
+
+<BODY>
+
+<H3>Pixmaped TODO</H3>
+
+Note that Pixmaped is meant to be a quick and simple xpm editor (with the
+ability to open and save gif files and open xbm files) that can be used by
+people who don't need the power of the Gimp.<P>
+
+<UL>
+<LI> Add missing functions:
+    <UL>
+    <LI> Text - right click to select font; click to type, click to place
+    <LI> Fill - click fills with current colour - I need an algorithm I can understand!
+    <LI> Filled Ellipse - I need an algorithm I can understand!
+    </UL>
+<LI> Fix the focus bug where sometimes (always?) after &lt;Control-s&gt; to
+save other keyboard actions cease to work (although the mouse works fine).
+<LI> Add comment function which puts /*...*/ comments at the top of xpm 
+files.
+<LI> xpm hotspot editing and saving.
+<LI> If you do File|Open before the grid has been created pixmaped will load
+your file and *then* clear it with the new grid... Don't know how to
+fix this one.
+<LI> Write my own file dialog... or is Tk 800's better?
+<LI> Make the PALETTE_ into an array and make read_opts and write_opts
+cope with such arrays.
+<LI> Extend the preferences dialogue. It should include the setting of the grid
+background colour (transparent) and the grid outline colour and all other
+option settings.
+<LI> Use a separate dialogue for File/New offering height, width, grid colour,
+outline colour, zoom (grid square size).
+<LI> Add a second actual size image - this one tracking the image as edited so
+the user can compare between the last saved (and revertable image) and the
+current image.
+<LI> The xpm module only copes with 1 char/pixel and up to 94 colours. It
+would be nice to extend this - although for the images envisaged this is not a
+problem.
+<LI> Saving of xbm files - I need the format specification. 
+<LI> Fix the numerous detail bugs in the use interface...
+</UL>
+
+</BODY>
+</HTML>
