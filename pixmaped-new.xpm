@@ -1,7 +1,7 @@
 /* XPM */
-/* $Id: pixmaped-new.xpm,v 1.2 1999/01/31 11:24:41 root Exp $ */
+/* $Id: pixmaped-new.xpm,v 1.3 1999/08/08 15:47:20 root Exp root $ */
 /* Copyright (c) Mark Summerfield 1999  All Rights Reserved  */
-/* May be used/distributed under the same terms as Perl  */
+/* May be used/distributed under the GPL  */
 
 static char * pixmaped_new_xpm[] = {
 "20 20 1 1",

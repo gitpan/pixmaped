@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-gif.pl,v 1.15 1999/03/10 21:24:44 root Exp $
+# $Id: pixmaped-gif.pl,v 1.17 1999/08/08 15:47:20 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 use strict ;
 
@@ -115,7 +115,7 @@ sub gd2xpm {
                     $Image{PALETTE}{$key} = $colour ;
                     while( 1 ) {
                         $key = chr( ord( $key ) + 1 ) ;
-                        last unless $key =~ /['"\\]/o ;
+                        last unless $key =~ /['"\\]/o ; #'
                     }
                 }
             }

@@ -100,3 +100,8 @@ Pixmaped
 
 1999/08/05  Removed the Makefile.PL - couldn't make it do exactly what I 
             wanted.
+
+1999/08/07  Minor fixes. Also Linux options file has been renamed
+            .pixmaped to be more conventional.
+
+1999/08/08  Changed licence to GPL.

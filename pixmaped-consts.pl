@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-consts.pl,v 1.35 1999/04/21 20:23:46 root Exp $
+# $Id: pixmaped-consts.pl,v 1.37 1999/08/08 15:47:20 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 use strict ;
 
@@ -15,7 +15,7 @@ if( $^O =~ /win32/oi ) {
 }
 else {
     my $home = ( $ENV{HOME} or $ENV{LOGDIR} or (getpwuid( $> ))[7]) ;
-    $Const{OPTS_FILE} = $home . '/.pixmaped-opts' ;
+    $Const{OPTS_FILE} = $home . '/.pixmapedrc' ;
     my $xdefaults     = $home . '/.Xdefaults' ;
 #    $Win->optionReadfile( $xdefaults ) ; # Does not work: don't know why.
 }

@@ -74,6 +74,10 @@ mv pixmaped.in pixmaped
 # This is optional. Make sure pixmaped is executable.
 chmod +x pixmaped
 
+# If this is an upgrade from a previous version and you're not using Win32
+# then keep your options.
+mv ~/.pixmaped-opts ~/.pixmapedrc
+
 # This is optional. For Debian users only: if you want pixmaped to appear on
 # your X menu do the following:
 cp debian-menu /etc/menu/pixmaped
@@ -101,7 +105,7 @@ pixmaped.icon: pixmaped
 4. COPYRIGHT
 
 Copyright (c) Mark Summerfield 1999. All Rights Reserved.
-Pixmaped may be used/distributed under the same terms as Perl.
+Pixmaped may be used/distributed under the GPL.
 
 Contact: <summer@chest.ac.uk> - please include 'pixmaped' in the
 subject line. 

@@ -1,6 +1,6 @@
 package Tk::MesgBox ;    # Documented at the __END__.
 
-# $Id: MesgBox.pm,v 1.5 1999/03/09 20:20:52 root Exp root $
+# $Id: MesgBox.pm,v 1.6 1999/08/08 15:17:31 root Exp $
 
 require 5.004 ;
 
@@ -13,7 +13,7 @@ require Tk::Toplevel ;
 
 use vars qw( $VERSION @ISA ) ;
 
-$VERSION = '1.06' ;
+$VERSION = '1.07' ;
 
 @ISA = qw( Tk::Toplevel ) ;
 
@@ -379,6 +379,8 @@ MesgBox does almost no error checking.
 
 1999/08/05  Just changed the files to make them more CPAN friendly.
 
+1999/08/08  Changed licence to LGPL.
+
 =head1 AUTHOR
 
 Mark Summerfield. I can be contacted as <summer@chest.ac.uk> -
@@ -390,8 +392,7 @@ The code draws very heavily from Stephen O. Lidie's Dialog.pm module.
 
 Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 
-This module may be used/distributed/modified under the same terms as Perl
-itself.
+This module may be used/distributed/modified under the LGPL. 
 
 =cut
 

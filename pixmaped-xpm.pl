@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-xpm.pl,v 1.31 1999/03/10 21:24:44 root Exp $
+# $Id: pixmaped-xpm.pl,v 1.34 1999/08/08 15:47:20 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 use strict ;
 
@@ -33,7 +33,7 @@ sub load {
         local $_ ;
         foreach( @{$Image{LINES}} ) {
             $lino++ ;
-            next unless /^"/o ; # Skip non-data lines.
+            next unless /^"/o ; #" Skip non-data lines.
 
             my $line = substr( $_, 1 ) ;
             $line =~ s/"[,}]?;?$//o ;
@@ -73,7 +73,7 @@ sub load {
                 # BUG: XPM colour handling is much more sophisticated - but if
                 # you want sophistication you need the gimp...
                 my $line = substr( $line, $Image{CPP} ) ;
-                $line =~ /c\s+([^"]+)/o ; 
+                $line =~ /c\s+([^"]+)/o ; #" 
                 # $1 now has either 'c colour' or 'c colour m text s text' etc.
                 my $colour = $1 ;
                 $colour =~ s/\s+[ms]\s+.*//o ;
@@ -192,7 +192,7 @@ sub save {
                 elsif( $State == $SKIP ) {
                     # Here we skip colour and pixel lines from the original
                     # data.
-                    print XPM "$_\n", $State = $DATA if /^"XPMEXT/o ;
+                    print XPM "$_\n", $State = $DATA if /^"XPMEXT/o ; #"
                 }
                 else { # $State == $DATA
                     print XPM "$_\n" ; # Print data.
@@ -240,7 +240,7 @@ sub prepare_palette {
                     $Image{PALETTE}{$key} = $colour ;
                     while( 1 ) {
                         $key = chr( ord( $key ) + 1 ) ;
-                        last unless $key =~ /['"\\]/o ;
+                        last unless $key =~ /['"\\]/o ; #'
                     }
                 }
             }

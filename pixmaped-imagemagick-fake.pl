@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-imagemagick-fake.pl,v 1.2 1999/03/08 19:09:04 root Exp $
+# $Id: pixmaped-imagemagick-fake.pl,v 1.3 1999/08/08 15:47:20 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 use strict ;
 

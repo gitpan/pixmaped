@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-shapes.pl,v 1.11 1999/03/21 08:36:09 root Exp $
+# $Id: pixmaped-shapes.pl,v 1.13 1999/08/08 15:47:20 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 use strict ;
 
@@ -75,7 +75,7 @@ sub oval {
             ++$x ;
         }
         else {
-            $d1 += ( ( $bb * ( ( 2 * $x ) + 3 ) ) +
+            $d1 += ( ( $bb * ( (  2 * $x ) + 3 ) ) +
                      ( $aa * ( ( -2 * $y ) + 2 ) ) ) ;
             ++$x ;
             --$y ;
@@ -84,12 +84,12 @@ sub oval {
     }
 
     my $d2 = ( $bb * ( ( $x + 0.5 ) ** 2 ) ) + 
-             ( $aa * ( ( $y - 1 ) ** 2 ) ) -
+             ( $aa * ( ( $y - 1 )   ** 2 ) ) -
              ( $aa * $bb ) ;
     
     while( $y > 0 ) {
         if( $d2 < 0 ) {
-            $d2 += ( $bb * ( ( 2 * $x ) + 2 ) ) +
+            $d2 += ( $bb * ( (  2 * $x ) + 2 ) ) +
                    ( $aa * ( ( -2 * $y ) + 3 ) ) ;
             ++$x ;
             --$y ;

@@ -1,9 +1,9 @@
 =head1 Pixmaped Help
 
-# $Id: pixmaped-help.pod,v 1.2 1999/04/26 20:00:05 root Exp $
+# $Id: pixmaped-help.pod,v 1.4 1999/08/08 15:47:20 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 Press <C<Escape>> or <C<q>> to close this help window; scroll using
 the scrollbar, arrow keys, <C<PageUp>> or <C<PageDown>>.
@@ -327,7 +327,7 @@ equally from both.
 =head2 Preferences file
 
 Preferences should be set using the Preferences dialogue.
-User preferences are stored in C<~/.pixmaped-opts> (C<PIXMAPED.INI> under Win32). 
+User preferences are stored in C<~/.pixmapedrc> (C<PIXMAPED.INI> under Win32). 
 
 Any preferences you change in this file take precedence over the default
 preferences. To reinstate a default preference delete or comment out (with
@@ -417,8 +417,10 @@ a little bit of memory, set it to `B<0>'.
 
 =head2 Copyright
 
+C<summer@chest.ac.uk>
+
 Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 
-Pixmaped may be used/distributed under the same terms as Perl.
+Pixmaped may be used/distributed under the GPL.
 
 =cut

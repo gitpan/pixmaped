@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-help-commands.pl,v 1.36 1999/04/21 20:23:46 root Exp $
+# $Id: pixmaped-help-commands.pl,v 1.38 1999/08/08 15:47:20 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
-# May be used/distributed under the same terms as Perl.
+# May be used/distributed under the GPL.
 
 use strict ;
 
@@ -75,10 +75,12 @@ sub about {
     my $text = <<__EOT__ ;
 Pixmaped v $VERSION
 
+summer\@chest.ac.uk
+
 Copyright (c) Mark Summerfield 1999. 
 All Rights Reserved.
 
-May be used/distributed under the same terms as Perl.
+May be used/distributed under the GPL.
 __EOT__
 
 
