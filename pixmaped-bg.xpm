@@ -1,0 +1,30 @@
+/* XPM */
+/* $Id: pixmaped-bg.xpm,v 1.2 1999/01/30 13:30:26 root Exp $ */
+/* Copyright (c) Mark Summerfield 1999  All Rights Reserved  */
+/* May be used/distributed under the same terms as Perl  */
+
+static char * iconed_bg_xpm[] = {
+"20 20 3 1",
+" 	c None",
+".	c gray85",
+"a	c gray25",
+"....................",
+"....................",
+".......      .......",
+".....          .....",
+"....            ....",
+"...              ...",
+"..  aaaa    aaa   ..",
+"..  a   a  a   a  ..",
+"..  a   a a       ..",
+"..  aaaa  a       ..",
+"..  a   a a   aaa ..",
+"..  a   a a     a ..",
+"..  a   a  a   a  ..",
+"..  aaaa    aaa   ..",
+"...              ...",
+"....            ....",
+"......        ......",
+".......      .......",
+"....................",
+"...................."};

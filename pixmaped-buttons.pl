@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-buttons.pl,v 1.27 1999/08/08 15:47:20 root Exp root $
+# $Id: pixmaped-buttons.pl,v 1.27 1999/08/08 15:47:20 root Exp $
 
 # (c) Mark Summerfield 1999. All s Reserved.
 # May be used/distributed under the GPL.

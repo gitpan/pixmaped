@@ -105,3 +105,9 @@ Pixmaped
             .pixmaped to be more conventional.
 
 1999/08/08  Changed licence to GPL.
+
+1999/08/28  Eliminated spurious 'Deep recursion' warning.
+            Its still dreadfully slow. I've tried changing some of the global
+            variables so that there's less indirection but to no avail.
+            Removed a bug in fill and swap colours that caused errors if the
+            user clicked outside the image. 

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-shapes.pl,v 1.13 1999/08/08 15:47:20 root Exp root $
+# $Id: pixmaped-shapes.pl,v 1.15 1999/08/29 19:13:44 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -156,7 +156,8 @@ sub fill {
 
     my( $x, $y, $newcolour, $oldcolour ) = @_ ;
 
-    return if $newcolour eq $oldcolour ;
+    return if $x > $Opt{GRID_WIDTH} or $y > $Opt{GRID_HEIGHT} or
+              $newcolour eq $oldcolour ;
 
     push @Undo, [ undef, undef, undef ] ;
 
@@ -180,6 +181,7 @@ sub fill_recursively {
     if( $Grid{SQUARES}[$x][$y]{COLOUR} eq $oldcolour ) {
 		&grid::set_colour( $x, $y, $newcolour ) ;
 
+        local $^W = 0 ; # Eliminate spurious 'Deep recursion' message.
 		&shape::fill_recursively( $x - 1, $y,     $newcolour, $oldcolour ) ; 
 		&shape::fill_recursively( $x + 1, $y,     $newcolour, $oldcolour ) ; 
 		&shape::fill_recursively( $x,     $y - 1, $newcolour, $oldcolour ) ; 
@@ -191,7 +193,8 @@ sub fill_recursively {
 sub swap {
     package main ;
 
-    my( $newcolour, $oldcolour ) = @_ ;
+    my $newcolour = shift || 'None' ;
+    my $oldcolour = shift || 'None' ;
 
 	push @Undo, [ undef, undef, undef ] ;
 	

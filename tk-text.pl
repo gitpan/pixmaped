@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: tk-text.pl,v 1.3 1999/05/08 13:14:15 root Exp root $
+# $Id: tk-text.pl,v 1.5 1999/08/22 18:02:45 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the LGPL. 
@@ -15,8 +15,13 @@ my $TextBox ;
 
 sub render_pod {
     # render_pod takes two arguments, firstly the textbox to write to and
-    # secondly any number of PARAGRAPHS, i.e. when reading text you MUST set
-    #   local $/ = '' ;
+    # secondly any number of PARAGRAPHS, i.e. when reading text you MUST call
+    # it thus:
+    #   {
+    #       local $/ = '' ;
+    #       # Here we read directly from an already open file handle.
+    #       &tk::text::render_pod( $text, <HELP> ) ;
+    #   }
 
     $TextBox = shift ;
 

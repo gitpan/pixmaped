@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-grid-commands.pl,v 1.55 1999/08/08 15:47:20 root Exp root $
+# $Id: pixmaped-grid-commands.pl,v 1.56 1999/08/29 19:13:44 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -25,6 +25,7 @@ sub _draw {
 
     &cursor( 'watch' ) ;
     &grid::status( 'Redrawing...' ) ;
+    my $time = time ; # DEBUG
 
     $Grid{CANVAS}->delete( 'all' ) ;
 
@@ -63,8 +64,11 @@ sub _draw {
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
 
+    $time = time - $time ; # DEBUG
+    my( $s, $m, $h ) = (gmtime( $time ))[0..2] ; # DEBUG
+    $time = sprintf "Rendered %02d:%02d:%02d", $h, $m, $s ; # DEBUG
     &cursor() ;
-    &grid::status( '' ) ;
+    &grid::status( $time ) ;
 }
 
 

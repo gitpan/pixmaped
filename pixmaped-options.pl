@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-options.pl,v 1.22 1999/08/08 15:47:20 root Exp root $
+# $Id: pixmaped-options.pl,v 1.22 1999/08/08 15:47:20 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
