@@ -1,100 +1,41 @@
-README for pixmaped-1.00.tar.gz
+README for pixmaped-1.10.tar.gz
 
 1. SYNOPSIS
 2. REQUIREMENTS
-3. FILES
-4. INSTALLATION
-5. CHANGES
-6. COPYRIGHT
-7. NOTES
+3. INSTALLATION
+4. COPYRIGHT
+5. NOTES
 
 
 1. SYNOPSIS
 
 Pixmaped is a program for producing simple xpm files (pixmaps) and gif images,
-for example icons. Although the gimp is available for sophisticated work, for
-small images (less than 96 x 96 pixels x 94 colours) Pixmaped should be
-a lot simpler to use. 
+for example icons. Although the gimp is available for sophisticated work,
+for small images Pixmaped should be a lot simpler to use.
 
 Pixmaped works with X and Win32.
 
 On-line help is provided - start up the program and click the Help menu option
 or press F1. (Reading what's there will help!)
 
-Pixmaped has full undo, and is mostly feature-complete. It would be relatively
-easy to add additional image transformations and additional file formats.
-
+Pixmaped has full undo, and is mostly feature-complete. If you have
+Image::Magick.pm Pixmaped will read/write all the formats that ImageMagick
+supports.
 
 2. REQUIREMENTS
 
-Linux and X-Windows at least:
+Linux and X-Windows:
 Perl 5.004
 Tk 400.202
 
-Win32 at least:
+Win32:
 Perl 5.005
 Tk 800.000
 
-200K disk space.
+~200K disk space.
 
 
-3. FILES
-
-README
-TODO.html
-debian-menu
-pixmaped
-pixmaped-button-commands.pl
-pixmaped-buttons.pl
-pixmaped-consts.pl
-pixmaped-edit-commands.pl
-pixmaped-file-commands.pl
-pixmaped-gif-fake.pl
-pixmaped-gif.pl
-pixmaped-globals.pl
-pixmaped-grid-commands.pl
-pixmaped-grid.pl
-pixmaped-help-commands.pl
-pixmaped-image-commands.pl
-pixmaped-keys.pl
-pixmaped-menu.pl
-pixmaped-options.pl
-pixmaped-opts.pl
-pixmaped-resize.pl
-pixmaped-shapes.pl
-pixmaped-xbm.pl
-pixmaped-xpm.pl
-pixmaped-brush.xpm
-pixmaped-fill.xpm
-pixmaped-filled-oval.xpm
-pixmaped-filled-rectangle.xpm
-pixmaped-flip-horizontal.xpm
-pixmaped-flip-vertical.xpm
-pixmaped-icon-16x16.xpm
-pixmaped-line.xpm
-pixmaped-new.xpm
-pixmaped-oval.xpm
-pixmaped-palette.xpm
-pixmaped-pencil.xpm
-pixmaped-rectangle.xpm
-pixmaped-resize-A.xpm
-pixmaped-resize-B.xpm
-pixmaped-resize-C.xpm
-pixmaped-resize-D.xpm
-pixmaped-resize-E.xpm
-pixmaped-resize-F.xpm
-pixmaped-resize-G.xpm
-pixmaped-resize-H.xpm
-pixmaped-resize-I.xpm
-pixmaped-resize-J.xpm
-pixmaped-resize-K.xpm
-pixmaped-resize-L.xpm
-pixmaped-rotate.xpm
-pixmaped-text.xpm
-pixmaped-transparent.xpm
-
-
-4. INSTALLATION
+3. INSTALLATION
 
 Note that Pixmaped can be installed pretty well anywhere - the only restriction
 is that all the pixmaped* files must be together in the same directory.
@@ -103,17 +44,17 @@ is that all the pixmaped* files must be together in the same directory.
 mkdir /usr/lib/pixmaped
 
 # Copy the tar.gz to the lib directory.
-cp pixmaped-1.00.tar.gz /usr/lib
+cp pixmaped-1.10.tar.gz /usr/lib
 
 # Change to the lib directory.
 cd /usr/lib
 
 # Unpack the archive using method A or B:
 # Method A for those using GNU tar
-tar xvfz pixmaped-1.00.tar.gz
+tar xvfz pixmaped-1.10.tar.gz
 # Method B for those not using GNU tar
-gunzip pixmaped-1.00.tar.gz
-tar xvf pixmaped-1.00.tar
+gunzip pixmaped-1.10.tar.gz
+tar xvf pixmaped-1.10.tar
 
 # Change to the pixmaped directory.
 cd pixmaped
@@ -152,49 +93,7 @@ pixmaped.icon: pixmaped
 # which appear are harmless and can be ignored.
 
 
-5. CHANGES
-
-1999/02/15  Fixed a bug in pixmaped-xpm where colours which had names which
-            included whitespace were not recognised and therefore converted to
-            transparent. (Incidentally this was a problem with the
-            ColourChooser dialog which has also been fixed.)
-
-1999/02/17  Deleted a bit of non-working code that was supposed to change the
-            cursor depending on context and put in working code throughout.
-            Also found a tiny bug in ColourChooser which has been fixed:
-            thanks to Jurgen Ibelgaufts for the sample xpm which uncovered it. 
-
-1999/02/20  Added the ability to read xbm and gif images and write gif images.
-            This has been achieved by using the GD library. (If you don't have
-            GD the program will still run fine - you just won't have the extra
-            functionality.) 
-
-1999/02/21  Image resizing has now been implemented.
-
-1999/02/22  * Added clean exit if you close any windows.
-            * Stopped obsessively centering windows.
-            -- Thanks to Jurgen for those.
-            * Speeded up loading images. 
-            * Can now draw by dragging the mouse - improves usability!
-            * Added an icon - created using Pixmaped of course - how you get
-              your window manager to recognise it is another matter...
-            I've just bought the Emu book - it'll take me a while to get
-            through, but hopefully the code will be improved and the
-            outstanding functions implemented after that.
-
-1999/02/23  Should now work properly with Windows.
-
-1999/02/28  * X command line options e.g. -geometry now work.
-            * Undo implemented.
-            * Cut/Copy/Paste implemented.
-            * Draw oval, rectangle and line implemented.
-            * Draw filled rectangle implemented.
-            * Help has now been fleshed out and is read from pod data.
-            * Canvas now has scrollbars.
-            * Faster and less memory-hungry than the alpha and beta versions.
-
-
-6. COPYRIGHT
+4. COPYRIGHT
 
 Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 Pixmaped may be used/distributed under the same terms as Perl.
@@ -203,7 +102,7 @@ Contact: <mark.summerfield@chest.ac.uk> - please include 'pixmaped' in the
 subject line. 
 
 
-7. NOTES
+5. NOTES
 
 Pixmaped was developed because I found gimp too powerful and sophisticated for
 my needs - I just wanted something quick and easy for knocking out small

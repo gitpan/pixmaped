@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-edit-commands.pl,v 1.9 1999/02/28 18:30:38 root Exp $
+# $Id: pixmaped-edit-commands.pl,v 1.11 1999/03/02 21:20:15 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -63,6 +63,7 @@ sub copy_rectangle {
     $Global{BUFFER} = 0 ;
     
     &edit::copy_filled_rectangle( $ox0, $oy0, $ox1, $oy1 ) ;    
+#    $Win->clipboardSet( join "\n", map { join ",", @$_ } @Buffer ) ; 
     &grid::status( '' ) ;
 }
 
@@ -86,6 +87,7 @@ sub cut_rectangle {
     $Global{BUFFER} = 0 ;
     
     &edit::copy_filled_rectangle( $ox0, $oy0, $ox1, $oy1, 1 ) ;    
+#    $Win->clipboardSet( join "\n", map { join ",", @$_ } @Buffer ) ; 
     &grid::status( '' ) ;
 }
 
@@ -108,6 +110,16 @@ sub paste {
     $Button{WIDGET}{PENCIL}->invoke 
     if $Button{WIDGET}{PENCIL}->cget( -relief ) eq 'raised' ; 
 }
+
+
+#sub paste_from_clipboard {
+#    package main ;
+#    
+#    my $buffer = $Win->clipboardGet ;
+#    @Buffer = map { [ split "," ] } split "\n", $buffer 
+#    if defined $buffer ; 
+#    &edit::paste ;
+#}
 
 
 sub copy_line {

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-menu.pl,v 1.13 1999/02/27 16:18:54 root Exp $
+# $Id: pixmaped-menu.pl,v 1.16 1999/03/07 13:02:31 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -97,6 +97,10 @@ my $MenuEdit = $MenuBar->Menubutton(
                         -accelerator => 'Ctrl+V',
                         -command     => \&edit::paste,
                     ],                    
+#                    [ 
+#                        Button       => 'P~aste from Clipboard',  
+#                        -command     => \&edit::paste_from_clipboard,
+#                    ],                    
                  ]
                  )->pack( -side => 'left' ) ;
 
@@ -108,6 +112,12 @@ my $MenuImage = $MenuBar->Menubutton(
                 -underline => 0,
                 -tearoff   => 0,
                 -menuitems => [ 
+                    [ 
+                        Radiobutton  => '  ~Actual size',  
+                        -variable    => \$zoom,
+                        -value       => 1,
+                        -command     => [ \&image::zoom, 1 ],
+                    ],
                     [ 
                         Radiobutton  => '  ~2 x zoom',  
                         -variable    => \$zoom,
@@ -151,7 +161,7 @@ my $MenuImage = $MenuBar->Menubutton(
                         -command     => [ \&image::zoom, 10 ],
                     ],
                     [ 
-                        Radiobutton  => '~12 x zoom',  
+                        Radiobutton  => '12 x z~oom',  
                         -variable    => \$zoom,
                         -value       => 12,
                         -command     => [ \&image::zoom, 12 ],
@@ -175,6 +185,20 @@ my $MenuImage = $MenuBar->Menubutton(
                         Button       => 'Re~size...',  
                         -command     => \&resize::resize,
                     ],                    
+                ]
+                )->pack( -side => 'left' ) ;
+
+
+my $MenuOptions = $MenuBar->Menubutton(
+                -text      => 'Options',
+                -underline => 0,
+                -tearoff   => 0,
+                -menuitems => [ 
+                    [ 
+                        Checkbutton => 'Show ~Outline',  
+                        -variable   => \$Opt{SHOW_OUTLINE},
+                        -command    => \&grid::redraw, 
+                    ],
                 ]
                 )->pack( -side => 'left' ) ;
 

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-xpm.pl,v 1.27 1999/02/27 09:41:59 root Exp $
+# $Id: pixmaped-xpm.pl,v 1.28 1999/03/07 00:13:26 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -265,6 +265,8 @@ sub read_image {
 
     my $filename = shift ;
 
+	$Image{PIXMAP} = undef ;
+
     if( $filename =~ /\.xpm$/o ) {
         $Image{PIXMAP} = $Win->Pixmap( -file => $filename ) ;
     }
@@ -279,7 +281,8 @@ sub read_image {
         -image  => $Image{PIXMAP}, 
         -width  => $Image{WIDTH},
         -height => $Image{HEIGHT},
-        ) ;
+        )
+    if defined $Image{PIXMAP} ;
 
     $Opt{GRID_WIDTH}  = $Image{WIDTH} ;
     $Opt{GRID_HEIGHT} = $Image{HEIGHT} ;

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-help-commands.pl,v 1.21 1999/02/28 13:55:58 root Exp $
+# $Id: pixmaped-help-commands.pl,v 1.24 1999/03/07 13:12:28 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -303,7 +303,13 @@ zoom factor for the new image.
 
 C<Ctrl-o>	This will open an existing image file. You will be presented with
 a file selection dialogue from which to choose the file. Pixmaped can
-currently open C<.xpm>, C<.gif> and C<.xbm> files.
+open C<.xpm> files; with C<GD.pm> it can also open C<.xbm> and C<.gif>
+files; and with C<Image::Magick.pm> Pixmaped can open all file formats supported
+by that module, including C<.bmp>, C<.dcx>, C<.dib>, C<.ico>,
+C<.pbm>, C<.pcd>, C<.pcx>, C<.pict>, C<.png>, C<.ppm>, C<.rle>,
+C<.sgi>, C<.tga>, group 3 fax format, and if you also have ghostscript
+C<.eps>, C<.pdf> and C<.ps>.
+I<Note that not all formats that can be read can be written and vice versa.>
 
 =item
 
@@ -339,10 +345,12 @@ sections which are described below in left to right order.
 =item 1
 
 The first section is an actual size copy of the image at the time it was last
-opened or saved whichever is the most recent - for new images it will be blank
-until saved for the first time. (Note that sometimes transparent sections of
-gifs display in black, but they really are transparent, for example when
-viewed in a Browser.) 
+opened or saved whichever is the most recent - for new images it will be
+blank until saved for the first time. Only C<.gif>, C<.xbm> and C<.xpm>'s
+are displayed here; to see other formats actual size set the Image/Zoom
+to Actual size. I<Note that sometimes transparent sections of
+gifs display in colour, but they really are transparent, for example when
+viewed in a Browser.> 
 
 =item
 
@@ -383,9 +391,15 @@ for a filename with the B<Save As> dialogue.
 
 =item
 
-B<Open> This will open an existing image file. You will be presented with
+B<Open>	This will open an existing image file. You will be presented with
 a file selection dialogue from which to choose the file. Pixmaped can
-currently open C<.xpm>, C<.gif> and C<.xbm> files.
+open C<.xpm> files; with C<GD.pm> it can also open C<.xbm> and C<.gif>
+files; and with C<Image::Magick.pm> Pixmaped can open all file formats supported
+by that module, including C<.bmp>, C<.dcx>, C<.dib>, C<.ico>
+C<.pbm>, C<.pcd>, C<.pcx>, C<.pict>, C<.png>, C<.ppm>, C<.rle>,
+C<.sgi>, C<.tga>, group 3 fax format, and if you also have ghostscript
+C<.eps>, C<.pdf> and C<.ps>.
+I<Note that not all formats that can be read can be written and vice versa.>
 
 =item
 
@@ -396,8 +410,14 @@ prompted for a filename with the B<Save As> dialogue.
 
 B<Save As> - This will present you with a file selection dialogue. You select
 the path and enter the new filename to which the image will be saved. The
-filename must end either with C<.xpm> or C<.gif> since only these types of
-images can currently be saved.
+file will be saved in the format determined by its suffix. Pixmaped
+can save C<.xpm> and C<.ps> files; with C<GD.pm> it can also save C<.gif>
+files; and with C<Image::Magick.pm> Pixmaped can save all the file formats
+supported by that module including C<.bmp>, C<.dcx>, C<.dib>, 
+C<.pbm>, C<.pcd>, C<.pcx>, C<.pict>, C<.png>, C<.ppm>, C<.sgi>, C<.tga>,
+group 3 fax format, and if you also have ghostscript
+C<.eps>, C<.pdf> and C<.ps>.
+I<Note that not all formats that can be read can be written and vice versa.>
 
 =item
 
@@ -454,12 +474,26 @@ as you wish.
 
 =item *
 
+B<Actual size> - show the image actual size.
+
+=item *
+
 I<n>B< x zoom> - zoom to I<n> times the image size.
 
 =item
 
 B<Resize> - resize the image; the image may be made larger or smaller with any
 space inserted or removed from the side(s) the user specifies.
+
+=back
+
+=head2 Options Menu
+
+=over
+
+=item *
+
+B<Show Outline> - Toggles between showing/hiding the grid outline. 
 
 =back
 
@@ -562,6 +596,11 @@ range 0..7.)
 
 C<ROTATION> - The default amount of rotation to use when the rotate button is
 clicked; valid values are 90, 180 and 270 degrees.
+
+=item
+
+C<SHOW_OUTLINE> - Whether or not to show a grid outline; default is 1 (yes). 
+Can be set by the Options/Show Outline menu option.
 
 =item
 

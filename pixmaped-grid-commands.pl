@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-grid-commands.pl,v 1.44 1999/02/28 18:40:49 root Exp $
+# $Id: pixmaped-grid-commands.pl,v 1.46 1999/03/07 13:02:31 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -52,7 +52,8 @@ sub _draw {
                 $actualy + $Opt{GRID_SQUARE_LENGTH},
                 -fill    => ( $new or $colour eq 'None' ) ? 
                             $Opt{GRID_BACKGROUND_COLOUR} : $colour, 
-                -outline => $Opt{GRID_OUTLINE_COLOUR},
+                -outline => $Opt{SHOW_OUTLINE} ? 
+                            $Opt{GRID_OUTLINE_COLOUR} : undef,
                 ) ;
             $Grid{SQUARES}[$x][$y]{SQUARE} = $square ; 
             $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $new ;
@@ -331,7 +332,8 @@ sub set_colour {
         $Grid{CANVAS}->itemconfigure(
             $Grid{SQUARES}[$x][$y]{SQUARE},
             -fill    => $background,
-            -outline => $outline,
+			-outline => $Opt{SHOW_OUTLINE} ? 
+						$Opt{GRID_OUTLINE_COLOUR} : undef,
             ) ;
     } ;
     if( $@ ) {
@@ -339,7 +341,8 @@ sub set_colour {
             $Grid{CANVAS}->itemconfigure(
                 $Grid{SQUARES}[$x][$y]{SQUARE},
                 -fill    => $Opt{GRID_BACKGROUND_COLOUR},
-                -outline => $outline,
+				-outline => $Opt{SHOW_OUTLINE} ? 
+							$Opt{GRID_OUTLINE_COLOUR} : undef,
                 ) ;
             $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' ;
             &grid::status( "Replaced unknown '$background' with transparent." ) ;

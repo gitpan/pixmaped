@@ -1,6 +1,6 @@
 package Tk::ColourChooser ;    # Documented at the __END__.
 
-# $Id: ColourChooser.pm,v 1.15 1999/02/28 17:38:01 root Exp root $
+# $Id: ColourChooser.pm,v 1.17 1999/03/02 21:02:00 root Exp root $
 
 require 5.004 ;
 
@@ -13,7 +13,7 @@ require Tk::Toplevel ;
 
 use vars qw( $VERSION @ISA ) ;
 
-$VERSION = '1.08' ;
+$VERSION = '1.10' ;
 
 @ISA = qw( Tk::Toplevel ) ;
 
@@ -47,9 +47,10 @@ sub Populate {
         -height          => 1,
         -selectmode      => 'single',
         -background      => 'white',
-        -yscrollcommand  => [ $scrollbar => 'set' ],
         -exportselection => 0,
         )->pack( -expand => 'ns', -fill => 'x', -pady => 20, -padx => 10 ) ;
+    $list->configure( 
+        -yscrollcommand => [ \&_listbox_scroll, $scrollbar, $list, $win ] ) ;
     $scrollbar->configure( -command => [ $list => 'yview' ] ) ;
 
     $list->insert( 'end', sort _by_colour keys %{$win->{NAME}} ) ;
@@ -114,12 +115,27 @@ sub Populate {
             $win->{-blue}  = hex $3 ;
         }
         else {
-            ( $win->{-red}, $win->{-green}, $win->{-blue} ) = $win->rgb( $colour ) ; 
+            my $hex = &name2hex( $win, $colour ) ;
+            $win->{-red}   = hex substr( $hex, 0, 2 ) ; 
+            $win->{-green} = hex substr( $hex, 2, 2 ) ; 
+            $win->{-blue}  = hex substr( $hex, 4, 2 ) ;
         }   
         &_set_colour( $win ) ; 
     }
  
     $win->{-colour} = undef ;
+}
+
+
+#############################
+sub _listbox_scroll {
+    my( $scrollbar, $list, $win, @args ) = @_ ;
+
+    $scrollbar->set( @args ) ;
+    my $index = int( $list->size * $args[0] ) ;
+    $list->activate( $index ) ;
+    $list->selectionSet( $index ) ;
+    &_set_colour_from_list( $list, $win ) ; 
 }
 
 
@@ -396,7 +412,7 @@ the list in rgb.txt (supplied with X Windows), or to create a colour by
 setting RGB (red, green, blue) values with slider controls.
 
 You can scroll through all the named colours by using the <Down> and <Up>
-arrow keys on the keyboard.
+arrow keys on the keyboard or by clicking the mouse on the scrollbar.
 
 =head2 Options
 
@@ -456,10 +472,6 @@ you will only be able to specify colours by RGB value.
 
 =head1 BUGS
 
-Scrolling with the mouse updates the list box, but not the background colour
-which shows what the chosen colour looks like. It should behave the same as
-scrolling with the <Down> and <Up> arrow keys.
-
 ColourChooser does almost no error checking.
 
 ColourChooser is slow to load because rgb.txt is large.
@@ -475,6 +487,10 @@ ColourChooser is slow to load because rgb.txt is large.
             recognised.
 
 1999/02/23  Should now be Windows compatible.
+
+1999/03/02  Now when you scroll with the scrollbar both the colourname and the
+            colour shown are updated (the same as when you move up and down
+            with the arrow keys).
 
 
 =head1 AUTHOR

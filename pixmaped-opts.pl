@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-opts.pl,v 1.16 1999/02/28 17:28:42 root Exp $
+# $Id: pixmaped-opts.pl,v 1.18 1999/03/07 13:02:31 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -13,6 +13,7 @@ package main ;
 $Opt{GRID_WIDTH}             = $Const{GRID_WIDTH_DEF} ;
 $Opt{GRID_HEIGHT}            = $Const{GRID_HEIGHT_DEF} ;
 $Opt{GRID_SQUARE_LENGTH}     = $Const{GRID_SQUARE_LENGTH_DEF} ;
+$Opt{SHOW_OUTLINE}           = 1 ; 
 
 $Opt{GRID_BACKGROUND_COLOUR} = $Const{GRID_BACKGROUND_COLOUR} ;
 $Opt{GRID_OUTLINE_COLOUR}    = $Const{GRID_OUTLINE_COLOUR} ;

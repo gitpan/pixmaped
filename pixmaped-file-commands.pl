@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-file-commands.pl,v 1.34 1999/02/28 17:28:42 root Exp $
+# $Id: pixmaped-file-commands.pl,v 1.37 1999/03/07 11:14:19 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -76,14 +76,9 @@ sub open {
 
     if( not $filename ) {
         &cursor( 1, 'clock' ) ;
-        $Opt{DIR}    = &abs_path( $Opt{DIR} ) ;
-
-        my $dialog   = $Win->FileSelect( 
-                        -directory => $Opt{DIR},
-                        -filter    => '*.(xpm|xbm|gif)',
-                        ) ;
+        $Opt{DIR}  = &abs_path( $Opt{DIR} ) ;
+        my $dialog = $Win->FileSelect( -directory => $Opt{DIR} ) ;
         $filename = $dialog->Show ;
-
         &cursor( -1 ) ; 
     }
 
@@ -101,13 +96,19 @@ sub open {
 
             $loaded = &xpm::load( $filename ) ;
         }
-        elsif( $filename =~ /.xbm$/o or $filename =~ /.gif$/o ) {
+        elsif( $Modules{GD} and 
+               ( $filename =~ /.xbm$/o or $filename =~ /.gif$/o ) ) {
             %Image = () ;
 
             $loaded = &gif::load( $filename ) ;
         }
-        else {
-            message( 'Warning', 'Open', 'Can only open xpm, xbm and gif files' ) ;
+        elsif( $Modules{MIFF} ) {
+			%Image = () ;
+
+			$loaded = &miff::load( $filename ) ;
+		}
+		else {
+			message( 'Warning', 'Open', 'Cannot open this file format.' ) 
         }
 
         $Global{WROTE_IMAGE} = 1 ;
@@ -134,11 +135,19 @@ sub save {
         if( $Global{FILENAME} =~ /\.xpm$/o ) {
             $Global{WROTE_IMAGE} = 1 if &xpm::save( $Global{FILENAME} ) ; 
         }
-        elsif( $Global{FILENAME} =~ /\.gif$/o ) {
+        elsif( $Modules{GD} and $Global{FILENAME} =~ /\.gif$/o ) {
             $Global{WROTE_IMAGE} = 1 if &gif::save( $Global{FILENAME} ) ; 
         }
         elsif( $Global{FILENAME} =~/\.ps$/o ) {
+			my $gridsize = $Opt{GRID_SQUARE_LENGTH} ;
+			$Opt{GRID_SQUARE_LENGTH} = 1 ;
+			&grid::redraw ;
             $Grid{CANVAS}->postscript( -file => $Global{FILENAME} ) ;
+			$Opt{GRID_SQUARE_LENGTH} = $gridsize ;
+			&grid::redraw ;
+        }
+        else {
+            $Global{WROTE_IMAGE} = 1 if &miff::save( $Global{FILENAME} ) ; 
         }
         &file::remember_name( $Global{FILENAME} ) ;
         @Undo = () unless $Opt{UNDO_AFTER_SAVE} ;
@@ -150,8 +159,6 @@ sub remember_name {
     package main ;
 
     my $filename = shift ;
-
-    return if $filename =~ /\.ps$/o ; # We can't load these.
 
     my $remembered = 0 ;
     for( my $i = 1 ; $i <= $Const{LAST_FILE_MAX} ; $i++ ) {
@@ -174,23 +181,9 @@ sub save_as {
     &cursor( 1, 'clock' ) ;
     $Opt{DIR}    = &abs_path( $Opt{DIR} ) ;
 
-    my $dialog   = $Win->FileSelect( 
-                    -directory => $Opt{DIR},
-                    -filter    => '*.(xpm|gif|ps)',
-                    ) ;
+    my $dialog   = $Win->FileSelect( -directory => $Opt{DIR} ) ;
     my $filename = $dialog->Show ;
    
-    if( $filename =~ /\.xpm$/o or 
-        $filename =~ /\.gif$/o or
-        $filename =~ /\.ps$/o # Saves canvas - not image!
-        ) {
-        # File is saveable.
-    }
-    else {
-        message( 'Warning', 'Save', 'Can only save xpm and gif files' ) ;
-        $filename = '' ;
-    }
- 
     &cursor( -1 ) ;
 
     if( $filename and -e $filename ) {
@@ -213,7 +206,7 @@ sub save_as {
    if( $filename ) {
         $Global{FILENAME} = &abs_path( $filename ) ;
         $Win->title( $Global{FILENAME} . '  Pixmaped' ) ;
-        &file::save ;
+		&file::save ;
     }
 }
 

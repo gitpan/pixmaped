@@ -1,0 +1,49 @@
+CHANGES for Pixmaped
+
+1999/02/15  Fixed a bug in pixmaped-xpm where colours which had names which
+            included whitespace were not recognised and therefore converted to
+            transparent. (Incidentally this was a problem with the
+            ColourChooser dialog which has also been fixed.)
+
+1999/02/17  Deleted a bit of non-working code that was supposed to change the
+            cursor depending on context and put in working code throughout.
+            Also found a tiny bug in ColourChooser which has been fixed:
+            thanks to Jurgen Ibelgaufts for the sample xpm which uncovered it. 
+
+1999/02/20  Added the ability to read xbm and gif images and write gif images.
+            This has been achieved by using the GD library. (If you don't have
+            GD the program will still run fine - you just won't have the extra
+            functionality.) 
+
+1999/02/21  Image resizing has now been implemented.
+
+1999/02/22  * Added clean exit if you close any windows.
+            * Stopped obsessively centering windows.
+            -- Thanks to Jurgen for those.
+            * Speeded up loading images. 
+            * Can now draw by dragging the mouse - improves usability!
+            * Added an icon - created using Pixmaped of course - how you get
+              your window manager to recognise it is another matter...
+            I've just bought the Emu book - it'll take me a while to get
+            through, but hopefully the code will be improved and the
+            outstanding functions implemented after that.
+
+1999/02/23  Should now work properly with Windows.
+
+1999/02/28  * X command line options e.g. -geometry now work.
+            * Undo implemented.
+            * Cut/Copy/Paste implemented.
+            * Draw oval, rectangle and line implemented.
+            * Draw filled rectangle implemented.
+            * Help has now been fleshed out and is read from pod data.
+            * Canvas now has scrollbars.
+            * Faster and less memory-hungry than the alpha and beta versions.
+
+1999/03/01  Added clipboard methods so that you can copy/paste between
+            instances. Doesn't work though, so commented out.
+
+1999/03/07  * Added postscript as a native output format.
+            * Added support for Image::Magick.pm - if you have this you can now 
+              read/write all the formats that Image::Magick.pm can read/write.
+            * Made loading `appear' faster.
+            * Grid outline can be switched on/off by Option/Show Outline menu option.

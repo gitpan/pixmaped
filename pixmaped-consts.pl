@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-consts.pl,v 1.28 1999/02/27 19:43:40 root Exp $
+# $Id: pixmaped-consts.pl,v 1.29 1999/03/06 19:51:40 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -29,7 +29,7 @@ $Const{GRID_HEIGHT_MIN}        =  5 ;
 $Const{GRID_HEIGHT_MAX}        = 96 ; 
 
 $Const{GRID_SQUARE_LENGTH_DEF} = 12 ; 
-$Const{GRID_SQUARE_LENGTH_MIN} =  2 ; 
+$Const{GRID_SQUARE_LENGTH_MIN} =  1 ; 
 $Const{GRID_SQUARE_LENGTH_MAX} = 20 ; 
 
 $Const{GRID_BACKGROUND_COLOUR} = '#DADADA' ;

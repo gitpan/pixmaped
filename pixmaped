@@ -1,16 +1,17 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped,v 1.46 1999/02/28 17:28:42 root Exp $
+# $Id: pixmaped,v 1.52 1999/03/07 11:14:19 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
 
-# TODO See TODO.html 
+# TODO See "TODO.html". 
 
 use strict ;
 
 use Tk ;
 use Tk::FileSelect ;
+#use Tk::Clipboard ;
 use Tk::MesgBox ;
 use Tk::ColourChooser ;
 use File::Basename ;
@@ -19,23 +20,14 @@ use Cwd ;
 use FindBin qw( $RealBin ) ;
 use lib $RealBin ;
 
-BEGIN { # We can't assume the user has GD.pm.
-    $main::GD = 1 ;
-
-    eval {
-        require GD ;
-    } ;
-    $main::GD = 0 if $@ ; 
-}
-
 
 use vars qw( $VERSION 
              %Global %Const %Opt 
              $Win 
-             %Image  %Grid  %Button  $MenuFile  @Undo  
+             %Image  %Grid  %Button  $MenuFile  @Undo  %Modules
          ) ; 
 
-$VERSION = '1.00' ; # Application version.
+$VERSION = '1.10' ; # Application version.
 
 my $DieOnWarn      = 0 ;
 my $WarnInDialogue = 0 ;
@@ -49,7 +41,8 @@ MainLoop ;
 sub initialise {
 
     $Win = MainWindow->new() ;
-    $Win->title( "Pixmaped" ) ; 
+    $Win->title( "Loading  Pixmaped..." ) ; 
+    &cursor( 1, 'watch' ) ;
     $Win->protocol( "WM_DELETE_WINDOW", \&file::quit ) ;
 
     &load_library( "pixmaped-globals.pl" ) ;
@@ -57,33 +50,33 @@ sub initialise {
     &load_library( "pixmaped-opts.pl" ) ; # Default.
     &read_opts ;                          # User.
     &set_consts ;                         # Need opts to set these.
+    # Ordered to make loading appear to be as fast as possible.
     &load_library( "pixmaped-menu.pl" ) ;
+    &load_library( "pixmaped-buttons.pl" ) ;
+    &load_library( "pixmaped-grid.pl" ) ;
+    &load_library( "pixmaped-button-commands.pl" ) ;
+    &load_library( "pixmaped-grid-commands.pl" ) ;
+    $Win->update ; # This is the earliest we can update the main window.
+    &load_library( "pixmaped-keys.pl" ) ;
     &load_library( "pixmaped-file-commands.pl" ) ;
     &load_library( "pixmaped-edit-commands.pl" ) ;
     &load_library( "pixmaped-image-commands.pl" ) ;
     &load_library( "pixmaped-help-commands.pl" ) ;
     &load_library( "pixmaped-resize.pl" ) ;
-    &load_library( "pixmaped-buttons.pl" ) ;
-    &load_library( "pixmaped-button-commands.pl" ) ;
-    &load_library( "pixmaped-grid.pl" ) ;
-    &load_library( "pixmaped-grid-commands.pl" ) ;
     &load_library( "pixmaped-shapes.pl" ) ;
-    &load_library( "pixmaped-keys.pl" ) ;
     &load_library( "pixmaped-options.pl" ) ;
     &load_library( "pixmaped-xpm.pl" ) ;
-    &load_library( "pixmaped-xbm.pl" ) ;
-    if( $main::GD ) {
-        &load_library( "pixmaped-gif.pl" ) ;
-    }
-    else {
-        &load_library( "pixmaped-gif-fake.pl" ) ;
-    }
+    # We can't assume the user has GD.pm or Image::Magick.
+    $Modules{GD}   = &load_optional_library( 'GD.pm', "pixmaped-gif.pl" ) ;
+    $Modules{MIFF} = &load_optional_library( 
+                        'Image/Magick.pm', "pixmaped-imagemagick.pl" ) ;
 
     $Win->CmdLine() ;
     $Button{WIDGET}{GRAB_COLOUR}->invoke ;
     $Button{WIDGET}{PENCIL}->invoke ;
     &file::new( 1 ) ;
     $Win->packPropagate( 0 ) ;
+    &cursor( -1 ) ;
 }
 
 
@@ -218,6 +211,30 @@ sub load_library {
             $warned = 1 if not $warned and $return ;
         die "Failed to load $file.\n" if $DieOnWarn ;
     }
+}
+
+
+sub load_optional_library {
+
+    my( $libname, $filename ) = @_ ;
+
+    my $fakefilename = $filename ;
+    $fakefilename =~ s/\.pl$/-fake.pl/o ;
+
+    my $loaded = 1 ;
+    eval {
+        require $libname ;
+    } ;
+    $loaded = 0 if $@ ; 
+
+    if( $loaded ) {
+        &load_library( $filename ) ;
+    }
+    else {
+        &load_library( $fakefilename ) ;
+    }
+
+    $loaded ;
 }
 
 

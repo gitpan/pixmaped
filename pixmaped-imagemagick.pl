@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-gif.pl,v 1.12 1999/03/07 11:14:19 root Exp $
+# $Id: pixmaped-imagemagick.pl,v 1.3 1999/03/07 11:14:19 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
 
 use strict ;
 
-package gif ;
+package miff ;
 
 
 sub load {
@@ -21,7 +21,7 @@ sub load {
 
     eval {
         &file::new_image ;
-        &gif::gd2xpm( $filename ) ;
+        &miff::miff2xpm( $filename ) ;
     } ;
     if( $@ ) {
         $loaded = 0 ;
@@ -48,7 +48,7 @@ sub save {
     &grid::status( "Saving '$filename'..." ) ;
 
     eval {
-        &gif::xpm2gd( $filename ) ;
+        &miff::xpm2miff( $filename ) ;
     } ;
     if( $@ ) {
         $saved  = 0 ;
@@ -65,27 +65,18 @@ sub save {
 }
 
 
-sub gd2xpm {
+sub miff2xpm {
     package main ;
 
     my $filename = shift ;
 
-    my $img ;
+    my $img = Image::Magick->new ;
 
     # Read the image from file.
-    open( IMG, $filename ) or die "Failed to load '$filename':$!" ;
-    if( $filename =~ /\.gif$/o ) {
-        $img = newFromGif GD::Image( *IMG ) or die "Failed to read '$filename'" ;
-    }
-    elsif( $filename =~ /\.xbm$/o ) {
-        $img = newFromXbm GD::Image( *IMG ) or die "Failed to read '$filename'" ;
-    }
-    else {
-        die "Unrecognised file type" ;
-    }
-    close IMG ;
+    my $err = $img->Read( $filename ) ;
+    die $err if $err ;
 
-    ( $Image{WIDTH}, $Image{HEIGHT} ) = $img->getBounds ;
+    ( $Image{WIDTH}, $Image{HEIGHT} ) = $img->Get( 'width', 'height' ) ;
     $Opt{GRID_WIDTH}  = $Image{WIDTH}  ;
     $Opt{GRID_HEIGHT} = $Image{HEIGHT} ;
 
@@ -100,19 +91,19 @@ sub gd2xpm {
     my $transparent ;
 
     # Set up transparent if its in the image.
-    my $colour_index = $img->transparent ; 
-    if( $colour_index != -1 ) {
-        ( $red, $green, $blue ) = $img->rgb( $colour_index ) ;
-        $transparent = sprintf "#%02X%02X%02X", $red, $green, $blue ;
-        $Image{PALETTE}{' '} = 'None' ;
+    if( $img->Get( 'matte' ) eq 'True' ) {
+        my $matte = $img->Get( 'mattecolor' ) ;
+		( $red, $green, $blue ) = $Win->rgb( $matte ) ;
+		$transparent = sprintf "#%02X%02X%02X", $red, $green, $blue ;
+		$Image{PALETTE}{' '} = 'None' ;
     }
 
     # Read the image data, creating the colour table and drawing at the same
     # time.
     for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
         for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
-            $colour_index = $img->getPixel( $x, $y ) ; 
-            ( $red, $green, $blue ) = $img->rgb( $colour_index ) ;
+            my $colour = $img->Get( "pixel[$x,$y]" ) ;
+            ( $red, $green, $blue ) = split /,/, $colour ;
             $colour = sprintf "#%02X%02X%02X", $red, $green, $blue ;
             if( defined $transparent and $transparent eq $colour ) { 
                 ; # Do nothing, transparent is the default background.
@@ -133,49 +124,35 @@ sub gd2xpm {
         }
         &grid::coords( $y ) if $Opt{SHOW_PROGRESS} ;
     }
+
+    undef $img ; # Recycle memory.
 }
 
 
-sub xpm2gd {
+sub xpm2miff {
     package main ;
 
     my $filename = shift ;
 
-    my $img = new GD::Image( $Opt{GRID_WIDTH}, $Opt{GRID_HEIGHT} ) or 
-    die "Failed to create image in memory" ;
-
-    my %colour = () ;
-    my %seen   = () ;
-
-    $Const{GRID_BACKGROUND_COLOUR} =~ 
-        /#([A-Fa-f0-9]{2})([A-Fa-f0-9]{2})([A-Fa-f0-9]{2})/o ;
-    $colour{'None'} = $img->colorAllocate( hex $1, hex $2, hex $3 ) ;
-    $seen{'None'}   = 1 ;
-
-    $img->transparent( $colour{'None'} ) ;
+    my $img = Image::Magick->new ;
+    $img->Set( 'size' => "$Opt{GRID_WIDTH}x$Opt{GRID_HEIGHT}" ) ;
+    $img->ReadImage( 'xc:white' ) ;
+    $img->Transparent( 'color' => $Const{GRID_BACKGROUND_COLOUR} ) ;
 
     for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
-            my $colour = $Grid{SQUARES}[$x][$y]{COLOUR} ;
-            if( not $seen{$colour}++ ) { # New colour to allocate.
-                my( $red, $green, $blue ) = $Win->rgb( $colour ) ;
-                $colour{$colour} = $img->colorAllocate( $red, $green, $blue ) ;
-            }
-            $img->setPixel( $x, $y, $colour{$colour} ) ;
+            my $colour = $Grid{SQUARES}[$x][$y]{COLOUR} ne 'None' ?
+						 $Grid{SQUARES}[$x][$y]{COLOUR} :  
+						 $Const{GRID_BACKGROUND_COLOUR} ; 
+            $img->Set( "pixel[$x,$y]" => $colour ) ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ;
     } 
 
-    # Write the image from file.
-    open( IMG, ">$filename" ) or die "Failed to load '$filename':$!" ;
-    binmode IMG ; # For Win users.
-    if( $filename =~ /\.gif$/o ) {
-        print IMG $img->gif ;
-    }
-    else {
-        die "Unrecognised file type" ;
-    }
-    close IMG ;
+    my $err = $img->Write( $filename ) ;
+    die $err if $err ;
+
+    undef $img ; # Recycle memory.
 }
 
 
