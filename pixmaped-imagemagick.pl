@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-imagemagick.pl,v 1.8 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-imagemagick.pl,v 1.10 1999/09/04 13:41:28 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -101,7 +101,8 @@ sub miff2xpm {
                 &grid::set_colour( $x, $y, $colour ) ;
                 if( not $seen{$colour}++ ) {
                     $Image{COLOURS}++ ;
-					message( 'Warning', 'Load', "Ran out of colour space" )
+					message( 'Warning', 'Load', "Ran out of colour space" ),
+                    &cursor( 'watch' )
                     if $Image{COLOURS} == $Const{COLOURS_MAX} + 1 ;
                     $Image{PALETTE}{$key} = $colour ;
                     while( 1 ) {
@@ -130,8 +131,8 @@ sub xpm2miff {
 
     for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
-            my $colour = $Grid{SQUARES}[$x][$y]{COLOUR} ne 'None' ?
-						 $Grid{SQUARES}[$x][$y]{COLOUR} :  
+            my $colour = $ImageGrid[$x][$y] ne 'None' ?
+						 $ImageGrid[$x][$y] :  
 						 $Const{GRID_BACKGROUND_COLOUR} ; 
             $img->Set( "pixel[$x,$y]" => $colour ) ;
         }

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-edit-commands.pl,v 1.18 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-edit-commands.pl,v 1.19 1999/09/04 13:25:44 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -135,7 +135,7 @@ sub copy_line {
         ( $y0, $y1 ) = ( $y1, $y0 ) if $y0 > $y1 ;
 
         for( my $y = $y0 ; $y <= $y1 ; $y++ ) {
-            push @Buffer, [ $x0, $y, $Grid{SQUARES}[$x0][$y]{COLOUR} ] ;
+            push @Buffer, [ $x0, $y, $ImageGrid[$x0][$y] ] ;
             &grid::set_colour( $x0, $y, 'None' ) if $clear ; 
         }
     }
@@ -149,7 +149,7 @@ sub copy_line {
         my $y  = $y0 ;
 
         for( my $x = $x0 ; $x <= $x1 ; $x++ ) {
-            push @Buffer, [ $x, $y, $Grid{SQUARES}[$x][$y]{COLOUR} ] ;
+            push @Buffer, [ $x, $y, $ImageGrid[$x][$y] ] ;
             &grid::set_colour( $x, $y, 'None' ) if $clear ; 
             $y += $m ;
         }

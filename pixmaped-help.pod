@@ -1,6 +1,6 @@
 =head1 Pixmaped Help
 
-# $Id: pixmaped-help.pod,v 1.4 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-help.pod,v 1.5 1999/09/04 13:25:44 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -36,6 +36,11 @@ right click existing squares that have the colours you want.
 B<Changing a palette button's colour> - Right clicking any palette button
 including the grab palette button invokes the colour chooser dialogue which
 allows you to set the colour by name or RGB value.
+
+=item
+
+B<Seeing a pixel's colour> - Middle click any square and the colour and
+coordinates will be shown on the status line.
 
 =item
 
@@ -144,7 +149,8 @@ viewed in a Browser.>
 
 The second section shows the x and y coordinates of the mouse when it is over
 the canvas followed by the colour at that point. Note that `None'
-signifies transparent.
+signifies transparent. This is no longer automatic - you must middle click a
+square to see the coordinates and colour.
 
 =item
 

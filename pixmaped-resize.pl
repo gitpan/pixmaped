@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-resize.pl,v 1.20 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-resize.pl,v 1.21 1999/09/04 13:25:44 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -284,7 +284,7 @@ sub resize_width_reduce_right {
 
     for( my $x = $NewWidth ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' ;
+            $ImageGrid[$x][$y] = 'None' ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
@@ -298,9 +298,8 @@ sub resize_width_reduce_left {
 
     for( my $x = $xborder ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
-            $Grid{SQUARES}[$x - $xborder][$y]{COLOUR} = 
-				$Grid{SQUARES}[$x][$y]{COLOUR} ;
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $x > $xborder ;
+            $ImageGrid[$x - $xborder][$y] = $ImageGrid[$x][$y] ;
+            $ImageGrid[$x][$y] = 'None' if $x > $xborder ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
@@ -326,9 +325,8 @@ sub resize_width_add_left {
 
     for( my $x = $Opt{GRID_WIDTH} - 1 ; $x >= 0 ; $x-- ) {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
-            $Grid{SQUARES}[$x + $xborder][$y]{COLOUR} = 
-				$Grid{SQUARES}[$x][$y]{COLOUR} ;
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $x < $xborder ;
+            $ImageGrid[$x + $xborder][$y] = $ImageGrid[$x][$y] ;
+            $ImageGrid[$x][$y] = 'None' if $x < $xborder ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
@@ -358,9 +356,8 @@ sub resize_height_reduce_top {
 
     for( my $y = $yborder ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
         for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
-            $Grid{SQUARES}[$x][$y - $yborder]{COLOUR} = 
-				$Grid{SQUARES}[$x][$y]{COLOUR} ;
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $y > $yborder ;
+            $ImageGrid[$x][$y - $yborder] = $ImageGrid[$x][$y] ;
+            $ImageGrid[$x][$y] = 'None' if $y > $yborder ;
         }
         &grid::coords( $y ) if $Opt{SHOW_PROGRESS} ; 
     }
@@ -372,7 +369,7 @@ sub resize_height_reduce_bottom {
 
     for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         for( my $y = $NewHeight ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' ;
+            $ImageGrid[$x][$y] = 'None' ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
@@ -398,9 +395,8 @@ sub resize_height_add_top {
 
     for( my $y = $Opt{GRID_HEIGHT} - 1 ; $y >= 0 ; $y-- ) {
         for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
-            $Grid{SQUARES}[$x][$y + $yborder]{COLOUR} = 
-				$Grid{SQUARES}[$x][$y]{COLOUR} ;
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' if $y < $yborder ;
+            $ImageGrid[$x][$y + $yborder] = $ImageGrid[$x][$y] ;
+            $ImageGrid[$x][$y] = 'None' if $y < $yborder ;
         }
         &grid::coords( $y ) if $Opt{SHOW_PROGRESS} ; 
     }

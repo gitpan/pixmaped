@@ -4,12 +4,12 @@ use ExtUtils::MakeMaker ;
 # the contents of the Makefile that is written.
 
 WriteMakefile(
-    'NAME'         => 'Tk::MesgBox',
-    'VERSION_FROM' => 'MesgBox.pm', # finds $VERSION
-    'DISTNAME'     => 'TK-MesgBox',
+    'NAME'         => 'Tk::ColourChooser',
+    'VERSION_FROM' => 'ColourChooser.pm', # finds $VERSION
+    'DISTNAME'     => 'TK-ColourChooser',
     ($] >= 5.005 ?
         (
-            ABSTRACT => 'Simple message dialogue box.',
+            ABSTRACT => 'Colour selection dialogue box.',
             AUTHOR   => 'Mark Summerfield <summer@chest.ac.uk>',
         ) : () ),
     'LIBS'         => [''],   # e.g., '-lm'

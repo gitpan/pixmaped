@@ -11,7 +11,7 @@ Pixmaped
 
 Pixmaped is a program for producing simple xpm files (pixmaps) and gif images,
 for example icons. Although the gimp is available for sophisticated work,
-for small images Pixmaped should be a lot simpler to use.
+for small (icon-sized) images Pixmaped should be a lot simpler to use.
 
 Pixmaped works with X and Win32.
 

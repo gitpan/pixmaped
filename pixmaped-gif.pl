@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-gif.pl,v 1.17 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-gif.pl,v 1.19 1999/09/04 13:41:28 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -110,7 +110,8 @@ sub gd2xpm {
                 &grid::set_colour( $x, $y, $colour ) ;
                 if( not $seen{$colour}++ ) {
                     $Image{COLOURS}++ ;
-					message( 'Warning', 'Load', "Ran out of colour space" )
+					message( 'Warning', 'Load', "Ran out of colour space" ),
+                    &cursor( 'watch' ) 
                     if $Image{COLOURS} == $Const{COLOURS_MAX} + 1 ;
                     $Image{PALETTE}{$key} = $colour ;
                     while( 1 ) {
@@ -145,7 +146,7 @@ sub xpm2gd {
 
     for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
-            my $colour = $Grid{SQUARES}[$x][$y]{COLOUR} ;
+            my $colour = $ImageGrid[$x][$y] ;
             if( not $seen{$colour}++ ) { # New colour to allocate.
                 my( $red, $green, $blue ) = $Win->rgb( $colour ) ;
                 $colour{$colour} = $img->colorAllocate( $red, $green, $blue ) ;

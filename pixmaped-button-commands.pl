@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-button-commands.pl,v 1.36 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-button-commands.pl,v 1.38 1999/09/05 12:54:29 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -117,11 +117,13 @@ sub set_button {
             &grid::status( "Rotating $Opt{ROTATION} degrees..." ) ;
             push @Undo, [ undef, undef, undef ] ;
             &button::rotate_90 ;
+            &grid::status( "Rotated 90 degrees..." ) ;
             &button::rotate_90 if $Opt{ROTATION} >  90 ;
+            &grid::status( "Rotated 180 degrees..." ) ;
             &button::rotate_90 if $Opt{ROTATION} > 180 ;
             push @Undo, [ undef, 'rotation', undef ] ;
             &cursor() ;
-            &grid::status( '' ) ;
+            &grid::status( "Rotated $Opt{ROTATION} degrees" ) ;
             last CASE ;
         }
         if( /^FLIP_VERTICAL/o ) {
@@ -131,7 +133,7 @@ sub set_button {
             &button::flip_vertical ;
             push @Undo, [ undef, 'vertical flip', undef ] ;
             &cursor() ;
-            &grid::status( '' ) ;
+            &grid::status( "Flipped vertically" ) ;
             last CASE ;
         }
         if( /^FLIP_HORIZONTAL/o ) {
@@ -141,7 +143,7 @@ sub set_button {
             &button::flip_horizontal ;
             push @Undo, [ undef, 'horizontal flip', undef ] ;
             &cursor() ;
-            &grid::status( '' ) ;
+            &grid::status( "Flipped horizontally" ) ;
             last CASE ;
         }
         DEFAULT : {
@@ -160,8 +162,8 @@ sub flip_horizontal {
 
     for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         for( my $y = 0 ; $y <= $pivot_y ; $y++ ) {
-            $grid[$x][$y] = $Grid{SQUARES}[$x][$Opt{GRID_HEIGHT} - $y]{COLOUR} ;
-            $grid[$x][$Opt{GRID_HEIGHT} - $y] = $Grid{SQUARES}[$x][$y]{COLOUR} ;
+            $grid[$x][$y] = $ImageGrid[$x][$Opt{GRID_HEIGHT} - $y] ;
+            $grid[$x][$Opt{GRID_HEIGHT} - $y] = $ImageGrid[$x][$y] ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
@@ -182,8 +184,8 @@ sub flip_vertical {
 
     for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
         for( my $x = 0 ; $x <= $pivot_x ; $x++ ) {
-            $grid[$x][$y] = $Grid{SQUARES}[$Opt{GRID_WIDTH} - $x][$y]{COLOUR} ;
-            $grid[$Opt{GRID_WIDTH} - $x][$y] = $Grid{SQUARES}[$x][$y]{COLOUR} ;
+            $grid[$x][$y] = $ImageGrid[$Opt{GRID_WIDTH} - $x][$y] ;
+            $grid[$Opt{GRID_WIDTH} - $x][$y] = $ImageGrid[$x][$y] ;
         }
         &grid::coords( $y ) if $Opt{SHOW_PROGRESS} ; 
     }
@@ -211,7 +213,7 @@ sub rotate_90 {
             my $new_x = $pivot_x + ( $y - $pivot_y ) ;
             my $new_y = $pivot_y - ( $x - $pivot_x ) ;
             next if $new_x < 0 or $new_y < 0 ;
-            $grid[$new_x][$new_y] = $Grid{SQUARES}[$x][$y]{COLOUR} ;
+            $grid[$new_x][$new_y] = $ImageGrid[$x][$y] ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }

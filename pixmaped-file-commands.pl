@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-file-commands.pl,v 1.53 1999/08/29 19:13:44 root Exp root $
+# $Id: pixmaped-file-commands.pl,v 1.54 1999/09/04 13:25:44 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -125,10 +125,16 @@ sub open {
                 $filename, $MenuFile, 'FILE', $Const{LAST_FILE_MAX} ) ;
             @Undo = () ;
         }
-        
-        $time = time - $time ; # DEBUG
-        my( $s, $m, $h ) = (gmtime( $time ))[0..2] ; # DEBUG
-        $time = sprintf "Loaded $Global{FILENAME} %02d:%02d:%02d", $h, $m, $s ; # DEBUG
+       
+        if( $DEBUG ) {
+            $time = time - $time ; 
+            my( $s, $m, $h ) = (gmtime( $time ))[0..2] ; 
+            $time = sprintf " %02d:%02d:%02d", $h, $m, $s ; 
+        }
+        else {
+            $time = '' ;
+        }
+        $time = "Loaded $Global{FILENAME} ($Image{WIDTH}x$Image{HEIGHT})$time" ; 
 		&cursor() ;
 		&grid::status( '' ) ;
 		&grid::status( $time ) if $loaded ;

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: misc.pl,v 1.4 1999/08/22 18:02:45 root Exp $
+# $Id: misc.pl,v 1.5 1999/09/05 12:10:46 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the LGPL. 
@@ -21,7 +21,7 @@ sub abs_path {
     chdir $path ;
     $path = cwd ;
 
-    $path =~ s!/./!/!go ;
+    $path =~ s!/\./!/!go ;
 
     if( $filename ) {
         $path .= '/' unless substr( $path, -1, 1 ) eq '/' ;

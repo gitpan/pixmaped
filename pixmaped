@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped,v 1.80 1999/08/28 20:54:21 root Exp $
+# $Id: pixmaped,v 1.82 1999/09/04 13:28:52 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -21,13 +21,16 @@ use FindBin qw( $RealBin ) ;
 use lib $RealBin ;
 
 
-use vars qw( $VERSION 
+use vars qw( $VERSION $DEBUG
              %Global  %Const  %Opt 
              $Win 
-             %Image   %Grid   %Button  $MenuFile  @Undo  %Modules 
+             %Image   %Grid      @ImageGrid
+             %Button  $MenuFile  @Undo  %Modules 
          ) ; 
 
-$VERSION = '1.41' ; # Application version.
+$VERSION = '1.50' ; # Application version.
+
+$DEBUG   = 0 ;
 
 my $DieOnWarn      = 0 ;
 my $WarnInDialogue = 0 ;
@@ -47,11 +50,14 @@ sub initialise {
     &cursor( 'watch' ) ;
     $Win->protocol( "WM_DELETE_WINDOW", \&file::quit ) ;
     $Win->update ; 
+    $Win->CmdLine() ;
+    $DEBUG = $ARGV[0] eq '-d' ? 1 : $ARGV[0] eq '-D' ? 2 : 0 if $ARGV[0] ;
 
     &load_library( "pixmaped-globals.pl" ) ;
     &load_library( "pixmaped-consts.pl" ) ;
     &load_library( "pixmaped-opts.pl" ) ; # Default.
     &read_opts ;                          # User.
+    $Opt{SHOW_PROGRESS} = 1 if $DEBUG == 2 ;
     &set_consts ;                         # Need opts to set these.
     &load_library( "pixmaped-menu.pl" ) ;
     &load_library( "pixmaped-button-commands.pl" ) ;
@@ -76,7 +82,6 @@ sub initialise {
     $Modules{MIFF} = &load_optional_library( 
                         'Image/Magick.pm', "pixmaped-imagemagick.pl" ) ;
 
-    $Win->CmdLine() ;
     $Button{WIDGET}{GRAB_COLOUR}->invoke ;
     $Button{WIDGET}{PENCIL}->invoke ;
     &file::new( 1 ) ;
@@ -169,6 +174,8 @@ sub read_opts {
 
 
 sub write_opts {
+
+    $Opt{SHOW_PROGRESS} = 0 if $DEBUG == 2 ;
 
     if( open( OUT, ">$Const{OPTS_FILE}" ) ) {
         local $_ ;

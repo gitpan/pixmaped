@@ -60,7 +60,6 @@ ColourChooser/ColourChooser.pm
 ColourChooser/MANIFEST
 ColourChooser/Makefile.PL
 ColourChooser/README
-ColourChooser/t/ColourChooser.t
 MesgBox/MANIFEST
 MesgBox/Makefile.PL
 MesgBox/MesgBox.pm

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-pxd.pl,v 1.1 1999/03/20 16:29:10 root Exp $
+# $Id: pixmaped-pxd.pl,v 1.2 1999/09/04 13:25:44 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -68,7 +68,7 @@ sub save {
 		else {
 		    for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
 				for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
-					print PXD "$x,$y,$Grid{SQUARES}[$x][$y]{COLOUR}\n" ;
+					print PXD "$x,$y,$ImageGrid[$x][$y]\n" ;
 			    }
 			 }
 	    }

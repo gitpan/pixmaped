@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-grid.pl,v 1.16 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-grid.pl,v 1.18 1999/09/04 13:25:44 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -85,12 +85,14 @@ $Grid{XSCROLL}->pack( -side => 'bottom', -fill => 'x' ) ;
 $Grid{YSCROLL}->pack( -side => 'left',   -fill => 'y' ) ;
 $Grid{CANVAS}->pack(  -side => 'bottom', -fill => 'both', -expand => 1 ) ; 
 
-$Grid{CANVAS}->Tk::bind( '<1>',               \&grid::click1 ) ;
-$Grid{CANVAS}->Tk::bind( '<ButtonRelease-1>', \&grid::release1 ) ;
-$Grid{CANVAS}->Tk::bind( '<B1-Motion>',       \&grid::motion1 ) ;
-$Grid{CANVAS}->Tk::bind( '<2>',               \&grid::click2 ) ;
-$Grid{CANVAS}->Tk::bind( '<3>',               \&grid::click3 ) ;
-$Grid{CANVAS}->Tk::bind( '<Leave>',           \&grid::leave ) ;
+$Grid{CANVAS}->Tk::bind( '<1>',         [ \&grid::click1,   Ev( 'x' ), Ev( 'y' ) ] ) ;
+$Grid{CANVAS}->Tk::bind( '<ButtonRelease-1>', 
+                                        [ \&grid::release1, Ev( 'x' ), Ev( 'y' ) ] ) ;
+$Grid{CANVAS}->Tk::bind( '<B1-Motion>', [ \&grid::motion1,  Ev( 'x' ), Ev( 'y' ) ] ) ;
+$Grid{CANVAS}->Tk::bind( '<2>',         [ \&grid::click2,   Ev( 'x' ), Ev( 'y' ) ] ) ;
+$Grid{CANVAS}->Tk::bind( '<3>',         [ \&grid::click3,   Ev( 'x' ), Ev( 'y' ) ] ) ;
+$Grid{CANVAS}->Tk::bind( '<Leave>',     [ \&grid::leave,    Ev( 'x' ), Ev( 'y' ) ] ) ;
+$Grid{CANVAS}->Tk::bind( '<Enter>',     [ \&grid::enter,    Ev( 'x' ), Ev( 'y' ) ] ) ;
  
 
 1 ;

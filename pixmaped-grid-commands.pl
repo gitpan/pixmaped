@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-grid-commands.pl,v 1.56 1999/08/29 19:13:44 root Exp root $
+# $Id: pixmaped-grid-commands.pl,v 1.59 1999/09/05 12:54:29 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -13,6 +13,8 @@ package grid ;
 
 my $Drag1 = 0 ;
 my( $StartX, $StartY ) = ( undef, undef ) ;
+
+my @Square ;
 
 
 sub create { &_draw( 1 ) }
@@ -41,14 +43,14 @@ sub _draw {
     my $outline = $Opt{SHOW_OUTLINE} ? $Opt{GRID_OUTLINE_COLOUR} : undef ;
 
     for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
-        my $actualx = $x * $Opt{GRID_SQUARE_LENGTH} ;
+        my $actualx = $x       * $Opt{GRID_SQUARE_LENGTH} ;
         my $actualX = $actualx + $Opt{GRID_SQUARE_LENGTH} ;
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
             my $actualy = $y * $Opt{GRID_SQUARE_LENGTH} ;
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' 
-            unless not $new and defined $Grid{SQUARES}[$x][$y]{COLOUR} ;
-            my $colour = $Grid{SQUARES}[$x][$y]{COLOUR} ;
-            my $square = $Grid{CANVAS}->create(
+            $ImageGrid[$x][$y] = 'None' 
+            unless not $new and defined $ImageGrid[$x][$y] ;
+            my $colour = $ImageGrid[$x][$y] ;
+            $Square[$x][$y] = $Grid{CANVAS}->create(
                 'rectangle', 
                 $actualx,
                 $actualy,
@@ -58,15 +60,19 @@ sub _draw {
                             $Opt{GRID_BACKGROUND_COLOUR} : $colour, 
                 -outline => $outline, 
                 ) ;
-            $Grid{SQUARES}[$x][$y]{SQUARE} = $square ; 
-            $Grid{CANVAS}->bind( $square, '<Enter>', [ \&grid::enter, $x, $y ] ) ;
         }
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
 
-    $time = time - $time ; # DEBUG
-    my( $s, $m, $h ) = (gmtime( $time ))[0..2] ; # DEBUG
-    $time = sprintf "Rendered %02d:%02d:%02d", $h, $m, $s ; # DEBUG
+    if( $DEBUG ) {
+        $time = time - $time ; 
+        my( $s, $m, $h ) = (gmtime( $time ))[0..2] ; 
+        $time = sprintf "Cleared %02d:%02d:%02d", $h, $m, $s ;
+    }
+    else {
+        $time = '' ;
+    }
+
     &cursor() ;
     &grid::status( $time ) ;
 }
@@ -75,12 +81,18 @@ sub _draw {
 sub click1 {
     package main ;
 
-    my $win   = shift ;
-    my $event = $win->XEvent ;
-    my $cx    = $Grid{CANVAS}->canvasx( $event->x ) ;
-    my $cy    = $Grid{CANVAS}->canvasy( $event->y ) ;
-    my $x     = int( $cx / $Opt{GRID_SQUARE_LENGTH} ) ;
-    my $y     = int( $cy / $Opt{GRID_SQUARE_LENGTH} ) ;
+    my( $canvas, $cx, $cy ) = @_ ;
+
+    $cx = $canvas->canvasx( $cx ) if defined $cx ;
+    $cy = $canvas->canvasy( $cy ) if defined $cy ;
+   
+    $StartX = $cx if defined $cx and not defined $StartX ;
+    $cx     = $StartX unless $cx ;
+    $StartY = $cy if defined $cy and not defined $StartY ;
+    $cy     = $StartY unless $cy ;
+
+    my $x = int( $cx / $Opt{GRID_SQUARE_LENGTH} ) ;
+    my $y = int( $cy / $Opt{GRID_SQUARE_LENGTH} ) ;
 
     local $_ = $Global{ACTIVE_BUTTON} ;
 
@@ -114,17 +126,18 @@ sub click1 {
         if( /^FILL/o ) {
             &cursor( 'watch' ) ;
             &grid::status( "Filling..." ) ;
-            &shape::fill( $x, $y, $Global{COLOUR}, $Grid{SQUARES}[$x][$y]{COLOUR} ) ;
+            &shape::fill( $x, $y, $Global{COLOUR}, $ImageGrid[$x][$y] ) ;
             &cursor() ;
-            &grid::status( '' ) ;
+            &grid::status( "Filled with $Global{COLOUR}" ) ;
             last CASE ;
         }
         if( /^SWAP/o ) {
             &cursor( 'watch' ) ;
             &grid::status( "Swapping colours..." ) ;
-            &shape::swap( $Global{COLOUR}, $Grid{SQUARES}[$x][$y]{COLOUR} ) ;
+            my $colour = $ImageGrid[$x][$y] ;
+            &shape::swap( $Global{COLOUR}, $colour ) ;
             &cursor() ;
-            &grid::status( '' ) ;
+            &grid::status( "Swapped $colour for $Global{COLOUR}" ) ;
             last CASE ;
         }
         if( /^LINE/o ) {
@@ -170,15 +183,14 @@ sub click1 {
 sub motion1 {
     package main ;
 
-    my $win   = shift ;
-    my $event = $win->XEvent ;
-    my $cx    = $Grid{CANVAS}->canvasx( $event->x ) ;
-    my $cy    = $Grid{CANVAS}->canvasy( $event->y ) ;
+    my( $canvas, $cx, $cy ) = @_ ;
+    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
+    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
 
     local $_ = $Global{ACTIVE_BUTTON} ;
 
     if( /^PALETTE/o or /^TRANSPARENT/o or /^GRAB_COLOUR/o ) {
-        &grid::click1( $Grid{CANVAS} ) if $Drag1 ;
+        &grid::click1( $Grid{CANVAS}, $cx, $cy ) if $Drag1 ;
     }
     elsif( defined $StartX and 
            ( /^LINE/o or /^RECTANGLE/o or /^CUT/o or /^COPY/o or /^OVAL/o ) ) {
@@ -190,16 +202,13 @@ sub motion1 {
 sub release1 {
     package main ;
 
-    my $win   = shift ;
-    my $event = $win->XEvent ;
-    my $x     = int( $Grid{CANVAS}->canvasx( $event->x ) / 
-                     $Opt{GRID_SQUARE_LENGTH} ) ;
-    my $y     = int( $Grid{CANVAS}->canvasy( $event->y ) / 
-                     $Opt{GRID_SQUARE_LENGTH} ) ;
+    my( $canvas, $cx, $cy ) = @_ ;
+    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
+    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
 
     local $_ = $Global{ACTIVE_BUTTON} ;
 
-    if( defined $StartX and $Grid{CANVAS}->canvasx( $event->x ) ) {
+    if( defined $StartX and $x ) {
         my( $sx, $sy ) = ( 
                            int( $StartX / $Opt{GRID_SQUARE_LENGTH} ), 
                            int( $StartY / $Opt{GRID_SQUARE_LENGTH} )
@@ -207,27 +216,27 @@ sub release1 {
         if( /^LINE/o ) {
             &grid::status( 'Drawing line...' ) ;
             &shape::line( $sx, $sy, $x, $y ) ; 
-            &grid::status( '' ) ;
+            &grid::status( 'Drew line' ) ;
         }
         elsif( /^RECTANGLE_FILLED/o ) {
             &grid::status( 'Filling rectangle...' ) ;
             &shape::filled_rectangle( $sx, $sy, $x, $y ) ;
-            &grid::status( '' ) ;
+            &grid::status( 'Filled rectangle' ) ;
         }
         elsif( /^RECTANGLE/o ) {
             &grid::status( 'Drawing rectangle...' ) ;
             &shape::rectangle( $sx, $sy, $x, $y ) ;
-            &grid::status( '' ) ;
+            &grid::status( 'Drew rectangle' ) ;
         }
         elsif( /^OVAL_FILLED/o ) {
             &grid::status( 'Filling oval...' ) ;
             &shape::filled_oval( $sx, $sy, $x, $y ) ;
-            &grid::status( '' ) ;
+            &grid::status( 'Filled oval' ) ;
         }
         elsif( /^OVAL/o ) {
             &grid::status( 'Drawing oval...' ) ;
             &shape::oval( $sx, $sy, $x, $y ) ;
-            &grid::status( '' ) ;
+            &grid::status( 'Drew oval' ) ;
         }
         elsif( /^CUT/o ) {
             &edit::cut_rectangle( $sx, $sy, $x, $y ) ;
@@ -239,20 +248,22 @@ sub release1 {
             $Button{WIDGET}{PENCIL}->invoke unless 
             $Global{ACTIVE_TOOL} eq 'pencil' ;
         }
-        $StartX = undef ;
     }
     $Grid{CANVAS}->delete( 'SHAPE' ) ;
+    $StartX = undef ;
+    $StartY = undef ;
 }
 
 
 sub click2 {
     package main ;
 
-    my( $x, $y ) = split /[, ]/, $Grid{COORDS}->cget( -text ) ;
-    my( $cx, $cy ) = ( $x * $Opt{GRID_SQUARE_LENGTH}, 
-                       $y * $Opt{GRID_SQUARE_LENGTH} ) ;
+    my( $canvas, $cx, $cy ) = @_ ;
+    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
+    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
 
-    print STDERR "Middle clicked $x,$y=$Global{ACTIVE_BUTTON}\n" ;
+    &cursor( $Global{ACTIVE_TOOL} ) ;
+    &grid::coords( $x, $y ) ;
 
     $Drag1 = 0 ;
 }
@@ -262,11 +273,11 @@ sub click3 {
     # This is used to 'grab' the colour that the user has right clicked.
     package main ;
 
-    my( $x, $y ) = split /[, ]/, $Grid{COORDS}->cget( -text ) ;
-    my( $cx, $cy ) = ( $x * $Opt{GRID_SQUARE_LENGTH}, 
-                       $y * $Opt{GRID_SQUARE_LENGTH} ) ;
+    my( $canvas, $cx, $cy ) = @_ ;
+    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
+    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
 
-    my $colour        = $Grid{SQUARES}[$x][$y]{COLOUR} ;
+    my $colour        = $ImageGrid[$x][$y] ;
     $Global{COLOUR}   = $colour ;
     $Opt{GRAB_COLOUR} = $colour ;
     if( lc $colour eq 'none' ) {
@@ -291,9 +302,9 @@ sub click3 {
 sub enter {
     package main ;
 
-    shift if ref $_[0] ;
-
-    my( $x, $y ) = @_ ; 
+    my( $canvas, $cx, $cy ) = @_ ;
+    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
+    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
 
     &cursor( $Global{ACTIVE_TOOL} ) ;
     &grid::coords( $x, $y ) ;
@@ -303,9 +314,9 @@ sub enter {
 sub leave {
     package main ;
 
-    my( $x, $y ) = split /[, ]/, $Grid{COORDS}->cget( -text ) ;
-    my( $cx, $cy ) = ( $x * $Opt{GRID_SQUARE_LENGTH}, 
-                       $y * $Opt{GRID_SQUARE_LENGTH} ) ;
+    my( $canvas, $cx, $cy ) = @_ ;
+    my $x = int( $canvas->canvasx( $cx ) / $Opt{GRID_SQUARE_LENGTH} ) ;
+    my $y = int( $canvas->canvasy( $cy ) / $Opt{GRID_SQUARE_LENGTH} ) ;
 
     if( $x < 0 or $x >= $Opt{GRID_WIDTH} or 
         $y < 0 or $y >= $Opt{GRID_HEIGHT} ) { 
@@ -321,16 +332,16 @@ sub set_colour {
     package main ;
 
     my( $x, $y, $background, $outline, $dont_undo ) = @_ ;
+    my $element = \$ImageGrid[$x][$y] ;
 
     $background = 'None' 
     if not defined $background or lc $background eq 'none' ;
 
-    my $colour = defined $Grid{SQUARES}[$x][$y]{COLOUR} ?
-                         $Grid{SQUARES}[$x][$y]{COLOUR} : 'None' ;
+    my $colour = defined $$element ? $$element : 'None' ;
     push @Undo, [ $x, $y, $colour ] 
     if ( $colour ne $background ) and ( not $dont_undo ) ;
 
-    $Grid{SQUARES}[$x][$y]{COLOUR} = $background ;
+    $$element = $background ;
 
     $background = $Opt{GRID_BACKGROUND_COLOUR} 
     if $background eq 'None' ;
@@ -340,7 +351,7 @@ sub set_colour {
 
     eval {
         $Grid{CANVAS}->itemconfigure(
-            $Grid{SQUARES}[$x][$y]{SQUARE},
+            $Square[$x][$y],
             -fill    => $background,
 			-outline => $outline, 
             ) ;
@@ -348,11 +359,11 @@ sub set_colour {
     if( $@ ) {
         if( $@ =~ /unknown color name/o ) {
             $Grid{CANVAS}->itemconfigure(
-                $Grid{SQUARES}[$x][$y]{SQUARE},
+                $Square[$x][$y],
                 -fill    => $Opt{GRID_BACKGROUND_COLOUR},
 				-outline => $outline, 
                 ) ;
-            $Grid{SQUARES}[$x][$y]{COLOUR} = 'None' ;
+            $$element = 'None' ;
             &grid::status( "Replaced unknown '$background' with transparent." ) ;
         }
         else {
@@ -371,7 +382,7 @@ sub coords {
     my $text = $x ;
 
     if( defined $y ) {
-        my $colour = $Grid{SQUARES}[$x][$y]{COLOUR} || '' ;
+        my $colour = $ImageGrid[$x][$y] || '' ;
         $colour    = 'None' if $colour eq $Opt{GRID_BACKGROUND_COLOUR} ;
         $colour    = uc $colour if substr( $colour, 0, 1 ) eq '#' ;
         $text .= ",$y $colour" ;

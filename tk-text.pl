@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: tk-text.pl,v 1.5 1999/08/22 18:02:45 root Exp $
+# $Id: tk-text.pl,v 1.7 1999/09/05 13:01:10 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the LGPL. 

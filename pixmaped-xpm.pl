@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-xpm.pl,v 1.34 1999/08/08 15:47:20 root Exp $
+# $Id: pixmaped-xpm.pl,v 1.37 1999/09/05 12:54:29 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the GPL.
@@ -137,16 +137,16 @@ sub save {
             foreach( @{$Image{LINES}} ) {
                 $lino++ ;
                 # Print comment and non-data lines plus the variable line.
-                unless( /^"/o ) {
+                unless( /^"/o ) { #"
                     # Change the filename if we've done a save as.
                     $_ = "$1$xpm$3"  
                     if /^(.*static char\s*\*\s*)(\S+)(\[\].*)$/o and $2 ne $xpm ;
-                    print XPM "$_\n" ;
+                    print XPM "$_\n" ; #{
                     $last_line = 1 if /}\s*;/o ;
                     next ;          
                 }
     
-                my $line = substr( $_, 1 ) ;
+                my $line = substr( $_, 1 ) ; #{
                 $line =~ s/"[,}]?;?$//o ;
                 $line =~ s/\r//go ; # For non-Unix.
 
@@ -161,7 +161,7 @@ sub save {
                     # BUG: We are ignoring hotspots.
                     my $values = "$Image{WIDTH} $Image{HEIGHT} " .
                                  "$Image{COLOURS} $Image{CPP}" ; 
-                    $line =~ s/^(\s*\S+\s+\S+\s+\S+\s+\S+)/$values/o ;
+                    $line =~ s/^(?:\s*\S+\s+\S+\s+\S+\s+\S+)/$values/o ;
                     print XPM qq{"$line",\n} ;
 
                     # Write out the colour table.
@@ -180,11 +180,11 @@ sub save {
 
                     # Write out the image itself.
                     for( my $y = 0 ; $y < $Image{HEIGHT} ; $y++ ) {
-                        print XPM qq{"} ;
+                        print XPM qq{"} ; #"
                         for( my $x = 0 ; $x < $Image{WIDTH} ; $x++ ) {
-                            print XPM "$colours{$Grid{SQUARES}[$x][$y]{COLOUR}}" ; 
+                            print XPM "$colours{$ImageGrid[$x][$y]}" ; 
                         }
-                        print XPM qq{",\n} ;
+                        print XPM qq{",\n} ; #"
                         &grid::coords( $y ) if $Opt{SHOW_PROGRESS} ;
                     }
                     $State = $SKIP ; 
@@ -197,7 +197,7 @@ sub save {
                 else { # $State == $DATA
                     print XPM "$_\n" ; # Print data.
                 }
-            }
+            } 
             print XPM "};\n" unless $last_line ;
         } ;
 
@@ -228,7 +228,7 @@ sub prepare_palette {
 
     for( my $x = 0 ; $x < $Opt{GRID_WIDTH} ; $x++ ) {
         for( my $y = 0 ; $y < $Opt{GRID_HEIGHT} ; $y++ ) {
-            my $colour = $Grid{SQUARES}[$x][$y]{COLOUR} ;
+            my $colour = $ImageGrid[$x][$y] ;
             if( not $seen{$colour}++ ) {
                 $Image{COLOURS}++ ;
                 die "Ran out of colour space" 

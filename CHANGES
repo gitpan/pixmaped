@@ -111,3 +111,9 @@ Pixmaped
             variables so that there's less indirection but to no avail.
             Removed a bug in fill and swap colours that caused errors if the
             user clicked outside the image. 
+
+1999/09/03  The colour under the cursor is not automatically shown on the
+            status line - you have to middle click to see the colour now.
+            (This is done for the sake of speed.) The whole application is
+            faster (but still memory hungry, and still slow for anything
+            bigger than icon-sized files).
