@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-button-commands.pl,v 1.31 1999/03/20 18:09:56 root Exp $
+# $Id: pixmaped-button-commands.pl,v 1.35 1999/04/21 20:23:46 root Exp root $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -120,7 +120,7 @@ sub set_button {
             &button::rotate_90 if $Opt{ROTATION} >  90 ;
             &button::rotate_90 if $Opt{ROTATION} > 180 ;
             push @Undo, [ undef, 'rotation', undef ] ;
-            &cursor( -1 ) ;
+            &cursor() ;
             &grid::status( '' ) ;
             last CASE ;
         }
@@ -130,7 +130,7 @@ sub set_button {
             push @Undo, [ undef, undef, undef ] ;
             &button::flip_vertical ;
             push @Undo, [ undef, 'vertical flip', undef ] ;
-            &cursor( -1 ) ;
+            &cursor() ;
             &grid::status( '' ) ;
             last CASE ;
         }
@@ -140,7 +140,7 @@ sub set_button {
             push @Undo, [ undef, undef, undef ] ;
             &button::flip_horizontal ;
             push @Undo, [ undef, 'horizontal flip', undef ] ;
-            &cursor( -1 ) ;
+            &cursor() ;
             &grid::status( '' ) ;
             last CASE ;
         }
@@ -247,11 +247,27 @@ sub choose_colour {
         $Global{COLOUR}     = $colour ;
         $Opt{$button}       = $colour ;
         $Global{WROTE_OPTS} = 0 ;
-        $Button{WIDGET}{$button}->invoke ; 
+        $Button{WIDGET}{$button}->invoke 
+        if $Button{WIDGET}{$button}->cget( -relief ) eq 'raised' ; 
     }
 
-    &cursor( -1 ) ;
+    &cursor() ;
     &grid::status( '' ) ;
+}
+
+
+sub mkbutton {
+    package main ;
+
+    my( $widget, $button, $text ) = @_ ;
+
+	$Button{WIDGET}{$button} = $widget->Button(
+		-image   => $Const{$button . '_IMAGE'},
+		-command => [ \&button::set_button, $button ],
+		)->pack() ;
+	$Button{WIDGET}{$button}->bind( '<Enter>', 
+		[ \&button::enter, $Button{WIDGET}{$button}, $text ] ) ;
+	$Button{WIDGET}{$button}->bind( '<Leave>', \&button::enter ) ;
 }
 
 

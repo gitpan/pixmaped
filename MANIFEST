@@ -1,7 +1,10 @@
 CHANGES
 MANIFEST
+RCS
 README
 TODO.html
+Tk/MesgBox.pm
+Tk/ColourChooser.pm
 debian-menu
 pixmaped
 pixmaped-brush.xpm
@@ -20,6 +23,7 @@ pixmaped-globals.pl
 pixmaped-grid-commands.pl
 pixmaped-grid.pl
 pixmaped-help-commands.pl
+pixmaped-help.pod
 pixmaped-icon-16x16.xpm
 pixmaped-image-commands.pl
 pixmaped-imagemagick-fake.pl
@@ -53,3 +57,4 @@ pixmaped-swapcolour.xpm
 pixmaped-text.xpm
 pixmaped-transparent.xpm
 pixmaped-xpm.pl
+tk-text.pl

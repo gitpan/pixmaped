@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-buttons.pl,v 1.25 1999/03/21 08:36:09 root Exp $
+# $Id: pixmaped-buttons.pl,v 1.26 1999/03/24 20:26:33 root Exp $
 
 # (c) Mark Summerfield 1999. All s Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -26,32 +26,13 @@ my $Frame = $ButtonFrame->Frame()->pack(
                 ) ;
 
 
-$Button{WIDGET}{PENCIL} = $Frame->Button(
-    -image   => $Const{PENCIL_IMAGE},
-    -command => [ \&button::set_button, 'PENCIL' ],
-    )->pack() ;
-$Button{WIDGET}{PENCIL}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{PENCIL}, 'Draw single pixels.' ] ) ;
-$Button{WIDGET}{PENCIL}->bind( '<Leave>', \&button::enter ) ;
+&button::mkbutton( $Frame, 'PENCIL', 'Draw single pixels.' ) ;
+&button::mkbutton( $Frame, 'SWAP', 
+    'Swap the colour clicked with COLOUR throughout the image.' ) ;
+&button::mkbutton( $Frame, 'ROTATE', '' ) ;
 
-
-$Button{WIDGET}{SWAP} = $Frame->Button(
-    -image   => $Const{SWAP_IMAGE},
-    -command => [ \&button::set_button, 'SWAP' ],
-    )->pack() ;
-$Button{WIDGET}{SWAP}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{SWAP}, 
-        'Swap the colour clicked with COLOUR throughout the image.' ] ) ;
-$Button{WIDGET}{SWAP}->bind( '<Leave>', \&button::enter ) ;
-
-
-# Rotation begin.
-$Button{WIDGET}{ROTATE} = $Frame->Button(
-    -image   => $Const{ROTATE_IMAGE},
-    -command => [ \&button::set_button, 'ROTATE' ],
-    )->pack() ;
+# Rotation start.
 $Button{WIDGET}{ROTATE}->bind( '<Enter>', \&show_rotation ) ;
-$Button{WIDGET}{ROTATE}->bind( '<Leave>', \&button::enter ) ;
 
 sub show_rotation {
 
@@ -91,56 +72,21 @@ sub rotation_menu {
 # Rotation end.
 
 
-$Button{WIDGET}{FLIP_HORIZONTAL} = $Frame->Button(
-    -image   => $Const{FLIP_HORIZONTAL_IMAGE},
-    -command => [ \&button::set_button, 'FLIP_HORIZONTAL' ],
-    )->pack() ;
-$Button{WIDGET}{FLIP_HORIZONTAL}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{FLIP_HORIZONTAL}, 
-      'Flip the image horizontally.' ] ) ;
-$Button{WIDGET}{FLIP_HORIZONTAL}->bind( '<Leave>', \&button::enter ) ;
-
-
-$Button{WIDGET}{OVAL} = $Frame->Button(
-    -image   => $Const{OVAL_IMAGE},
-    -command => [ \&button::set_button, 'OVAL' ],
-    )->pack() ;
-$Button{WIDGET}{OVAL}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{OVAL}, 'Draw an oval.' ] ) ;
-$Button{WIDGET}{OVAL}->bind( '<Leave>', \&button::enter ) ;
-
-
-$Button{WIDGET}{LINE} = $Frame->Button(
-    -image   => $Const{LINE_IMAGE},
-    -command => [ \&button::set_button, 'LINE' ],
-    )->pack() ;
-$Button{WIDGET}{LINE}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{LINE}, 'Draw a line.' ] ) ;
-$Button{WIDGET}{LINE}->bind( '<Leave>', \&button::enter ) ;
-
-
-$Button{WIDGET}{TRANSPARENT} = $Frame->Button(
-    -image   => $Const{TRANSPARENT_IMAGE},
-    -command => [ \&button::set_button, 'TRANSPARENT' ],
-    )->pack() ;
-$Button{WIDGET}{TRANSPARENT}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{TRANSPARENT},
-      'Draw with transparent.' ] ) ;
-$Button{WIDGET}{TRANSPARENT}->bind( '<Leave>', \&button::enter ) ;
-
+&button::mkbutton( $Frame, 'FLIP_HORIZONTAL', 'Flip the image horizontally.' ) ;
+&button::mkbutton( $Frame, 'OVAL', 'Draw an oval.' ) ;
+&button::mkbutton( $Frame, 'LINE', 'Draw a line.' ) ;
+&button::mkbutton( $Frame, 'TRANSPARENT', 'Draw with transparent.' ) ;
 
 foreach( 0..3 ) {
     my $name = "PALETTE_$_" ;
-    $Button{WIDGET}{$name} = $Frame->Button(
-        -image   => $Const{PALETTE_IMAGE},
-        -bg      => $Opt{$name},
-        -command => [ \&button::set_button, $name ],
-        )->pack() ;
+
+	&button::mkbutton( $Frame, $name, 
+		'Draw with colour COLOUR. Right click to change colour.' ) ;
+    $Button{WIDGET}{$name}->configure( 
+        -bg    => $Opt{$name}, 
+        -image => $Const{PALETTE_IMAGE},
+        ) ;
     $Button{WIDGET}{$name}->bind( '<3>', [ \&button::choose_colour, $name ] ) ;
-    $Button{WIDGET}{$name}->bind( '<Enter>', 
-        [ \&button::enter, $Button{WIDGET}{$name}, 
-          'Draw with colour COLOUR. Right click to change colour.' ] ) ;
-    $Button{WIDGET}{$name}->bind( '<Leave>', \&button::enter ) ;
 }
 
 
@@ -152,12 +98,8 @@ $Frame = $ButtonFrame->Frame()->pack(
 
 
 # Brush begin.
-$Button{WIDGET}{BRUSH} = $Frame->Button(
-    -image   => $Const{BRUSH_IMAGE},
-    -command => [ \&button::set_button, 'BRUSH' ],
-    )->pack() ;
+&button::mkbutton( $Frame, 'BRUSH', '' ) ;
 $Button{WIDGET}{BRUSH}->bind( '<Enter>', \&show_brush ) ;
-$Button{WIDGET}{BRUSH}->bind( '<Leave>', \&button::enter ) ;
 
 sub show_brush {
 
@@ -197,84 +139,36 @@ sub brush_menu {
 # Brush end.
 
 
-$Button{WIDGET}{FILL} = $Frame->Button(
-    -image   => $Const{FILL_IMAGE},
-    -command => [ \&button::set_button, 'FILL' ],
-    )->pack() ;
-$Button{WIDGET}{FILL}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{FILL}, 
-        'Fill the area clicked with COLOUR.' ] ) ;
-$Button{WIDGET}{FILL}->bind( '<Leave>', \&button::enter ) ;
+&button::mkbutton( $Frame, 'FILL', 'Fill the area clicked with COLOUR.' ) ;
+&button::mkbutton( $Frame, 'TEXT', 'Insert text - (Not implemented.)' ) ;
+$Button{WIDGET}{TEXT}->configure( -state   => 'disabled', ) ;
+&button::mkbutton( $Frame, 'FLIP_VERTICAL', 'Flip the image vertically.' ) ;
+&button::mkbutton( $Frame, 'RECTANGLE', 'Draw a rectangle.' ) ;
+&button::mkbutton( $Frame, 'RECTANGLE_FILLED', 'Draw a filled rectangle.' ) ;
 
 
-$Button{WIDGET}{TEXT} = $Frame->Button(
-    -image   => $Const{TEXT_IMAGE},
-    -command => [ \&button::set_button, 'TEXT' ],
-    -state   => 'disabled',
-    )->pack() ;
-$Button{WIDGET}{TEXT}->bind( '<Enter>', 
-    [ \&button::enter, 
-      'Insert text - (Not implemented.)' ] ) ;
-$Button{WIDGET}{TEXT}->bind( '<Leave>', \&button::enter ) ;
-
-
-$Button{WIDGET}{FLIP_VERTICAL} = $Frame->Button(
-    -image   => $Const{FLIP_VERTICAL_IMAGE},
-    -command => [ \&button::set_button, 'FLIP_VERTICAL' ],
-    )->pack() ;
-$Button{WIDGET}{FLIP_VERTICAL}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{FLIP_VERTICAL},
-      'Flip the image vertically.' ] ) ;
-$Button{WIDGET}{FLIP_VERTICAL}->bind( '<Leave>', \&button::enter ) ;
-
-
-$Button{WIDGET}{RECTANGLE} = $Frame->Button(
-    -image   => $Const{RECTANGLE_IMAGE},
-    -command => [ \&button::set_button, 'RECTANGLE' ],
-    )->pack() ;
-$Button{WIDGET}{RECTANGLE}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{RECTANGLE},
-      'Draw a rectangle.' ] ) ;
-$Button{WIDGET}{RECTANGLE}->bind( '<Leave>', \&button::enter ) ;
-
-
-$Button{WIDGET}{RECTANGLE_FILLED} = $Frame->Button(
-    -image   => $Const{RECTANGLE_FILLED_IMAGE},
-    -command => [ \&button::set_button, 'RECTANGLE_FILLED' ],
-    )->pack() ;
-$Button{WIDGET}{RECTANGLE_FILLED}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{RECTANGLE_FILLED},
-      'Draw a filled rectangle.' ] ) ;
-$Button{WIDGET}{RECTANGLE_FILLED}->bind( '<Leave>', \&button::enter ) ;
-
-
-$Button{WIDGET}{GRAB_COLOUR} = $Frame->Button(
-    -image   => $Const{PALETTE_IMAGE},
-    -bg      => $Opt{GRAB_COLOUR} eq 'None' ? 
-                    $Opt{GRID_BACKGROUND_COLOUR} :
-                    $Opt{GRAB_COLOUR},
-    -command => [ \&button::set_button, 'GRAB_COLOUR' ],
-    )->pack() ;
+&button::mkbutton( $Frame, 'GRAB_COLOUR', 
+	'Draw with grabbed colour COLOUR. Right click to change colour.' ) ;
+$Button{WIDGET}{GRAB_COLOUR}->configure(
+    -bg => $Opt{GRAB_COLOUR} eq 'None' ? 
+			   $Opt{GRID_BACKGROUND_COLOUR} :
+               $Opt{GRAB_COLOUR},
+	-image => $Const{PALETTE_IMAGE},
+   ) ;
 $Button{WIDGET}{GRAB_COLOUR}->bind( '<3>', 
     [ \&button::choose_colour, 'GRAB_COLOUR' ] ) ;
-$Button{WIDGET}{GRAB_COLOUR}->bind( '<Enter>', 
-    [ \&button::enter, $Button{WIDGET}{GRAB_COLOUR},
-      'Draw with grabbed colour COLOUR. Right click to change colour.' ] ) ;
-$Button{WIDGET}{GRAB_COLOUR}->bind( '<Leave>', \&button::enter ) ;
 
 
 foreach( 4..7 ) {
     my $name = "PALETTE_$_" ;
-    $Button{WIDGET}{$name} = $Frame->Button(
-        -image   => $Const{PALETTE_IMAGE},
-        -bg      => $Opt{$name},
-        -command => [ \&button::set_button, $name ],
-        )->pack() ;
+
+	&button::mkbutton( $Frame, $name, 
+		'Draw with colour COLOUR. Right click to change colour.' ) ;
+    $Button{WIDGET}{$name}->configure( 
+        -bg    => $Opt{$name}, 
+        -image => $Const{PALETTE_IMAGE},
+        ) ;
     $Button{WIDGET}{$name}->bind( '<3>', [ \&button::choose_colour, $name ] ) ;
-    $Button{WIDGET}{$name}->bind( '<Enter>', 
-        [ \&button::enter, $Button{WIDGET}{$name},
-          'Draw with colour COLOUR. Right click to change colour.' ] ) ;
-    $Button{WIDGET}{$name}->bind( '<Leave>', \&button::enter ) ;
 }
 
 

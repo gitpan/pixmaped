@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-options.pl,v 1.19 1999/03/16 20:40:29 root Exp $
+# $Id: pixmaped-options.pl,v 1.21 1999/03/23 22:12:23 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -159,7 +159,7 @@ sub close {
         &write_opts ;
     }
 
-    &cursor( -1 ) ;
+    &cursor() ;
     &grid::status( '' ) ;
     $OptionsWin->destroy ;
 }

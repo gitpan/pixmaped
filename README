@@ -27,16 +27,8 @@ See CHANGES for fixes and features.
 
 2. REQUIREMENTS
 
-Note that the following two modules are required and are no longer
-included in the pixmaped .tar.gz. (Old versions will work with pixmaped,
-but you are recommended to pick up the newest versions when you pick
-up pixmaped.)
-
-Tk::ColourChooser.pm
-Tk::MesgBox.pm
-
-Optional modules (from CPAN) it is recommended that you have one of these,
-preferably Image::Magick:
+Optional modules (from CPAN) it is highly recommended that you have one of
+these, preferably Image::Magick:
 
 GD.pm
 Image::Magick.pm
@@ -75,12 +67,6 @@ tar xvf pixmaped-VERSION.tar
 
 # Change to the pixmaped directory.
 cd pixmaped
-
-# Move the library files (obtained separately) into the Tk directory 
-# or any lib directory in Perl's %INC path that has a Tk subdirectory.
-# (The -u option ensures we don't overwrite newer with older.)
-mv -u Tk/ColourChooser.pm /usr/lib/perl5/Tk
-mv -u Tk/MesgBox.pm /usr/lib/perl5/Tk
 
 # This is optional. Make sure pixmaped is executable.
 chmod +x pixmaped

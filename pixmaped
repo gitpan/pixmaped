@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped,v 1.64 1999/03/21 11:48:31 root Exp root $
+# $Id: pixmaped,v 1.70 1999/04/21 20:23:46 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -27,7 +27,7 @@ use vars qw( $VERSION
              %Image   %Grid    %Button  $MenuFile  @Undo  %Modules 
          ) ; 
 
-$VERSION = '1.30' ; # Application version.
+$VERSION = '1.33' ; # Application version.
 
 my $DieOnWarn      = 0 ;
 my $WarnInDialogue = 0 ;
@@ -54,9 +54,9 @@ sub initialise {
     &read_opts ;                          # User.
     &set_consts ;                         # Need opts to set these.
     &load_library( "pixmaped-menu.pl" ) ;
+    &load_library( "pixmaped-button-commands.pl" ) ;
     &load_library( "pixmaped-buttons.pl" ) ;
     &load_library( "pixmaped-grid.pl" ) ;
-    &load_library( "pixmaped-button-commands.pl" ) ;
     &load_library( "pixmaped-grid-commands.pl" ) ;
     &load_library( "pixmaped-keys.pl" ) ;
     &load_library( "pixmaped-file-commands.pl" ) ;
@@ -67,6 +67,9 @@ sub initialise {
     &load_library( "pixmaped-shapes.pl" ) ;
     &load_library( "pixmaped-options.pl" ) ;
     &load_library( "pixmaped-xpm.pl" ) ;
+
+    &load_library( "tk-text.pl" ) ;
+
     # We can't assume the user has GD.pm or Image::Magick.
     $Modules{GD}   = &load_optional_library( 'GD.pm', "pixmaped-gif.pl" ) ;
     $Modules{MIFF} = &load_optional_library( 
@@ -77,7 +80,7 @@ sub initialise {
     $Button{WIDGET}{PENCIL}->invoke ;
     &file::new( 1 ) ;
     $Win->packPropagate( 0 ) ;
-    &cursor( -1 ) ;
+    &cursor() ;
 }
 
 
@@ -93,7 +96,7 @@ BEGIN {
                             ) ;
             $msg->Show ;
 
-            &cursor( -1 ) ;
+            &cursor() ;
         }
         else {
             print STDOUT join( "\n", @_ ), "\n" ;
@@ -107,18 +110,18 @@ sub cursor {
     my $cursor = shift ;
 
     # Watch has highest priority, then all others equally.
-    # -1 signifies return to previous.
-    if( ( $cursor eq '-1' ) or
+    # undef signifies return to previous.
+    if( ( not defined $cursor ) or
         ( $cursor eq 'watch' ) or
         ( $Cursor ne 'watch' ) ) {
-        if( $cursor eq '-1' and $Cursor eq 'watch' ) {
+        if( not defined $cursor and $Cursor eq 'watch' ) {
             --$Waiting ;
             $cursor = $Waiting == 0 ? 'left_ptr' : 'watch' ;
 		}
-		elsif( $cursor eq 'watch' ) {
+		elsif( defined $cursor and $cursor eq 'watch' ) {
             ++$Waiting ;
 		}
-        $Cursor = $cursor ;
+        $Cursor = defined $cursor ? $cursor : 'left_ptr' ;
 		$Win->configure( -cursor => $Cursor ) 
      }
 }

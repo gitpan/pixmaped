@@ -6,7 +6,7 @@ Pixmaped
             ColourChooser dialog which has also been fixed.)
 
 1999/02/17  Deleted a bit of non-working code that was supposed to change the
-            cursor depending on context and put in working code throughout.
+            cursor() depending on context and put in working code throughout.
             Also found a tiny bug in ColourChooser which has been fixed:
             thanks to Jurgen Ibelgaufts for the sample xpm which uncovered it. 
 
@@ -61,14 +61,14 @@ Pixmaped
             * No longer distribute Tk::ColourChooser.pm and Tk::MesgBox.pm
               with Pixmaped.
 
-1999/03/10  * Corrected cursor lock so that cursor changes work properly-ish.
+1999/03/10  * Corrected cursor() lock so that cursor() changes work properly-ish.
             * Minor cosmetic changes.
             * Prefer Image::Magick over GD if user has both.
 
-1999/03/13  * Another go at fixing cursor lock... still not right though.
+1999/03/13  * Another go at fixing cursor() lock... still not right though.
             * Fixed bug in rotate.
 
-1999/03/16  Finally fixed cursor lock... unless you can show otherwise.
+1999/03/16  Finally fixed cursor() lock... unless you can show otherwise.
 
 1999/03/18  * Minor documentation changes to suit CPAN scripts area.
             * Appears to load a lot faster.
@@ -76,10 +76,18 @@ Pixmaped
 1999/03/19  Now prefer GD over Image::Magick if user has both - GD is faster.
 
 1999/03/20  * After cut/copy we now correctly switch back to pencil tool.
-            * Fixed cursor lock (again).
+            * Fixed cursor() lock (again).
 		    * Added toggle option for whether tranparent is pasted over colour 
 		      or not.
 		    * Made file suffixes case insensitive (for Win32 users).
             * Added crude (recursive) but effective fill.
             * Added colour swap, i.e. swap one colour with another
               throughout the image.
+
+1999/03/23  Reworked the toolbutton code - shorter and simpler now.
+
+1999/04/21  * Added MesgBox.pm and (updated) ColourChooser.pm to .tar.gz.
+            * After you change colour with a right click on a palette button,
+              that button is automatically clicked for you.
+            * Fixed help file so that you can read it more than once. (Also
+              now use generic &render_pod routine from my tk-text library.)

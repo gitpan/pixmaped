@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-file-commands.pl,v 1.47 1999/03/21 08:36:09 root Exp $
+# $Id: pixmaped-file-commands.pl,v 1.49 1999/03/23 22:12:23 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -79,7 +79,7 @@ sub open {
         $Opt{DIR}  = &abs_path( $Opt{DIR} ) ;
         my $dialog = $Win->FileSelect( -directory => $Opt{DIR} ) ;
         $filename = $dialog->Show ;
-        &cursor( -1 ) ; 
+        &cursor() ; 
     }
 
     if( $filename ) {
@@ -125,7 +125,7 @@ sub open {
             @Undo = () ;
         }
 
-		&cursor( -1 ) ;
+		&cursor() ;
 		&grid::status( '' ) ;
     }
 }
@@ -164,7 +164,7 @@ sub save {
 			@Undo = () unless $Opt{UNDO_AFTER_SAVE} ;
 		}
 
-		&cursor( -1 ) ;
+		&cursor() ;
 		&grid::status( '' ) ;
    }
 }
@@ -185,7 +185,7 @@ sub save_as_postscript {
 					-defbutton => 'Actual',
 					) ;
 		$ans = $msg->Show ;
-		&cursor( -1 ) ;
+		&cursor() ;
 	}
 
 	my $gridsize = $Opt{GRID_SQUARE_LENGTH} ;
@@ -233,7 +233,7 @@ sub save_as {
     $Opt{DIR}    = &abs_path( $Opt{DIR} ) ;
     my $dialog   = $Win->FileSelect( -directory => $Opt{DIR} ) ;
     my $filename = $dialog->Show ;
-    &cursor( -1 ) ;
+    &cursor() ;
 
     if( $filename and -e $filename ) {
         &cursor( 'clock' ) ;
@@ -248,7 +248,7 @@ sub save_as {
                         ) ;
         my $ans = $msg->Show ;
 
-        &cursor( -1 ) ;
+        &cursor() ;
         $filename = '' if $ans eq 'No' ;
     } 
 

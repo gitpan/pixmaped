@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-grid-commands.pl,v 1.52 1999/03/21 10:55:06 root Exp $
+# $Id: pixmaped-grid-commands.pl,v 1.54 1999/03/23 22:12:23 root Exp $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -63,7 +63,7 @@ sub _draw {
         &grid::coords( $x ) if $Opt{SHOW_PROGRESS} ; 
     }
 
-    &cursor( -1 ) ;
+    &cursor() ;
     &grid::status( '' ) ;
 }
 
@@ -111,7 +111,7 @@ sub click1 {
             &cursor( 'watch' ) ;
             &grid::status( "Filling..." ) ;
             &shape::fill( $x, $y, $Global{COLOUR}, $Grid{SQUARES}[$x][$y]{COLOUR} ) ;
-            &cursor( -1 ) ;
+            &cursor() ;
             &grid::status( '' ) ;
             last CASE ;
         }
@@ -119,7 +119,7 @@ sub click1 {
             &cursor( 'watch' ) ;
             &grid::status( "Swapping colours..." ) ;
             &shape::swap( $Global{COLOUR}, $Grid{SQUARES}[$x][$y]{COLOUR} ) ;
-            &cursor( -1 ) ;
+            &cursor() ;
             &grid::status( '' ) ;
             last CASE ;
         }
@@ -309,7 +309,7 @@ sub leave {
         $Button{WIDGET}{PENCIL}->invoke ;
     }
 
-    &cursor( -1 ) ;
+    &cursor() ;
 }
 
 

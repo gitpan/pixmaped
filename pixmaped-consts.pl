@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-consts.pl,v 1.34 1999/03/21 08:36:09 root Exp $
+# $Id: pixmaped-consts.pl,v 1.35 1999/04/21 20:23:46 root Exp root $
 
 # Copyright (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -43,6 +43,7 @@ $Const{FILENAME}               = 'Untitled-' ;
 $Const{DIR}                    = '.' ;
 $Const{LAST_FILE_MAX}          =  9 ;
 
+$Const{HELP_FILE}              = "$RealBin/" . "pixmaped-help.pod" ; 
 
 my $p = "$RealBin/pixmaped-" ;
 $Const{PALETTE_IMAGE}          = $Win->Pixmap( -file => "${p}palette.xpm" ) ;

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: pixmaped-edit-commands.pl,v 1.15 1999/03/21 08:36:09 root Exp $
+# $Id: pixmaped-edit-commands.pl,v 1.17 1999/03/23 22:12:23 root Exp $
 
 # (c) Mark Summerfield 1999. All Rights Reserved.
 # May be used/distributed under the same terms as Perl.
@@ -37,7 +37,7 @@ sub undo {
                 &grid::set_colour( $x, $y, $colour, undef, 1 ) ;
                 &grid::coords( $x, $y, $colour ) if $Opt{SHOW_PROGRESS} ; 
             }
-            &cursor( -1 ) ;
+            &cursor() ;
         }
     }
     &grid::status( '' ) ;
